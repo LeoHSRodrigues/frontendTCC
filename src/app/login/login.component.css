@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+body{
+    background: no-repeat center center fixed linear-gradient(to right bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+.textoBoxLogin{
+text-align: center;
+}
+.loginTitleText{
+    font-weight:bold;
+}
+.iconesInput{
+    stroke: grey;
+    color: grey;
+}
+.form{
+    text-align: center;
+}
+.inputCampos{
+    width: 70%;
+}
+.lembrar{
+    padding-right: 15%;
+    text-align: right;
+}
