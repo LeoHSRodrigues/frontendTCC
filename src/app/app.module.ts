@@ -11,13 +11,16 @@ import { RelatorioComponent } from './relatorio/relatorio.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatIconModule} from '@angular/material/icon';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MatInputModule} from '@angular/material/input';
+import { MatButtonModule} from '@angular/material/button';
+import { MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatSliderModule} from '@angular/material/slider';
+import { MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatIconModule} from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -31,7 +34,7 @@ import {MatIconModule} from '@angular/material/icon';
     GestaoUrnasComponent,
     AuditoriaComponent,
     RelatorioComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatSliderModule,
     MatSlideToggleModule,
     MatIconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatSnackBarModule,
     AppRoutingModule
   ],
   providers: [],

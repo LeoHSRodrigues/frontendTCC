@@ -9,16 +9,17 @@ import { GestaoUrnasComponent } from './gestao-urnas/gestao-urnas.component';
 import { AuditoriaComponent } from './auditoria/auditoria.component';
 import { RelatorioComponent } from './relatorio/relatorio.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuard } from './_helpers/auth.guard';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'votacao', component: VotacaoComponent },
-  { path: 'gestaoPessoal', component: GestaoPessoasComponent },
-  { path: 'gestaoUrna', component: GestaoUrnasComponent },
-  { path: 'auditoria', component: AuditoriaComponent },
-  { path: 'relatorio', component: RelatorioComponent },
-  { path: '', component: HomeComponent },
+  { path: 'votacao', component: VotacaoComponent, canActivate: [AuthGuard]},
+  { path: 'gestaoPessoal', component: GestaoPessoasComponent, canActivate: [AuthGuard] },
+  { path: 'gestaoUrna', component: GestaoUrnasComponent, canActivate: [AuthGuard] },
+  { path: 'auditoria', component: AuditoriaComponent, canActivate: [AuthGuard] },
+  { path: 'relatorio', component: RelatorioComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: '**', component: PageNotFoundComponent },
 ];
 
