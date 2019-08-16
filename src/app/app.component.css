@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+.iconeMenu{
+padding-right: 3%
+}
+.menuPerfil{
+padding-left: 1%
+}
+.example-fill-remaining-space {
+    /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+    flex: 1 1 auto;
+  }
+.icon {
+    font-size: 24px;
+}
+.sidebar{
+  position: inherit
+}

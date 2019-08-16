@@ -1,2 +1,46 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container class="sidebar">
+    <mat-sidenav #sidenav class="listaSidebar pl-3 pr-5 pt-4">
+            <mat-nav-list>
+                    <button mat-button [matMenuTriggerFor]="animals">Gestão de Pessoal</button>
 
+                    <mat-menu #animals="matMenu">
+                      <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
+                      <button mat-menu-item [matMenuTriggerFor]="invertebrates">Invertebrates</button>
+                    </mat-menu>
+                    
+                    <mat-menu #vertebrates="matMenu">
+                      <button mat-menu-item>Birds</button>
+                      <button mat-menu-item>Mammals</button>
+                    </mat-menu>
+                    
+                    <mat-menu #invertebrates="matMenu">
+                      <button mat-menu-item>Insects</button>
+                      <button mat-menu-item>Molluscs</button>
+                      <button mat-menu-item>Crustaceans</button>
+                      <button mat-menu-item>Corals</button>
+                      <button mat-menu-item>Arachnids</button>
+                      <button mat-menu-item>Velvet worms</button>
+                      <button mat-menu-item>Horseshoe crabs</button>
+                    </mat-menu>
+                
+                </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+            <mat-toolbar color="primary">  
+                    <button mat-button (click)="sidenav.toggle()"><div class="icon"><mat-icon [inline]="true">menu</mat-icon></div></button>
+                    <span class="example-fill-remaining-space"></span>
+                
+                    <button mat-button [matMenuTriggerFor]="notificacoes" class="menuPerfil"><div class="icon"><mat-icon matBadge="3" matBadgeSize="medium" matBadgeColor="warn" [inline]="true">notifications</mat-icon></div></button>
+                    <mat-menu #notificacoes="matMenu">
+                      <button mat-menu-item>Lista de Notificações</button>
+                    </mat-menu>
+                
+                    <button mat-button [matMenuTriggerFor]="perfil" class="menuPerfil">Leonardo Henrique</button>
+                    <mat-menu #perfil="matMenu">
+                      <button mat-menu-item>Editar Perfil</button>
+                      <button mat-menu-item>Sair</button>
+                    </mat-menu>
+                  </mat-toolbar>
+                </mat-sidenav-content>
+            </mat-sidenav-container>
+            <router-outlet></router-outlet>

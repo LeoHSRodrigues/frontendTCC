@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../_services/authentication.service';
-import { Router } from "@angular/router"
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { Router } from '@angular/router'
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { User } from '../_models/usuario';
 
@@ -12,7 +12,6 @@ import { User } from '../_models/usuario';
 })
 export class HomeComponent implements OnInit {
   public currentUser: Observable<User>;
-  
   constructor(private router: Router, private authenticationService: AuthenticationService, ) {
 
     const currentUser = this.authenticationService.currentUserValue;
@@ -20,12 +19,11 @@ export class HomeComponent implements OnInit {
         const helper = new JwtHelperService();
         const isExpired = helper.isTokenExpired(currentUser.token);
         //  const expirationDate = helper.getTokenExpirationDate(currentUser.token);
-        if (isExpired == true){
+        if (isExpired === true) {
           this.authenticationService.logout();
           this.router.navigate(['/login']);
         }
-      }
-      else{
+      } else {
         this.router.navigate(['/login']);
     }
   }

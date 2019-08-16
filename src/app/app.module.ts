@@ -21,6 +21,13 @@ import { MatIconModule} from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule} from '@angular/material/toolbar';
+import { MatMenuModule} from '@angular/material/menu';
+import { MatBadgeModule} from '@angular/material/badge';
+import { MatSidenavModule} from '@angular/material/sidenav';
+import { MatCheckboxModule} from '@angular/material/checkbox';
+import { MatListModule} from '@angular/material/list';
+
 
 
 
@@ -50,10 +57,21 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReactiveFormsModule,
     HttpClientModule,
     MatSnackBarModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatBadgeModule,
+    MatSidenavModule,
+    MatCheckboxModule,
+    MatListModule,
     AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule {
+
+  events: string[] = [];
+  opened: boolean;
+
+ }
