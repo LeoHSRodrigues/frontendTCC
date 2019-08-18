@@ -1,46 +1,88 @@
-<mat-sidenav-container class="sidebar">
-    <mat-sidenav #sidenav class="listaSidebar pl-3 pr-5 pt-4">
-            <mat-nav-list>
-                    <button mat-button [matMenuTriggerFor]="animals">Gestão de Pessoal</button>
+<div class="isNotLogin" *ngIf="!(router.url.includes('login'))">
 
-                    <mat-menu #animals="matMenu">
-                      <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
-                      <button mat-menu-item [matMenuTriggerFor]="invertebrates">Invertebrates</button>
-                    </mat-menu>
-                    
-                    <mat-menu #vertebrates="matMenu">
-                      <button mat-menu-item>Birds</button>
-                      <button mat-menu-item>Mammals</button>
-                    </mat-menu>
-                    
-                    <mat-menu #invertebrates="matMenu">
-                      <button mat-menu-item>Insects</button>
-                      <button mat-menu-item>Molluscs</button>
-                      <button mat-menu-item>Crustaceans</button>
-                      <button mat-menu-item>Corals</button>
-                      <button mat-menu-item>Arachnids</button>
-                      <button mat-menu-item>Velvet worms</button>
-                      <button mat-menu-item>Horseshoe crabs</button>
-                    </mat-menu>
-                
-                </mat-nav-list>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav barraLateral" fixedInViewport="true"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="!(isHandset$ | async)">
+      <mat-nav-list>
+
+        <div class="Icones">
+        <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="home">
+            <mat-icon class="" aria-label="Side nav toggle icon" title="Início">format_align_left</mat-icon>
+          </a>
+        </div>
+
+        <div class="Icones">
+        <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="gestaoPessoal">
+            <mat-icon class="Icones" title="Gestão de Pessoas">people_outline</mat-icon>
+          </a>
+        </div>
+
+        <div class="Icones">
+        <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="gestaoUrna">
+            <mat-icon class="Icones" title="Gestão de Urnas">tablet</mat-icon>
+          </a>
+        </div>
+
+        <div class="Icones">
+        <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="votacao">
+            <mat-icon class="Icones" title="Gestão de Votação">how_to_vote</mat-icon>
+          </a>
+        </div>
+
+        <div class="Icones">
+        <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="relatorio">
+            <mat-icon class="Icones" title="Gestão de Relatórios">bar_chart</mat-icon>
+          </a>
+        </div>
+
+        <div class="Icones">
+        <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="auditoria">
+            <mat-icon class="Icones" title="Gestão de Auditoria">assignment</mat-icon>
+          </a>
+        </div>
+        
+        <hr>
+        <div class="inner-content" id="botNav" mat-list-item>
+
+        <div class="Icones">
+          <button mat-button [matMenuTriggerFor]="notificacoes" class="menuPerfil">
+              <mat-icon matBadge="3" matBadgeSize="medium" matBadgeColor="warn">notifications</mat-icon>
+            </button>
+          </div>
+          
+          <mat-menu #notificacoes="matMenu">
+            <button mat-menu-item>Lista de Notificações</button>
+          </mat-menu>
+
+          <div class="Icones">
+            <button mat-button [matMenuTriggerFor]="perfil" class="menuPerfil">
+              <mat-icon class="Icones">settings</mat-icon>
+            </button>
+          </div>
+          
+          <mat-menu #perfil="matMenu">
+              <button mat-menu-item>Editar Perfil</button>
+              <button mat-menu-item (click)="logout()">Sair</button>
+            </mat-menu>
+          </div>
+
+      </mat-nav-list>
     </mat-sidenav>
+
     <mat-sidenav-content>
-            <mat-toolbar color="primary">  
-                    <button mat-button (click)="sidenav.toggle()"><div class="icon"><mat-icon [inline]="true">menu</mat-icon></div></button>
-                    <span class="example-fill-remaining-space"></span>
-                
-                    <button mat-button [matMenuTriggerFor]="notificacoes" class="menuPerfil"><div class="icon"><mat-icon matBadge="3" matBadgeSize="medium" matBadgeColor="warn" [inline]="true">notifications</mat-icon></div></button>
-                    <mat-menu #notificacoes="matMenu">
-                      <button mat-menu-item>Lista de Notificações</button>
-                    </mat-menu>
-                
-                    <button mat-button [matMenuTriggerFor]="perfil" class="menuPerfil">Leonardo Henrique</button>
-                    <mat-menu #perfil="matMenu">
-                      <button mat-menu-item>Editar Perfil</button>
-                      <button mat-menu-item>Sair</button>
-                    </mat-menu>
-                  </mat-toolbar>
-                </mat-sidenav-content>
-            </mat-sidenav-container>
-            <router-outlet></router-outlet>
+      <mat-toolbar class="barraLateral">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+          <mat-icon title="Menu Lateral" class="Icones">drag_indicator</mat-icon>
+        </button>
+      </mat-toolbar>
+      <div class="conteudo">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</div>
+<div class="isLogin" *ngIf="(router.url.includes('login'))">
+  <router-outlet></router-outlet>
+</div>

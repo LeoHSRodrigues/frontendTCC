@@ -27,9 +27,7 @@ import { MatBadgeModule} from '@angular/material/badge';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MatListModule} from '@angular/material/list';
-
-
-
+import { Router, RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [
@@ -63,6 +61,7 @@ import { MatListModule} from '@angular/material/list';
     MatSidenavModule,
     MatCheckboxModule,
     MatListModule,
+    RouterModule,
     AppRoutingModule
   ],
   providers: [],

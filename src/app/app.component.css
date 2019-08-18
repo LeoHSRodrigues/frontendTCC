@@ -1,19 +1,36 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
 .iconeMenu{
-padding-right: 3%
+  padding-right: 3%
+}
+
+.barraLateral{
+  background-color: #ffffff;
+  flex:space-between center;
+}
+.conteudo{
+  background-color: #f5f8fd
+}
+.mat-sidenav-container{
+  background-color: #f5f8fd
+}
+.active-list-item {
+  border-left: 4px solid #1f7be2;
+}
+.Icones{
+  color: grey;
+  font-size: 24px;
+  text-align: center
+}
+.active-list-item .Icones {
+  color: black;
 }
 .menuPerfil{
-padding-left: 1%
+  display: block;
+  padding-bottom: 4%;
 }
-.example-fill-remaining-space {
-    /* This fills the remaining space, by using flexbox. 
-       Every toolbar row uses a flexbox row layout. */
-    flex: 1 1 auto;
-  }
-.icon {
-    font-size: 24px;
-}
-.sidebar{
-  position: inherit
+.inner-content{
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }

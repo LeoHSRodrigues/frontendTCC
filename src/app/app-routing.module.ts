@@ -20,7 +20,7 @@ const appRoutes: Routes = [
   { path: 'auditoria', component: AuditoriaComponent, canActivate: [AuthGuard] },
   { path: 'relatorio', component: RelatorioComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full'},
-  { path: '**', component: PageNotFoundComponent },
+  { path: '**', component: PageNotFoundComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

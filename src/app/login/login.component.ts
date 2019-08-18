@@ -53,10 +53,14 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           if (this.route.snapshot.queryParamMap.get('returnUrl')){
-            this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')])
+            this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]).then(() => {
+              window.location.reload();
+            });
           }
           else{
-            this.router.navigate(['/home'])
+            this.router.navigate(['/home']).then(() => {
+              window.location.reload();
+            });
           }
         },
         error => {

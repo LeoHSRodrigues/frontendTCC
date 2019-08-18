@@ -1,41 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Router, RouterModule } from '@angular/router'
+import { AuthenticationService } from './_services/authentication.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 
 export class AppComponent {
-  constructor() {
+
+  constructor(private authenticationService: AuthenticationService, public router: Router, public rotas: RouterModule) {
   }
-  folders: Section[] = [
-    {
-      name: 'Photos',
-      updated: new Date('1/1/16'),
-    },
-    {
-      name: 'Recipes',
-      updated: new Date('1/17/16'),
-    },
-    {
-      name: 'Work',
-      updated: new Date('1/28/16'),
-    }
-  ];
-  notes: Section[] = [
-    {
-      name: 'Vacation Itinerary',
-      updated: new Date('2/20/16'),
-    },
-    {
-      name: 'Kitchen Remodel',
-      updated: new Date('1/18/16'),
-    }
-  ];
   title = 'frontendtcc';
-}
-export interface Section {
-  name: string;
-  updated: Date;
+
+  logout(){
+    this.authenticationService.logout()
+    this.router.navigate(['/login'])
+  }
 }
