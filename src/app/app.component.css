@@ -6,31 +6,54 @@
 
 .barraLateral{
   background-color: #ffffff;
-  flex:space-between center;
+}
+.toolbar{
+  background-color: #ffffff;
 }
 .conteudo{
-  background-color: #f5f8fd
+  background-color: #f3f4f7;
+  height: 100%
 }
 .mat-sidenav-container{
   background-color: #f5f8fd
 }
-.active-list-item {
-  border-left: 4px solid #1f7be2;
+.iconeLateral{
+  color: grey
+}
+.active-list-item, .active-list-item .iconeLateral {
+  color: #1f7be2;
 }
 .Icones{
-  color: grey;
   font-size: 24px;
   text-align: center
-}
-.active-list-item .Icones {
-  color: black;
 }
 .menuPerfil{
   display: block;
   padding-bottom: 4%;
 }
 .inner-content{
-  position: fixed;
-  bottom: 0;
+  position: absolute;
   left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 80%;
+}
+.title-center {
+  margin: 0 auto;
+  font-size: 16px
+}
+.mat-nav-list a{
+  font-size: 14px;
+}
+.avatar{
+  border-radius: 50%;
+  height: 40px;
+  width: auto;
+}
+.configPerfil{
+  text-align: right
+}
+.espacoMobile{
+  flex: 1 1 auto;
 }

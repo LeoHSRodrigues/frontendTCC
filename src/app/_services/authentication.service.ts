@@ -18,17 +18,16 @@ export class AuthenticationService {
     public get currentUserValue(): User {
         return this.currentUserSubject.value;
     }
-    
 
-    login(CPF: String, Senha: String) {
+
+    login(CPF: string, Senha: string) {
         return this.http.post<any>(`http://127.0.0.1:8000/api`, { CPF, Senha })
             .pipe(map(user => {
-                if (user != null){
+                if (user != null) {
                     localStorage.setItem('usuario', JSON.stringify(user));
                     this.currentUserSubject.next(user);
                     return user;
-                }
-                else{
+                } else {
                     return error('Username or password is incorrect');
                 }
             }));
