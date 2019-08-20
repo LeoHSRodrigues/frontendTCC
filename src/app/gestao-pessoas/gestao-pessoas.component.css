@@ -1,0 +1,75 @@
+table {
+    width: 100%;
+    overflow: auto;
+}
+
+.campoTabela {
+    background: #ffffff;
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    max-width: 99%;
+    max-height: 450px;
+    min-height: 180px;
+    margin: 5px;
+    color: grey;
+    font-weight: bold;
+    text-align: left;
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
+}
+
+.tabela {
+    text-align: center;
+}
+
+html, body {
+    background-color: #f5f8fd
+}
+
+.listaOpcoes {
+    display: flex;
+}
+
+.completaEspaco {
+    flex: 1 1 auto;
+}
+
+.opcoesFiltro {
+    cursor: pointer;
+}
+
+.selecionado {
+    border-bottom: 2px solid #1f7be2;
+}
+.flex-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 2%;
+  }
+  .flex-item {
+    background: #ffffff;
+    padding: 5px;
+    max-width: 350px;
+    max-height: 100px;
+    min-width: 300px;
+    min-height: 100px;
+    margin: 5px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 5%;
+    border-radius: 5px;
+  }
+  .space-around {
+    justify-content: space-evenly;
+  }
+  .legenda{
+      color: #ced2d5;
+      font-size: 12px;
+  }
+  .numeral{
+      font-size: 35px
+  }

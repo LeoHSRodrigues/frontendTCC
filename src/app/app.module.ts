@@ -27,7 +27,13 @@ import { MatBadgeModule} from '@angular/material/badge';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MatListModule} from '@angular/material/list';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material';
+import { getPortuguesPaginatorIntl } from './_helpers/traducaoTabela';
+import { SomeService } from './gestao-pessoas/temporario';
+
+
 
 @NgModule({
   declarations: [
@@ -61,10 +67,12 @@ import { Router, RouterModule } from '@angular/router';
     MatSidenavModule,
     MatCheckboxModule,
     MatListModule,
+    MatTableModule,
     RouterModule,
+    MatPaginatorModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [SomeService, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 

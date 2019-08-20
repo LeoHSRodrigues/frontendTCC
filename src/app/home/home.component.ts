@@ -8,8 +8,7 @@ import { User } from '../_models/usuario';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
   public currentUser: Observable<User>;

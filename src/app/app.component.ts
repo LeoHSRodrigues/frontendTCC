@@ -2,17 +2,25 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from './_services/authentication.service';
 import { Title } from '@angular/platform-browser';
+import { map, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  encapsulation: ViewEncapsulation.Emulated
 })
 
 export class AppComponent implements OnInit {
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
+  .pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
 
   constructor(
+    private breakpointObserver: BreakpointObserver,
     private authenticationService: AuthenticationService,
     public router: Router,
     public rotas: RouterModule,
