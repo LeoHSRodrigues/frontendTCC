@@ -2,10 +2,3 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:600&display=swap');
-
-.isLogin{
-    padding-top: 10%;
-}
-html, body{
-    background-color: #f5f8fd
-}

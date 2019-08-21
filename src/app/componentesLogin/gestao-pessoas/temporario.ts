@@ -6,15 +6,15 @@ export class SomeService {
 
   doSomething(): Observable<PeriodicElement[]> {
 
-    let randomlyFilledList = this.getTenRandomElements();
+    const randomlyFilledList = this.getTenRandomElements();
     return of(randomlyFilledList);
   }
 
   private getTenRandomElements(): PeriodicElement[] {
-    let result: PeriodicElement[] = [];
+    const result: PeriodicElement[] = [];
 
     for (let i = 0; i < 10; i++) {
-      let randomInt = Math.floor(Math.random() * (ELEMENT_DATA.length - 1));
+      const randomInt = Math.floor(Math.random() * (ELEMENT_DATA.length - 1));
       result.push(ELEMENT_DATA[randomInt]);
     }
 

@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AuthenticationService } from '../_services/authentication.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../../_services/authentication.service';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
-import { User } from '../_models/usuario';
+import { User } from '../../_models/usuario';
 
 @Component({
   selector: 'app-home',

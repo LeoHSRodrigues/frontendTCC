@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { SomeService, PeriodicElement } from './temporario';
@@ -17,6 +17,11 @@ export interface PeriodicElement {
 })
 
 export class GestaoPessoasComponent implements OnInit {
+
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = new MatTableDataSource<PeriodicElement>([]);
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
   constructor(private myService: SomeService) { }
 
   ngOnInit() {
@@ -25,19 +30,16 @@ export class GestaoPessoasComponent implements OnInit {
       this.dataSource.data = data;
     });
   }
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>([]);
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  setActive = function (buttonName){
+  setActive = function(buttonName) {
     this.activeButton = buttonName;
     this.myService.doSomething().subscribe((data: PeriodicElement[]) => {
       this.dataSource.data = data;
     });
-  }
-  isActive = function (buttonName){
+  };
+  isActive = function(buttonName) {
     return this.activeButton === buttonName;
-  }
+  };
 
   refresh() {
     this.myService.doSomething().subscribe((data: PeriodicElement[]) => {
@@ -45,4 +47,4 @@ export class GestaoPessoasComponent implements OnInit {
     });
   }
 
-}    
+}

@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from './_services/authentication.service';
 import { Title } from '@angular/platform-browser';
 import { map, shareReplay } from 'rxjs/operators';
@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private authenticationService: AuthenticationService,
     public router: Router,
-    public rotas: RouterModule,
     private titleService: Title
     ) {
   }

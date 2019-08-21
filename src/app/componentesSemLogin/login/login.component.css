@@ -1,0 +1,56 @@
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    background: url('../../../assets/login.svg') no-repeat right center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    /* background-size: 45%; */
+}
+
+@media only screen and (max-width: 600px) {
+    html, body {
+        background: url('../../../assets/login.svg') no-repeat right center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: 50%;
+    }
+}
+
+.textoBoxLogin {
+    text-align: center;
+}
+
+.loginTitleText {
+    font-weight: bold;
+}
+
+.iconesInput {
+    stroke: grey;
+    color: grey;
+}
+
+.form {
+    text-align: center;
+}
+
+.inputCampos {
+    width: 70%;
+}
+
+.lembrar {
+    padding-right: 15%;
+    text-align: right;
+}
+
+.validacao {
+    font-size: 12px;
+    text-align: right;
+    padding-right: 20%
+}
+
+.container {
+    padding-top: 2%;
+}

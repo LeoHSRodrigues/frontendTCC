@@ -1,0 +1,30 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    img {
+        padding-top: 20%;
+        display: block;
+        width: 70%;
+        height: 70%;
+        margin-left: auto;
+        margin-right: auto;
+        object-fit: cover;
+    }
+}
+
+img {
+    padding-top: 3%;
+    display: block;
+    width: 50%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+}
+.legenda{
+    padding-top: 5%;
+    text-align: center
+}

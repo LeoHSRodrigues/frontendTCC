@@ -1,37 +1,49 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-.iconeMenu{
+.iconeMenu {
   padding-right: 3%
 }
 
-.barraLateral{
+.barraLateral {
   background-color: #ffffff;
 }
-.toolbar{
+
+.toolbar {
   background-color: #ffffff;
 }
-.conteudo{
+
+.conteudo {
   background-color: #f5f8fd;
   height: 100%
 }
-.mat-sidenav-container{
+
+.mat-sidenav-container {
   background-color: #f5f8fd
 }
-.iconeLateral{
+
+.iconeLateral {
   color: grey
 }
+
 .active-list-item, .active-list-item .iconeLateral {
   color: #1f7be2;
 }
-.Icones{
+
+.active-list-item {
+  border-right: 2px solid #1f7be2;
+}
+
+.Icones {
   font-size: 24px;
   text-align: center
 }
-.menuPerfil{
+
+.menuPerfil {
   display: block;
   padding-bottom: 4%;
 }
-.inner-content{
+
+.inner-content {
   position: absolute;
   left: 0;
   right: 0;
@@ -39,21 +51,26 @@
   margin: auto;
   width: 80%;
 }
+
 .title-center {
   margin: 0 auto;
   font-size: 16px
 }
-.mat-nav-list a{
+
+.mat-nav-list a {
   font-size: 14px;
 }
-.avatar{
+
+.avatar {
   border-radius: 50%;
   height: 40px;
   width: auto;
 }
-.configPerfil{
+
+.configPerfil {
   text-align: right
 }
-.espacoMobile{
+
+.espacoMobile {
   flex: 1 1 auto;
 }

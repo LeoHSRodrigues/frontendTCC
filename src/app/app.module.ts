@@ -1,14 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { VotacaoComponent } from './votacao/votacao.component';
-import { GestaoPessoasComponent } from './gestao-pessoas/gestao-pessoas.component';
-import { GestaoUrnasComponent } from './gestao-urnas/gestao-urnas.component';
+import { LoginComponent } from './componentesSemLogin/login/login.component';
+import { HomeComponent } from './componentesLogin/home/home.component';
+import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
+import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/gestao-pessoas.component';
+import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
 import { AuditoriaComponent } from './auditoria/auditoria.component';
-import { RelatorioComponent } from './relatorio/relatorio.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
+import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -31,9 +31,12 @@ import { RouterModule } from '@angular/router';
 import { MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material';
 import { getPortuguesPaginatorIntl } from './_helpers/traducaoTabela';
-import { SomeService } from './gestao-pessoas/temporario';
+import { SomeService } from './componentesLogin/gestao-pessoas/temporario';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
+import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
 
-
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
 @NgModule({
   declarations: [
@@ -46,6 +49,8 @@ import { SomeService } from './gestao-pessoas/temporario';
     AuditoriaComponent,
     RelatorioComponent,
     PageNotFoundComponent,
+    ComponentesLoginComponent,
+    ComponentesSemLoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +75,7 @@ import { SomeService } from './gestao-pessoas/temporario';
     MatTableModule,
     RouterModule,
     MatPaginatorModule,
+    NgxMaskModule.forRoot(options),
     AppRoutingModule
   ],
   providers: [SomeService, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
