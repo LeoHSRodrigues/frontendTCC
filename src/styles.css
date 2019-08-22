@@ -1,4 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:600&display=swap');
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+.raiz{
+    background-color: #f5f8fd;
+}

@@ -19,6 +19,7 @@ const appRoutes: Routes = [
     component: ComponentesLoginComponent,
     canActivate: [AuthGuard],
     children: [
+      { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'votacao', component: VotacaoComponent, },
       { path: 'gestaoPessoal', component: GestaoPessoasComponent,  },
@@ -37,7 +38,7 @@ const appRoutes: Routes = [
       }
     ]
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

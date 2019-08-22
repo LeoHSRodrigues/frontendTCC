@@ -11,7 +11,7 @@ export interface PeriodicElement {
 }
 
 @Component({
-  selector: 'app-gestao-pessoas',
+  selector: 'app-pessoas-component',
   templateUrl: './gestao-pessoas.component.html',
   styleUrls: ['./gestao-pessoas.component.css']
 })

@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { Router } from '@angular/router';
-import { AuthenticationService } from './_services/authentication.service';
 import { Title } from '@angular/platform-browser';
-import { map, shareReplay } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
-  styleUrls: ['./app.component.css'],
+  selector: 'app-navbar',
+  templateUrl: './navs.component.html',
+  styleUrls: ['./navs.component.css']
 })
+export class ComponentesnavsComponent implements OnInit {
 
-export class AppComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
   .pipe(
     map(result => result.matches),
@@ -37,8 +37,10 @@ export class AppComponent implements OnInit {
       this.mobile = true;
     }
   }
+
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
+
 }

@@ -35,6 +35,7 @@ import { SomeService } from './componentesLogin/gestao-pessoas/temporario';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
+import { ComponentesnavsComponent } from './componentesLogin/navs/navs.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -51,6 +52,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     PageNotFoundComponent,
     ComponentesLoginComponent,
     ComponentesSemLoginComponent,
+    ComponentesnavsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-home-layout',
-  template: `
-    <router-outlet></router-outlet>
-  `,
+  selector: 'app-componente-login',
+  template: '<app-login></app-login>',
   styles: []
 })
 export class ComponentesSemLoginComponent {
