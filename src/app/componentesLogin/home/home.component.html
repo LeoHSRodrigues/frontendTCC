@@ -23,26 +23,50 @@
   <li title="Urnas conectadas" class="flex-item">
     <mat-icon class="" style="color: chocolate">how_to_vote</mat-icon><br>
     <span class="text-muted numeral">2</span><br>
-    <span class="text-muted">Urnas conectadas</span>
+    <span class="">Urnas conectadas</span>
   </li>
   <li title="Uso médio de memória" class="flex-item">
-    <i class="fas fa-memory" style="color: darkolivegreen"></i><br>
-    <span class="numeral" style="color: seagreen">675MB</span><br>
-    <span class="text-muted">Uso médio de memória</span>
+    <i class="fas fa-memory" style="color: darkolivegreen"></i>
+    <div class="grafico">
+    <ngx-charts-number-card
+    [results]="memoria"
+    [scheme]="colorScheme"
+    [valueFormatting]="numbercardValueFormattingDiscoRedeMemoria"
+    (select)="onSelect($event)">
+  </ngx-charts-number-card>
+</div>
   </li>
   <li title="Uso médio de CPU" class="flex-item">
-    <i class="fas fa-microchip" style="color: lightcoral"></i><br>
-    <span class="numeral" style="color: #bf1717">85%</span><br>
-    <span class="text-muted">Uso médio de CPU</span>
+    <i class="fas fa-microchip" style="color: lightcoral"></i>
+    <div class="grafico">
+        <ngx-charts-number-card
+        [results]="cpu"
+        [scheme]="colorScheme"
+        [valueFormatting]="numbercardValueFormattingCPU"
+        (select)="onSelect($event)">
+      </ngx-charts-number-card>
+  </div>
   </li>
   <li title="Uso médio de rede" class="flex-item">
-    <i class="fas fa-ethernet" style="color: royalblue"></i><br>
-    <span class="numeral" style="color: seagreen">350Kbps</span><br>
-    <span class="text-muted">Uso médio de rede</span>
+    <i class="fas fa-ethernet" style="color: royalblue"></i>
+    <div class="grafico">
+        <ngx-charts-number-card
+        [results]="rede"
+        [scheme]="colorScheme"
+        [valueFormatting]="numbercardValueFormattingDiscoRedeMemoria"
+        (select)="onSelect($event)">
+      </ngx-charts-number-card>
+    </div>
   </li>
   <li title="Uso médio de disco" class="flex-item">
-      <mat-icon style="color: teal">sd_card</mat-icon><br>
-      <span class="numeral" style="color:orange">65%</span><br>
-      <span class="text-muted">Uso médio de disco</span>
+    <mat-icon style="color: teal">sd_card</mat-icon>        
+      <div class="grafico">
+      <ngx-charts-number-card
+      [results]="disco"
+      [scheme]="colorScheme"
+      [valueFormatting]="numbercardValueFormattingDiscoRedeMemoria"
+      (select)="onSelect($event)">
+    </ngx-charts-number-card>
+  </div>
   </li>
 </ul>

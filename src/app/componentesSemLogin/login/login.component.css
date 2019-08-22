@@ -5,8 +5,8 @@ html, body {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
-    /* background-size: 45%; */
+    /* background-size: cover; */
+    background-size: 45%;
 }
 
 @media only screen and (max-width: 600px) {

@@ -36,6 +36,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
 import { ComponentesnavsComponent } from './componentesLogin/navs/navs.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
@@ -78,7 +79,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     RouterModule,
     MatPaginatorModule,
     NgxMaskModule.forRoot(options),
-    AppRoutingModule
+    AppRoutingModule,
+    NgxChartsModule,
   ],
   providers: [SomeService, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
   bootstrap: [AppComponent]
