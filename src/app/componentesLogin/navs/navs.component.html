@@ -4,46 +4,50 @@
         [opened]="!(isHandset$ | async)">
         <mat-nav-list>
 
-            <div class="Icones">
+            <div class="Icones firstIcon">
                 <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/home">
-                    <mat-icon class="iconeLateral" aria-label="Side nav toggle icon" title="Início">
-                        format_align_left</mat-icon>
-                    <span class="pl-3">Início</span>
+                    <i class="fas fa-home iconeLateral"></i>
+                    <span class="pl-3 textoNavBarInicio">Página Inicial</span>
                 </a>
             </div>
-
+            <!-- <hr> -->
+            <span class="tituloSidenav">GESTÃO DE PESSOAS</span>
             <div class="Icones">
                 <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/gestaoPessoal">
                     <mat-icon class="iconeLateral" title="Gestão de Pessoas">people_outline</mat-icon>
-                    <span class="pl-3">Gestão de Pessoas</span>
+                    <span class="pl-3 textoNavBar">Gestão de Pessoas</span>
                 </a>
             </div>
 
+            <span class="tituloSidenav">GESTÃO DE URNAS</span>
             <div class="Icones">
                 <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/gestaoUrna">
                     <mat-icon class="iconeLateral" title="Gestão de Urnas">tablet</mat-icon>
-                    <span class="pl-3">Gestão de Urnas</span>
+                    <span class="pl-3 textoNavBar">Gestão de Urnas</span>
                 </a>
             </div>
 
+            <span class="tituloSidenav">GESTÃO DE VOTAÇÃO</span>
             <div class="Icones">
                 <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/votacao">
                     <mat-icon class="iconeLateral" title="Gestão de Votação">how_to_vote</mat-icon>
-                    <span class="pl-3">Gestão de Votação</span>
+                    <span class="pl-3 textoNavBar">Gestão de Votação</span>
                 </a>
             </div>
 
+            <span class="tituloSidenav">GESTÃO DE RELATÓRIO</span>
             <div class="Icones">
                 <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/relatorio">
                     <mat-icon class="iconeLateral" title="Gestão de Relatórios">bar_chart</mat-icon>
-                    <span class="pl-3">Gestão de Relatórios</span>
+                    <span class="pl-3 textoNavBar">Gestão de Relatórios</span>
                 </a>
             </div>
 
+            <span class="tituloSidenav">GESTÃO DE AUDITORIA</span>
             <div class="Icones">
                 <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/auditoria">
                     <mat-icon class="iconeLateral" title="Gestão de Auditoria">assignment</mat-icon>
-                    <span class="pl-3">Gestão de Auditoria</span>
+                    <span class="pl-3 textoNavBar">Gestão de Auditoria</span>
                 </a>
             </div>
 
@@ -51,17 +55,14 @@
             <div class="inner-content" id="botNav" mat-list-item>
 
                 <div class="Icones" style="text-align: center">
-                    <button mat-button [matMenuTriggerFor]="notificacoes" class="menuPerfil">
-                        <mat-icon matBadge="3" class="iconeLateral" matBadgeSize="small" matBadgeColor="warn">
-                            notifications</mat-icon>
-                        <span class="pl-3">Notificações</span>
+                    <button mat-button [matMenuTriggerFor]="perfil" class="menuPerfil">
+                        <img src="https://www.w3schools.com/howto/img_avatar.png" class="avatar" alt="Avatar">
+                        <span class="text-muted pl-3 pt-5">Leonardo Henrique</span>
                     </button>
                 </div>
-
-                <mat-menu #notificacoes="matMenu">
-                    <li mat-menu-item>Notificação #1</li>
-                    <li mat-menu-item>Notificação #2</li>
-                    <li mat-menu-item>Notificação #3</li>
+                <mat-menu #perfil="matMenu">
+                    <button mat-menu-item>Editar Perfil</button>
+                    <button mat-menu-item (click)="logout()">Sair</button>
                 </mat-menu>
             </div>
 
@@ -69,24 +70,13 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-        <mat-toolbar class="toolbar">
+        <!-- <mat-toolbar class="toolbar">
             <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-                <mat-icon title="Menu Lateral" class="Icones">drag_indicator</mat-icon>
+                <i class="fas fa-grip-vertical"></i>
             </button>
             <span *ngIf="mobile === false" class="title-center text-muted">{{titleService.getTitle()}}</span>
             <span *ngIf="mobile === true" class="espacoMobile"></span>
-            <div class="Icones configPerfil pt-2">
-                <button mat-button [matMenuTriggerFor]="perfil" class="menuPerfil">
-                    <span class="text-muted pr-3 pt-5">Leonardo Henrique</span>
-                    <img src="https://www.w3schools.com/howto/img_avatar.png" class="avatar" alt="Avatar">
-                </button>
-            </div>
-
-            <mat-menu #perfil="matMenu">
-                <button mat-menu-item>Editar Perfil</button>
-                <button mat-menu-item (click)="logout()">Sair</button>
-            </mat-menu>
-        </mat-toolbar>
+        </mat-toolbar> -->
 
         <div class="conteudo">
             <router-outlet></router-outlet>

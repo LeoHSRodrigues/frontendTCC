@@ -1,55 +1,105 @@
 <title>Gestão de Pessoas</title>
+<div class="conteudoPagina">
+    <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" color="primary">Cadastrar
+            Pessoa</button></span>
+    <h3 class="pl-3 pt-4">Gestão de Pessoas</h3>
 
-<ul class="flex-container dash1 space-around">
-    <li title="Pessoas Cadastradas" class="flex-item">
-        <span class="numeral">50</span><br>
-        <span class="text-uppercase legenda">Pessoas Cadastradas</span>
-    </li>
-    <li title="Urnas Cadastradas" class="flex-item">
-        <span class="numeral">25</span><br>
-        <span class="text-uppercase legenda">Eleitores Cadastrados</span>
-    </li>
-    <li title="Votações Finalizadas" class="flex-item">
-        <span class="numeral">25</span><br>
-        <span class="text-uppercase legenda">Candidatos Cadastrados</span>
-    </li>
-</ul>
-
-<div class="table-responsive campoTabela">
     <div class="listaOpcoes">
-        <span class="text-muted p-2">Pessoal</span>
-        <span class="completaEspaco"></span>
         <span [class.selecionado]="isActive('eleitores')" (click)="setActive('eleitores')"
             class="text-muted p-2 opcoesFiltro">Eleitores</span>
         <span [class.selecionado]="isActive('candidatos')" (click)="setActive('candidatos')"
             class="text-muted p-2 opcoesFiltro">Candidatos</span>
     </div>
-    <div class="tabela">
-        <table mat-table [dataSource]="dataSource" class="">
+    <hr>
 
-            <ng-container matColumnDef="position">
-                <th mat-header-cell class="text-center" *matHeaderCellDef> No. </th>
-                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-            </ng-container>
+    <div class="refinar">
+        <div class="form-group has-search">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Procurar...">
+        </div>
+        <div class="iconeRefinar">
+            <i [class.refinarSelecionado]="isRefinar('lista')" (click)="setRefinar('lista')"
+                class="fas fa-align-left pr-3"></i>
+            <i [class.refinarSelecionado]="isRefinar('grade')" (click)="setRefinar('grade')"
+                class="fas fa-th-large"></i>
+        </div>
+    </div>
 
-            <ng-container matColumnDef="name">
-                <th mat-header-cell class="text-center" *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
+    <div class="row">
+        <div class="col">
+            <div class="card ">
+                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nome do doido</h5>
+                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
+                    <br>
+                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">ADM</span><br>
+                    <hr>
+                    <button mat-stroked-button>Visualizar</button>
+                </div>
+            </div>
+        </div>
 
-            <ng-container matColumnDef="weight">
-                <th mat-header-cell class="text-center" *matHeaderCellDef> Weight </th>
-                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-            </ng-container>
+        <div class="col">
+            <div class="card">
+                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nome do doido</h5>
+                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
+                    <br>
+                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">USER</span><br>
+                    <hr>
+                    <button mat-stroked-button>Visualizar</button>
+                </div>
+            </div>
+        </div>
 
-            <ng-container matColumnDef="symbol">
-                <th mat-header-cell class="text-center" *matHeaderCellDef> Symbol </th>
-                <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-            </ng-container>
+        <div class="col">
+            <div class="card ">
+                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nome do doido</h5>
+                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
+                    <br>
+                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">ADM</span><br>
+                    <hr>
+                    <button mat-stroked-button>Visualizar</button>
+                </div>
+            </div>
+        </div>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <div class="col">
+            <div class="card ">
+                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nome do doido</h5>
+                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
+                    <br>
+                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">FUNC</span><br>
+                    <hr>
+                    <button mat-stroked-button>Visualizar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card ">
+                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nome do doido</h5>
+                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
+                    <br>
+                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">USER</span><br>
+                    <hr>
+                    <button mat-stroked-button>Visualizar</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

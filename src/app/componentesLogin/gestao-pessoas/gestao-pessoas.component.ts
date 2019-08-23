@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { SomeService, PeriodicElement } from './temporario';
 
 export interface PeriodicElement {
@@ -20,7 +20,7 @@ export class GestaoPessoasComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource<PeriodicElement>([]);
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(private myService: SomeService) { }
 
@@ -39,6 +39,14 @@ export class GestaoPessoasComponent implements OnInit {
   };
   isActive = function(buttonName) {
     return this.activeButton === buttonName;
+  };
+
+  setRefinar = function(opcao) {
+    this.opcaoAtiva = opcao;
+    this.opcaoAtiva = opcao;
+  };
+  isRefinar = function(opcao) {
+    return this.opcaoAtiva === opcao;
   };
 
   refresh() {
