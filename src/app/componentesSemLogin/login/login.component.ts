@@ -71,11 +71,12 @@ export class LoginComponent implements OnInit {
           } else {
             localStorage.removeItem('lembrar');
           }
-          if (this.route.snapshot.queryParamMap.get('returnUrl')) {
-            this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
-          } else {
-            this.router.navigate(['home']);
-          }
+          console.log(data);
+          // if (this.route.snapshot.queryParamMap.get('returnUrl')) {
+          //   this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
+          // } else {
+          //   this.router.navigate(['home']);
+          // }
         },
         error => {
           this.snackBar.open('CPF ou Senha incorreto', 'Fechar', {

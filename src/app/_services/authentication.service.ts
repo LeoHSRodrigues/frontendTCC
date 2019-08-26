@@ -21,7 +21,7 @@ export class AuthenticationService {
 
 
     login(CPF: string, Senha: string) {
-        return this.http.post<any>(`http://127.0.0.1:8000/api`, { CPF, Senha })
+        return this.http.post<any>(`http://127.0.0.1:8000/api/login`, { CPF, Senha })
             .pipe(map(user => {
                 if (user != null) {
                     localStorage.setItem('usuario', JSON.stringify(user));
