@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Validacoes } from './validacoes';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../_services/authentication.service';
-import { first } from 'rxjs/operators';
+import { first, take } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
-
+import { Socket } from 'ngx-socket-io';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +25,8 @@ export class LoginComponent implements OnInit {
   encPassword: string;
   resultadoEncriptacao: string;
   hash: string;
+  connection: any;
+  messages;
 
   get CPF() { return this.loginForm.get('CPF'); }
   get Senha() { return this.loginForm.get('Senha'); }
@@ -34,8 +39,10 @@ export class LoginComponent implements OnInit {
               private router: Router,
               public snackBar: MatSnackBar,
               private authenticationService: AuthenticationService,
-              private route: ActivatedRoute) {
-
+              private route: ActivatedRoute,
+              private socket: Socket,
+              private _bottomSheet: MatBottomSheet
+              ) {
 
     this.loginForm = this.formBuilder.group({
       CPF: ['', Validators.compose([Validators.required, Validators.minLength(11), Validacoes])],
@@ -55,7 +62,27 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  getMessages() {
+    this.socket.emit("message", "oi");
+    let observable = new Observable(observer => {
+      this.socket.on('message', (data) => {
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
 
+  lerDigital(){
+    this.connection = this.getMessages().pipe(take(1)).subscribe(message => {
+      this._bottomSheet.open(BottomSheetOverviewExampleSheet, {
+        data: { loading:false },
+      });
+      console.log(message);
+    });
+  }
 
   onSubmit() {
 
@@ -83,4 +110,14 @@ export class LoginComponent implements OnInit {
           });
         });
   }
+  ngOnDestroy() {
+    this.connection.unsubscribe();
+  }
+}
+@Component({
+  selector: 'bottom-sheet-overview-example-sheet',
+  templateUrl: 'bottom-sheet.html',
+})
+export class BottomSheetOverviewExampleSheet {
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any,private _bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>) {}
 }

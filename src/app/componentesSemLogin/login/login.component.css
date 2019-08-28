@@ -54,3 +54,9 @@ html, body {
 .container {
     padding-top: 2%;
 }
+.leituraBiometrica{
+    font-size: 16px;
+}
+.iconeDigital{
+    cursor: pointer;
+}

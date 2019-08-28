@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './componentesSemLogin/login/login.component';
+import { LoginComponent, BottomSheetOverviewExampleSheet } from './componentesSemLogin/login/login.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
 import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/gestao-pessoas.component';
@@ -37,8 +37,14 @@ import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-c
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
 import { ComponentesnavsComponent } from './componentesLogin/navs/navs.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
+const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
 
 @NgModule({
   declarations: [
@@ -54,6 +60,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     ComponentesLoginComponent,
     ComponentesSemLoginComponent,
     ComponentesnavsComponent,
+    BottomSheetOverviewExampleSheet,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +88,11 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     NgxMaskModule.forRoot(options),
     AppRoutingModule,
     NgxChartsModule,
+    SocketIoModule.forRoot(config),
+    MatBottomSheetModule,
+    MatProgressSpinnerModule,
   ],
+  entryComponents: [LoginComponent,BottomSheetOverviewExampleSheet],
   providers: [SomeService, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
   bootstrap: [AppComponent]
 })

@@ -48,6 +48,11 @@
                                 </div>
                                 <button mat-raised-button [disabled]="!loginForm.valid" color="primary">Login</button>
                             </form>
+                            <hr>
+                            <div>
+                                    <h5 class="loginTitleText textoBoxLogin leituraBiometrica">Acessar por leitura Biométrica</h5><br>
+                                    <i class="fas fa-fingerprint fa-4x iconeDigital" (click)="lerDigital()" ></i>
+                            </div>
                         </div>
                     </div>
                 </div>
