@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LoginComponent, BottomSheetOverviewExampleSheet } from './componentesSemLogin/login/login.component';
+import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
 import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/gestao-pessoas.component';
@@ -40,6 +40,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { BottomSheetOverviewExampleSheet } from './componentesSemLogin/login/bottomSheet';
+
 
 
 
@@ -60,6 +64,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     ComponentesLoginComponent,
     ComponentesSemLoginComponent,
     ComponentesnavsComponent,
+    RegistroComponent,
     BottomSheetOverviewExampleSheet,
   ],
   imports: [
@@ -91,9 +96,10 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     SocketIoModule.forRoot(config),
     MatBottomSheetModule,
     MatProgressSpinnerModule,
+    MatStepperModule,
   ],
   entryComponents: [LoginComponent,BottomSheetOverviewExampleSheet],
-  providers: [SomeService, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
+  providers: [SomeService,LoginComponent, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 

@@ -12,6 +12,7 @@ import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.compo
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
+import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 
 const appRoutes: Routes = [
   {
@@ -35,9 +36,10 @@ const appRoutes: Routes = [
       {
         path: 'login',
         component: LoginComponent
-      }
-    ]
+      },
+    ],
   },
+  {path: 'registrar', component: RegistroComponent},
   { path: '**', component: PageNotFoundComponent }
 ];
 

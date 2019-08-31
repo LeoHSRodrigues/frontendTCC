@@ -1,0 +1,54 @@
+<head>
+        <title>Registrar</title>
+    </head>
+    <body>
+        <div class="container h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-sm-10 col-md-10 my-auto">
+                    <div class="shadow pb-5 pt-3 mb-8 bg-white rounded">
+                        <div>
+                            <h5 class="loginTitleText textoBoxLogin">Faça o seu registro</h5>
+                        </div>
+                        <hr>
+                        <div class="form">
+                                <mat-horizontal-stepper linear #stepper>
+                                        <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+                                          <form [formGroup]="firstFormGroup">
+                                            <ng-template matStepLabel>Permissão administrativa</ng-template>
+                                            <i (click)="lerDigital()" class="fas fa-fingerprint pt-5 fa-4x iconeDigital" ></i>
+                                          </form>
+                                        </mat-step>
+                                        <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+                                          <form [formGroup]="secondFormGroup">
+                                            <ng-template matStepLabel>Dados Pessoais</ng-template>
+                                            <mat-form-field>
+                                              <input matInput placeholder="Address" formControlName="secondCtrl" required>
+                                            </mat-form-field>
+                                            <div>
+                                              <button mat-button matStepperPrevious>Back</button>
+                                              <button mat-button matStepperNext>Next</button>
+                                            </div>
+                                          </form>
+                                        </mat-step>
+                                        <mat-step>
+                                          <ng-template matStepLabel>Pronto</ng-template>
+                                          Cadastro Efetuado com sucesso!
+                                          <div>
+                                            <button mat-button matStepperPrevious>Back</button>
+                                            <button mat-button (click)="stepper.reset()">Reset</button>
+                                          </div>
+                                        </mat-step>
+                                      </mat-horizontal-stepper>
+                                      <div>
+                                          <br>
+                                          <hr>
+                                          <br>
+                                          <button mat-raised-button color="primary" (click)="voltar($event)">Voltar</button>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
