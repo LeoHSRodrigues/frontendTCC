@@ -33,6 +33,13 @@ export class AuthenticationService {
             }));
     }
 
+
+    loginDigital(user) {
+                    localStorage.setItem('usuario', JSON.stringify(user));
+                    this.currentUserSubject.next(user);
+                    return user;
+    }
+
     logout() {
         localStorage.removeItem('usuario');
         this.currentUserSubject.next(null);

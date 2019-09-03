@@ -1,63 +1,67 @@
 <head>
-        <title>Login</title>
-    </head>
-    <body>
-        <div class="container h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-sm-10 col-md-6 my-auto">
-                    <div class="shadow pb-5 pt-3 mb-6 bg-white rounded">
-                        <div>
-                            <h5 class="loginTitleText textoBoxLogin">Acesse o Sistema</h5>
-                        </div>
-                        <hr>
-                        <div class="form">
-                            <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
-                                <div class="form-group mb-6 pt-3">
-                                    <mat-form-field class="inputCampos">
-                                        <mat-label>Digite o seu CPF</mat-label>
-                                        <input matInput mask="000.000.000-00" maxlength="14" formControlName="CPF">
-                                    </mat-form-field> 
-                                    <div class="validacao text-muted" *ngIf="!CPF.pristine && CPF.invalid &&(CPF.dirty || CPF.touched) && CPF.errors">
-                                            <div *ngIf="CPF.errors.required">
-                                              CPF é obrigatório.
-                                            </div>
-                                            <div *ngIf="CPF.errors.cpfInvalido">
-                                              Digite um CPF válido
-                                            </div>
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="container h-100">
+        <div class="row align-items-center h-100">
+            <div class="col-sm-10 col-md-6 my-auto">
+                <div class="shadow pb-5 pt-3 mb-6 bg-white rounded">
+                    <div>
+                        <h5 class="loginTitleText textoBoxLogin">Acesse o Sistema</h5>
+                    </div>
+                    <hr>
+                    <div class="form">
+                        <form autocomplete="off" [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+                            <div class="form-group mb-6 pt-3">
+                                <mat-form-field class="inputCampos">
+                                    <mat-label>Digite o seu CPF</mat-label>
+                                    <input matInput mask="000.000.000-00" maxlength="14" formControlName="CPF">
+                                </mat-form-field>
+                                <div class="validacao text-muted"
+                                    *ngIf="!CPF.pristine && CPF.invalid &&(CPF.dirty || CPF.touched) && CPF.errors">
+                                    <div *ngIf="CPF.errors.required">
+                                        CPF é obrigatório.
+                                    </div>
+                                    <div *ngIf="CPF.errors.cpfInvalido">
+                                        Digite um CPF válido
                                     </div>
                                 </div>
-                                <div class="form-group mb-6">
-                                    <mat-form-field class="inputCampos">
-                                        <mat-label>Digite a sua Senha</mat-label>
-                                        <input type="password" matInput formControlName="Senha">
-                                    </mat-form-field>  
-                                    <div class="validacao text-muted" *ngIf="!Senha.pristine && CPF.invalid &&(Senha.dirty || Senha.touched) && Senha.errors">
-                                            <div *ngIf="Senha.errors.required">
-                                              Senha é obrigatória.
-                                            </div>
-                                            <div *ngIf="Senha.errors.minlength">
-                                              Digite uma senha com mais de 8 caracteres
-                                            </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-3 pt-2 pb-4 lembrar text-muted">
-                                        <mat-slide-toggle
-                                        color='primary' formControlName="Lembrar">
-                                      Lembrar-me
-                                    </mat-slide-toggle>
-                                </div>
-                                <button mat-raised-button [disabled]="!loginForm.valid" color="primary">Login</button>
-                                <button (click)="cadastrar($event)" style="margin-left: 10%" mat-raised-button color="warn">Cadastrar</button>
-                            </form>
-                            <hr>
-                            <div>
-                                    <h5 class="loginTitleText textoBoxLogin leituraBiometrica">Acessar por leitura Biométrica</h5><br>
-                                    <i class="fas fa-fingerprint fa-4x iconeDigital" (click)="lerDigital()" ></i>
                             </div>
+                            <div class="form-group mb-6">
+                                <mat-form-field class="inputCampos">
+                                    <mat-label>Digite a sua Senha</mat-label>
+                                    <input type="password" matInput formControlName="Senha">
+                                </mat-form-field>
+                                <div class="validacao text-muted"
+                                    *ngIf="!Senha.pristine && CPF.invalid &&(Senha.dirty || Senha.touched) && Senha.errors">
+                                    <div *ngIf="Senha.errors.required">
+                                        Senha é obrigatória.
+                                    </div>
+                                    <div *ngIf="Senha.errors.minlength">
+                                        Digite uma senha com mais de 8 caracteres
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 pt-2 pb-4 lembrar text-muted">
+                                <mat-slide-toggle color='primary' formControlName="Lembrar">
+                                    Lembrar-me
+                                </mat-slide-toggle>
+                            </div>
+                            <button mat-raised-button [disabled]="!loginForm.valid" color="primary">Login</button>
+                            <button (click)="cadastrar($event)" style="margin-left: 10%" mat-raised-button
+                                color="warn">Cadastrar</button>
+                        </form>
+                        <hr>
+                        <div>
+                            <h5 class="loginTitleText textoBoxLogin leituraBiometrica">Acessar por leitura Biométrica
+                            </h5><br>
+                            <i class="fas fa-fingerprint fa-4x iconeDigital" (click)="lerDigital()"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-    </body>
+    </div>
+
+</body>

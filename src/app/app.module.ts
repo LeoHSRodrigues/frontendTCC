@@ -41,7 +41,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepperModule, MatStepperNext } from '@angular/material/stepper';
 import { BottomSheetOverviewExampleSheet } from './componentesSemLogin/login/bottomSheet';
 
 
@@ -98,8 +98,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatProgressSpinnerModule,
     MatStepperModule,
   ],
-  entryComponents: [LoginComponent,BottomSheetOverviewExampleSheet],
-  providers: [SomeService,LoginComponent, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
+  entryComponents: [BottomSheetOverviewExampleSheet],
+  providers: [SomeService,BottomSheetOverviewExampleSheet, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 

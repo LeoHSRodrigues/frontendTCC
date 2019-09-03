@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { BottomSheetOverviewExampleSheet } from '../login/bottomSheet';
 import { Socket } from 'ngx-socket-io';
+import { MatSnackBar} from '@angular/material';
 
 
 @Component({
@@ -20,10 +20,8 @@ export class RegistroComponent implements OnInit {
   f: any;
   CPF: any;
   connection: any;
-  _bottomSheet: any;
-  snackBar: any;
 
-  constructor(private _formBuilder: FormBuilder,private router: Router, private socket: Socket) {}
+  constructor(private _formBuilder: FormBuilder,private router: Router,public snackBar: MatSnackBar, private socket: Socket) {}
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
@@ -42,8 +40,26 @@ export class RegistroComponent implements OnInit {
     this.socket.emit("registro", 'mensagemregistro');
     let observable = new Observable(observer => {
       this.socket.on('registro', (data) => {
+        if (data != 'achou' && data != 'nachou'){
+          this.snackBar.open(data, 'Fechar', {
+            duration: 2000
+          });
+        }
+        else{
+          if(data === 'achou'){
+            // validar pro stepper avançar
+          }
+          else{
+            this.snackBar.open('n achou', 'Fechar', {
+              duration: 2000
+            });
+          }
+        }
         observer.next(data);
       });
+      // this.snackBar.open('Por favor preencha o CPF', 'Fechar', {
+      //   duration: 2000
+      // });
       return () => {
         this.socket.disconnect();
       };
@@ -53,9 +69,6 @@ export class RegistroComponent implements OnInit {
 
   lerDigital(){
       this.connection = this.getMessages().subscribe(message => {
-        this.snackBar.open('Por favor preencha o CPF', 'Fechar', {
-          duration: 2000
-        });
       }); 
   }
 }

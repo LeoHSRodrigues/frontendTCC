@@ -17,6 +17,9 @@
                                             <ng-template matStepLabel>Permissão administrativa</ng-template>
                                             <i (click)="lerDigital()" class="fas fa-fingerprint pt-5 fa-4x iconeDigital" ></i>
                                           </form>
+                                          <div class="divBotaoProximo">
+                                            <button mat-button mat-stroked-button color="primary" class="botaoProximo" matStepperNext>Próximo</button>
+                                          </div>
                                         </mat-step>
                                         <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
                                           <form [formGroup]="secondFormGroup">
@@ -40,7 +43,6 @@
                                         </mat-step>
                                       </mat-horizontal-stepper>
                                       <div>
-                                          <br>
                                           <hr>
                                           <br>
                                           <button mat-raised-button color="primary" (click)="voltar($event)">Voltar</button>

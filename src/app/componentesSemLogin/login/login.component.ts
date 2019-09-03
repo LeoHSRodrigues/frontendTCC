@@ -8,7 +8,7 @@ import { first } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
-import { MatBottomSheet} from '@angular/material';
+import { MatBottomSheet } from '@angular/material';
 import { BottomSheetOverviewExampleSheet } from './bottomSheet';
 
 @Component({
@@ -35,14 +35,13 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-              private router: Router,
-              public snackBar: MatSnackBar,
-              private authenticationService: AuthenticationService,
-              private route: ActivatedRoute,
-              private socket: Socket,
-              private _bottomSheet: MatBottomSheet,
-              ) {
-                
+    private router: Router,
+    public snackBar: MatSnackBar,
+    private authenticationService: AuthenticationService,
+    private route: ActivatedRoute,
+    private socket: Socket,
+    private _bottomSheet: MatBottomSheet,
+  ) {
 
     this.loginForm = this.formBuilder.group({
       CPF: ['', Validators.compose([Validators.required, Validators.minLength(11), Validacoes])],
@@ -63,9 +62,12 @@ export class LoginComponent implements OnInit {
   }
 
   getMessages() {
-    this.socket.emit("login", 'mensagem1'+this.f.CPF.value);
+    this.socket.emit("login", 'mensagem1' + this.f.CPF.value);
     let observable = new Observable(observer => {
       this.socket.on('login', (data) => {
+        this._bottomSheet.open(BottomSheetOverviewExampleSheet, {
+          data: { mensagem: data },
+        });
         observer.next(data);
       });
       return () => {
@@ -75,23 +77,19 @@ export class LoginComponent implements OnInit {
     return observable;
   }
 
-  lerDigital(){
-    if (this.CPF.valid){
+  lerDigital() {
+    if (this.CPF.valid) {
       this.connection = this.getMessages().subscribe(message => {
-        this._bottomSheet.open(BottomSheetOverviewExampleSheet, {
-          data: { mensagem: message },
-        });
-        // console.log(message);
-      }); 
+      });
     }
-    else{
+    else {
       this.snackBar.open('Por favor preencha o CPF', 'Fechar', {
         duration: 2000
       });
     }
   }
 
-  cadastrar(event){
+  cadastrar(event) {
     event.preventDefault();
     this.router.navigate(['registrar']);
   }
