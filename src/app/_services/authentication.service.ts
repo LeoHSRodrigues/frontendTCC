@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { User } from '../_models/usuario';
 import { error } from 'util';
 
@@ -43,5 +43,16 @@ export class AuthenticationService {
     logout() {
         localStorage.removeItem('usuario');
         this.currentUserSubject.next(null);
+    }
+
+    cadastro(formulario){
+       return this.http.post<any>(`http://127.0.0.1:8000/api/cadastro`,{formulario})
+        .pipe(map(aa => {
+            if (aa != null) {
+                return 'cadastrado';
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
     }
 }

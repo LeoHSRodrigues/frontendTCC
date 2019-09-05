@@ -29,7 +29,7 @@ import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MatListModule} from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { MatTableModule} from '@angular/material/table';
-import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material';
+import { MatPaginatorModule, MatPaginatorIntl, MatSelectModule } from '@angular/material';
 import { getPortuguesPaginatorIntl } from './_helpers/traducaoTabela';
 import { SomeService } from './componentesLogin/gestao-pessoas/temporario';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
@@ -97,6 +97,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatBottomSheetModule,
     MatProgressSpinnerModule,
     MatStepperModule,
+    MatSelectModule,
   ],
   entryComponents: [BottomSheetOverviewExampleSheet],
   providers: [SomeService,BottomSheetOverviewExampleSheet, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],

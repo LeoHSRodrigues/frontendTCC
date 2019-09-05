@@ -13,6 +13,8 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class ComponentesnavsComponent implements OnInit {
 
+  Nome: string;
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
   .pipe(
     map(result => result.matches),
@@ -36,6 +38,8 @@ export class ComponentesnavsComponent implements OnInit {
     if (window.screen.width <= 800) { // 768px portrait
       this.mobile = true;
     }
+    var values = JSON.parse(localStorage.getItem("usuario"));
+    this.Nome = values.Nome;
   }
 
   logout() {

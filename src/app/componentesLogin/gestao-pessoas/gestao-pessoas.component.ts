@@ -1,15 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { SomeService, PeriodicElement } from './temporario';
-
-export interface PeriodicElement {
-  name: string;
-  CPF: string;
-  weight: number;
-  symbol: string;
-}
-
+import { GetterServices } from 'src/app/_services/getters.service'
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-pessoas-component',
   templateUrl: './gestao-pessoas.component.html',
@@ -18,24 +10,16 @@ export interface PeriodicElement {
 
 export class GestaoPessoasComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>([]);
+  private pessoas: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private myService: SomeService) { }
+  constructor(private getterServices: GetterServices) { }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
-    this.myService.doSomething().subscribe((data: PeriodicElement[]) => {
-      this.dataSource.data = data;
-    });
+    this.buscarLista();
   }
-
   setActive = function(buttonName) {
     this.activeButton = buttonName;
-    this.myService.doSomething().subscribe((data: PeriodicElement[]) => {
-      this.dataSource.data = data;
-    });
   };
   isActive = function(buttonName) {
     return this.activeButton === buttonName;
@@ -49,10 +33,18 @@ export class GestaoPessoasComponent implements OnInit {
     return this.opcaoAtiva === opcao;
   };
 
-  refresh() {
-    this.myService.doSomething().subscribe((data: PeriodicElement[]) => {
-      this.dataSource.data = data;
-    });
+  buscarLista(){
+    this.getterServices.listaPessoas()
+    .pipe(first())
+    .subscribe(
+      data => {
+        this.pessoas = data;
+        return data;
+      },
+      error => {
+        console.log(error);
+      });
   }
+
 
 }

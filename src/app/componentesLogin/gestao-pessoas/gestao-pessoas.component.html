@@ -26,80 +26,22 @@
     </div>
 
     <div class="row">
-        <div class="col">
+
+        <div class="col" *ngFor="let listaPessoas of pessoas">
             <div class="card ">
                 <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
                     alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">Nome do doido</h5>
-                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
+                    <h5 class="card-title">{{listaPessoas.Nome}}</h5>
+                    <span style="float: left;">CPF </span><span style="float: right">{{listaPessoas.CPF}}</span>
                     <br>
-                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">ADM</span><br>
+                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">{{listaPessoas.tipoConta}}</span><br>
                     <hr>
                     <button mat-stroked-button>Visualizar</button>
                 </div>
             </div>
         </div>
 
-        <div class="col">
-            <div class="card">
-                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Nome do doido</h5>
-                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
-                    <br>
-                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">USER</span><br>
-                    <hr>
-                    <button mat-stroked-button>Visualizar</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card ">
-                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Nome do doido</h5>
-                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
-                    <br>
-                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">ADM</span><br>
-                    <hr>
-                    <button mat-stroked-button>Visualizar</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card ">
-                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Nome do doido</h5>
-                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
-                    <br>
-                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">FUNC</span><br>
-                    <hr>
-                    <button mat-stroked-button>Visualizar</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card ">
-                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
-                    alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Nome do doido</h5>
-                    <span style="float: left;">CPF </span><span style="float: right">000.000.000-00</span>
-                    <br>
-                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">USER</span><br>
-                    <hr>
-                    <button mat-stroked-button>Visualizar</button>
-                </div>
-            </div>
-        </div>
 
     </div>
 </div>

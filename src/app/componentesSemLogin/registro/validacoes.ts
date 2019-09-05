@@ -1,49 +1,21 @@
-import { AbstractControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
-export function Validacoes(controle: AbstractControl) {
+// custom validator to check that two fields match
+export function MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
 
-  const cpf = controle.value;
+        if (matchingControl.errors && !matchingControl.errors.mustMatch) {
+            // return if another validator has already found an error on the matchingControl
+            return;
+        }
 
-  let soma = 0;
-  let resto: number;
-  let valido: boolean;
-
-
-  if (cpf === '00000000000' ||
-      cpf === '11111111111' ||
-      cpf === '22222222222' ||
-      cpf === '33333333333' ||
-      cpf === '44444444444' ||
-      cpf === '55555555555' ||
-      cpf === '66666666666' ||
-      cpf === '77777777777' ||
-      cpf === '88888888888' ||
-      cpf === '99999999999') {
-          valido = false;
-      } else {
-          for (let i = 1; i <= 9; i++) {
-          soma = soma + parseInt(cpf.substring(i - 1, i), 10) * (11 - i);
-          }
-          resto = (soma * 10) % 11;
-
-          if (resto === 10 || resto === 11) { resto = 0; }
-          if (resto !== parseInt(cpf.substring(9, 10), 10)) { valido = false; }
-
-          soma = 0;
-          for (let i = 1; i <= 10; i++) {
-          soma = soma + parseInt(cpf.substring(i - 1, i), 10) * (12 - i);
-          }
-          resto = (soma * 10) % 11;
-
-          if (resto === 10 || resto === 11) { resto = 0; }
-          if (resto !== parseInt(cpf.substring(10, 11), 10)) { valido = false; } else {
-              valido = true;
-
-          }
-      }
-  if (valido !== true) {
-        return { cpfInvalido: true };
-      }
-  return null;
-
+        // set error on matchingControl if validation fails
+        if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ mustMatch: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
+    }
 }

@@ -82,7 +82,8 @@ hr {
 
 .refinar {
     float: right;
-    padding-right: 3%;
+    padding-right: 5%;
+    display: flex;
 }
 
 @media only screen and (max-width: 600px) {

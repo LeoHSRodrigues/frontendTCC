@@ -1,56 +1,136 @@
 <head>
-        <title>Registrar</title>
-    </head>
-    <body>
-        <div class="container h-100">
-            <div class="row align-items-center h-100">
-                <div class="col-sm-10 col-md-10 my-auto">
-                    <div class="shadow pb-5 pt-3 mb-8 bg-white rounded">
-                        <div>
-                            <h5 class="loginTitleText textoBoxLogin">Faça o seu registro</h5>
+  <title>Registrar</title>
+</head>
+
+<body>
+  <div class="container h-100">
+    <div class="row align-items-center h-100">
+      <div class="col-sm-10 col-md-10 my-auto">
+        <div class="shadow pb-5 pt-3 mb-8 bg-white rounded">
+          <div>
+            <h5 class="loginTitleText textoBoxLogin">Faça o seu registro</h5>
+          </div>
+          <hr>
+          <div class="form">
+            <mat-horizontal-stepper linear #stepper>
+                <ng-template matStepperIcon="edit">
+                    <mat-icon>done</mat-icon>
+                  </ng-template>
+              <mat-step [completed]="false" label="Permissão administrativa" [editable]="isEditable" [editable]="isEditable">
+                <form>
+                  <i (click)="lerDigital()" class="fas fa-fingerprint pt-5 fa-4x iconeDigital"></i>
+                </form>
+              </mat-step>
+              <mat-step [stepControl]="formulario" label="Dados Pessoais" [completed]="false" [editable]="isEditable">
+                <div>
+                  <form [formGroup]="formulario" autocomplete="off">
+                    <div class="form-group row">
+                      <div class="col-sm-6">
+                        <mat-form-field>
+                          <input matInput placeholder="Nome" formControlName="Nome" required>
+                        </mat-form-field>
+                        <div class="validacao text-muted" *ngIf="(f.Nome.dirty || f.Nome.touched) && f.Nome.errors">
+                          <div *ngIf="f.Nome.errors.required">
+                            Nome é um campo Obrigatório
+                          </div>
                         </div>
-                        <hr>
-                        <div class="form">
-                                <mat-horizontal-stepper linear #stepper>
-                                        <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
-                                          <form [formGroup]="firstFormGroup">
-                                            <ng-template matStepLabel>Permissão administrativa</ng-template>
-                                            <i (click)="lerDigital()" class="fas fa-fingerprint pt-5 fa-4x iconeDigital" ></i>
-                                          </form>
-                                          <div class="divBotaoProximo">
-                                            <button mat-button mat-stroked-button color="primary" class="botaoProximo" matStepperNext>Próximo</button>
-                                          </div>
-                                        </mat-step>
-                                        <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
-                                          <form [formGroup]="secondFormGroup">
-                                            <ng-template matStepLabel>Dados Pessoais</ng-template>
-                                            <mat-form-field>
-                                              <input matInput placeholder="Address" formControlName="secondCtrl" required>
-                                            </mat-form-field>
-                                            <div>
-                                              <button mat-button matStepperPrevious>Back</button>
-                                              <button mat-button matStepperNext>Next</button>
-                                            </div>
-                                          </form>
-                                        </mat-step>
-                                        <mat-step>
-                                          <ng-template matStepLabel>Pronto</ng-template>
-                                          Cadastro Efetuado com sucesso!
-                                          <div>
-                                            <button mat-button matStepperPrevious>Back</button>
-                                            <button mat-button (click)="stepper.reset()">Reset</button>
-                                          </div>
-                                        </mat-step>
-                                      </mat-horizontal-stepper>
-                                      <div>
-                                          <hr>
-                                          <br>
-                                          <button mat-raised-button color="primary" (click)="voltar($event)">Voltar</button>
-                                    </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <mat-form-field>
+                          <input matInput placeholder="CPF" matInput mask="000.000.000-00" maxlength="14"
+                            formControlName="CPF" required>
+                        </mat-form-field>
+                        <div class="validacao text-muted" *ngIf="(f.CPF.dirty || f.CPF.touched) && f.CPF.errors">
+                          <div *ngIf="f.CPF.errors.required && f.CPF.errors.invalid">
+                            CPF é obrigatório.
+                          </div>
+                          <div *ngIf="f.CPF.errors.cpfInvalido">
+                            Digite um CPF válido
+                          </div>
                         </div>
+                      </div>
                     </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6">
+                        <mat-form-field>
+                          <mat-label>Tipo de Conta</mat-label>
+                          <mat-select formControlName="tipoConta" required>
+                            <mat-option *ngFor="let tipo of conta" [value]="tipo.valor">
+                              {{tipo.label}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div class="validacao text-muted"
+                          *ngIf="(f.tipoConta.dirty || f.tipoConta.touched) && f.tipoConta.errors">
+                          <div *ngIf="f.tipoConta.errors.required">
+                            Tipo de conta é um campo Obrigatório
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <mat-form-field>
+                          <input matInput placeholder="Digital" [readonly]="!digitalReadOnly" formControlName="valorDigital">
+                        </mat-form-field>
+                        <div class="validacao text-muted"
+                        *ngIf="(f.valorDigital.dirty || f.valorDigital.touched)">
+                          Para cadastrar a biometria, clique no ícone referente a biometria
+                      </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-6">
+                        <mat-form-field>
+                          <input matInput placeholder="Senha" type="password" formControlName="senha" required>
+                        </mat-form-field>
+                        <div class="validacao text-muted" *ngIf="(f.senha.dirty || f.senha.touched) && f.senha.errors">
+                          <div *ngIf="f.senha.errors.required || f.senha.errors.minlength">
+                            Digite uma senha com no mínimo 8 dígitos
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <mat-form-field>
+                          <input matInput placeholder="Confirme a sua senha" type="password"
+                            formControlName="confirmaSenha" required>
+                        </mat-form-field>
+                        <div class="validacao text-muted"
+                          *ngIf="(f.confirmaSenha.dirty || f.confirmaSenha.touched) && f.confirmaSenha.errors">
+                          <div *ngIf="f.confirmaSenha.errors.required || f.confirmaSenha.errors.minlength">
+                            Digite uma senha com no mínimo 8 dígitos
+                          </div>
+                          <div *ngIf="f.confirmaSenha.errors.mustMatch">
+                            As senhas não coincidem
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <i (click)="cadastrarDigital()" class="fas fa-fingerprint pb-5 fa-4x iconeDigital"></i>
+                        </div>
+                      </div>
+                    <div>
+                      <button mat-button mat-raised-button (click)="complete(formulario.value)">Cadastrar</button>
+                    </div>
+                  </form>
                 </div>
+              </mat-step>
+              <mat-step label="Pronto">
+                Cadastro Efetuado com sucesso!
+                <div>
+                  <button mat-raised-button color="primary" (click)="voltar($event)">Finalizar</button>
+                </div>
+              </mat-step>
+            </mat-horizontal-stepper>
+            <div>
+              <hr>
+              <br>
+              <button mat-raised-button color="primary" (click)="voltar($event)">Voltar</button>
             </div>
+          </div>
         </div>
-        
-    </body>
+      </div>
+    </div>
+  </div>
+
+</body>
