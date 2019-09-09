@@ -14,11 +14,12 @@
 
 .conteudo {
   background-color: #f5f8fd;
-  height: 100%
+  height: 100%;
+  padding-bottom: 50px;
 }
 
 .mat-sidenav-container {
-  background-color: #f5f8fd
+  background-color: #f5f8fd;
 }
 
 .iconeLateral {

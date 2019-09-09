@@ -1,0 +1,42 @@
+<title>Cadastrar Pessoa</title>
+<div class="formulario">
+    <h3>Cadastrar Pessoa</h3>
+    <div class="Icones" style="text-align: center">
+        <img src="https://www.w3schools.com/howto/img_avatar.png" class="avatar" alt="Avatar">
+    </div>
+    <br/>
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <mat-form-field [color]="primary" appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field appearance="outline">
+                <mat-label>Sobrenome</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field [color]="primary" appearance="outline">
+                <mat-label>CPF</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </div>
+        <div class="col-sm-6">
+            <mat-form-field>
+                <mat-select placeholder="Tipo de Conta">
+                    <mat-option value="">- Selecione -</mat-option>
+                    <mat-option value="">Administrador</mat-option>
+                    <mat-option value="">Funcionário</mat-option>
+                    <mat-option value="">Usuário</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="botoes">
+        <button mat-raised-button class="mr-4" color="primary">Cadastrar</button>
+        <button mat-raised-button color="warn">Cancelar</button>
+    </div>
+</div>

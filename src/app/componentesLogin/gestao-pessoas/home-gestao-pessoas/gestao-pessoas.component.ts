@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { GetterServices } from 'src/app/_services/getters.service'
+import { GetterServices } from 'src/app/_services/getters.service';
 import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-pessoas-component',
@@ -33,7 +33,7 @@ export class GestaoPessoasComponent implements OnInit {
     return this.opcaoAtiva === opcao;
   };
 
-  buscarLista(){
+  buscarLista() {
     this.getterServices.listaPessoas()
     .pipe(first())
     .subscribe(

@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
-import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/gestao-pessoas.component';
+import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/home-gestao-pessoas/gestao-pessoas.component';
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
 import { AuditoriaComponent } from './auditoria/auditoria.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
@@ -31,7 +31,6 @@ import { RouterModule } from '@angular/router';
 import { MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule, MatPaginatorIntl, MatSelectModule } from '@angular/material';
 import { getPortuguesPaginatorIntl } from './_helpers/traducaoTabela';
-import { SomeService } from './componentesLogin/gestao-pessoas/temporario';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
@@ -43,6 +42,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { MatStepperModule, MatStepperNext } from '@angular/material/stepper';
 import { BottomSheetOverviewExampleSheet } from './componentesSemLogin/login/bottomSheet';
+import { FormGestaoPessoasComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas/form-gestao-pessoas.component';
+import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 
 
 
@@ -66,6 +67,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     ComponentesnavsComponent,
     RegistroComponent,
     BottomSheetOverviewExampleSheet,
+    FormGestaoPessoasComponent,
+    GestaoPessoaControllerComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +103,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatSelectModule,
   ],
   entryComponents: [BottomSheetOverviewExampleSheet],
-  providers: [SomeService,BottomSheetOverviewExampleSheet, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
+  providers: [BottomSheetOverviewExampleSheet, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 

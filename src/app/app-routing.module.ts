@@ -5,7 +5,7 @@ import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
 import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
-import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/gestao-pessoas.component';
+import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/home-gestao-pessoas/gestao-pessoas.component';
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
 import { AuditoriaComponent } from './auditoria/auditoria.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
@@ -13,6 +13,8 @@ import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page
 import { AuthGuard } from './_helpers/auth.guard';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
+import { FormGestaoPessoasComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas/form-gestao-pessoas.component';
+import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 
 const appRoutes: Routes = [
   {
@@ -23,7 +25,10 @@ const appRoutes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'votacao', component: VotacaoComponent, },
-      { path: 'gestaoPessoal', component: GestaoPessoasComponent,  },
+      { path: 'gestaoPessoal', component: GestaoPessoaControllerComponent, children: [
+        {path: '', component: GestaoPessoasComponent},
+        {path: 'novo', component: FormGestaoPessoasComponent}
+      ]},
       { path: 'gestaoUrna', component: GestaoUrnasComponent,  },
       { path: 'auditoria', component: AuditoriaComponent,  },
       { path: 'relatorio', component: RelatorioComponent,  },
@@ -46,7 +51,8 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      appRoutes
+      appRoutes,
+      // { enableTracing: true }
     )
   ],
   exports: [
