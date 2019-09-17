@@ -18,6 +18,14 @@ import * as CryptoJS from 'crypto-js';
 })
 
 export class RegistroComponent implements OnInit {
+  get f() { return this.formulario.controls; }
+
+  // tslint:disable-next-line: variable-name
+  constructor(private _formBuilder: FormBuilder,
+              private router: Router,
+              public snackBar: MatSnackBar,
+              private socket: Socket,
+              private authenticationService: AuthenticationService, ) { }
 
   formulario: FormGroup;
   isEditable = false;
@@ -32,13 +40,8 @@ export class RegistroComponent implements OnInit {
   ];
   resultadoEncriptacao: any;
   digitalReadOnly: boolean;
-  get f() { return this.formulario.controls; }
 
-  constructor(private _formBuilder: FormBuilder,
-    private router: Router,
-    public snackBar: MatSnackBar,
-    private socket: Socket,
-    private authenticationService: AuthenticationService, ) { }
+  @ViewChild(MatStepper, { static: true }) stepper: MatStepper;
 
   ngOnInit() {
     this.digital = true;
@@ -60,22 +63,20 @@ export class RegistroComponent implements OnInit {
   }
 
   getMessages(tipo: string) {
-    if (tipo === 'autenticar'){
-    this.socket.emit("registro", 'mensagemregistro');
-    let observable = new Observable(observer => {
+    if (tipo === 'autenticar') {
+    this.socket.emit('registro', 'mensagemregistro');
+    const observable = new Observable(observer => {
       this.socket.on('registro', (data) => {
-        if (data != 'achou' && data != 'nachou') {
+        if (data !== 'achou' && data !== 'nachou') {
           this.snackBar.open(data, 'Fechar', {
             duration: 2000
           });
-        }
-        else {
+        } else {
           if (data === 'achou') {
             this.stepper.selected.completed = true;
             this.stepper.selected.editable = false;
             this.stepper.next();
-          }
-          else {
+          } else {
             this.snackBar.open('n achou', 'Fechar', {
               duration: 2000
             });
@@ -86,27 +87,25 @@ export class RegistroComponent implements OnInit {
       return () => {
         this.socket.disconnect();
       };
-    })
+    });
     return observable;
-  }
-  else{
-    this.socket.emit("cadastro", 'mensagemcadastro');
-    let observable = new Observable(observer => {
+  } else {
+    this.socket.emit('cadastro', 'mensagemcadastro');
+    const observable = new Observable(observer => {
       this.socket.on('cadastro', (data) => {
-        if (data.indexOf('[') != 0){
+        if (data.indexOf('[') !== 0) {
           this.snackBar.open(data, 'Fechar', {
             duration: 2000
           });
-        }
-        else{
-          this.formulario.controls['valorDigital'].setValue(data);
+        } else {
+          this.formulario.controls.valorDigital.setValue(data);
         }
         observer.next(data);
       });
       return () => {
         this.socket.disconnect();
       };
-    })
+    });
     return observable;
   }
 }
@@ -121,22 +120,23 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  @ViewChild(MatStepper, { static: true }) stepper: MatStepper;
-
   complete(formulario) {
     if (this.formulario.invalid) {
       return;
     }
-    if(formulario.valorDigital != ''){
+    if (formulario.valorDigital !== '') {
       this.valorDigital = formulario.valorDigital;
       this.valorDigital = this.valorDigital.replace(/[ ]*,[ ]*|[ ]+/g, ' ');
-      this.valorDigital = this.valorDigital.slice(1,-3);
-    }
-    else{
+      this.valorDigital = this.valorDigital.slice(1, -3);
+    } else {
       this.valorDigital = 'vazio';
     }
     this.resultadoEncriptacao = CryptoJS.SHA256(formulario.senha).toString();
-    let campos = {Nome: formulario.Nome, CPF: formulario.CPF, tipoConta: formulario.tipoConta, Senha: this.resultadoEncriptacao, Digital: this.valorDigital};
+    const campos = {Nome: formulario.Nome,
+                    CPF: formulario.CPF,
+                    tipoConta: formulario.tipoConta,
+                    Senha: this.resultadoEncriptacao,
+                    Digital: this.valorDigital};
     this.authenticationService.cadastro(campos)
     .pipe(first())
     .subscribe(

@@ -9,7 +9,6 @@ import * as CryptoJS from 'crypto-js';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { MatBottomSheet } from '@angular/material';
-import { BottomSheetOverviewExampleSheet } from './bottomSheet';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +25,6 @@ export class LoginComponent implements OnInit {
   hash: string;
   connection: any;
   messages;
-  static connection: any;
 
   get CPF() { return this.loginForm.get('CPF'); }
   get Senha() { return this.loginForm.get('Senha'); }
@@ -35,12 +33,13 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    public snackBar: MatSnackBar,
-    private authenticationService: AuthenticationService,
-    private route: ActivatedRoute,
-    private socket: Socket,
-    private _bottomSheet: MatBottomSheet,
+              private router: Router,
+              public snackBar: MatSnackBar,
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute,
+              private socket: Socket,
+              // tslint:disable-next-line: variable-name
+              private _bottomSheet: MatBottomSheet,
   ) {
 
     this.loginForm = this.formBuilder.group({
@@ -62,18 +61,15 @@ export class LoginComponent implements OnInit {
   }
 
   getMessages() {
-    this.socket.emit("login", 'mensagem1' + this.f.CPF.value);
-    let observable = new Observable(observer => {
+    this.socket.emit('login', 'mensagem1' + this.f.CPF.value);
+    const observable = new Observable(observer => {
       this.socket.on('login', (data) => {
-        this._bottomSheet.open(BottomSheetOverviewExampleSheet, {
-          data: { mensagem: data },
-        });
         observer.next(data);
       });
       return () => {
         this.socket.disconnect();
       };
-    })
+    });
     return observable;
   }
 
@@ -81,8 +77,7 @@ export class LoginComponent implements OnInit {
     if (this.CPF.valid) {
       this.connection = this.getMessages().subscribe(message => {
       });
-    }
-    else {
+    } else {
       this.snackBar.open('Por favor preencha o CPF', 'Fechar', {
         duration: 2000
       });

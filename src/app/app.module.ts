@@ -41,7 +41,6 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { MatStepperModule, MatStepperNext } from '@angular/material/stepper';
-import { BottomSheetOverviewExampleSheet } from './componentesSemLogin/login/bottomSheet';
 import { FormGestaoPessoasComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas/form-gestao-pessoas.component';
 import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 
@@ -66,7 +65,6 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     ComponentesSemLoginComponent,
     ComponentesnavsComponent,
     RegistroComponent,
-    BottomSheetOverviewExampleSheet,
     FormGestaoPessoasComponent,
     GestaoPessoaControllerComponent,
   ],
@@ -102,8 +100,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatStepperModule,
     MatSelectModule,
   ],
-  entryComponents: [BottomSheetOverviewExampleSheet],
-  providers: [BottomSheetOverviewExampleSheet, { provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
+  entryComponents: [],
+  providers: [{ provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 

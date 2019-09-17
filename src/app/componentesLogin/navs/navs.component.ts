@@ -38,7 +38,7 @@ export class ComponentesnavsComponent implements OnInit {
     if (window.screen.width <= 800) { // 768px portrait
       this.mobile = true;
     }
-    var values = JSON.parse(localStorage.getItem("usuario"));
+    const values = JSON.parse(localStorage.getItem('usuario'));
     this.Nome = values.Nome;
   }
 

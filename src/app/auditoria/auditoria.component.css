@@ -1,0 +1,6 @@
+table{
+    width: 90%
+}
+::ng-deep .mat-paginator{
+    width: 90%
+}
