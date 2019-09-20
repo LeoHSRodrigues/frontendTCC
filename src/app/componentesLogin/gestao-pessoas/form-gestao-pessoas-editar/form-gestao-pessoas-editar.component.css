@@ -54,3 +54,40 @@ h3 {
     height: 100px;
     width: auto;
 }
+.validacao{
+    font-size: 13px;
+}
+.fa-fingerprint {
+	display: inline-block;
+	-moz-animation: pulse 3.5s infinite linear;
+	-o-animation: pulse 3.5s infinite linear;
+	-webkit-animation: pulse 3.5s infinite linear;
+    animation: pulse 3.5s infinite linear;
+    cursor: pointer;
+}
+
+@-webkit-keyframes pulse {
+	0% { opacity: 1; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@-moz-keyframes pulse {
+	0% { opacity: 1; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@-o-keyframes pulse {
+	0% { opacity: 1; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@-ms-keyframes pulse {
+	0% { opacity: 1; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@keyframes pulse {
+	0% { opacity: 1; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}

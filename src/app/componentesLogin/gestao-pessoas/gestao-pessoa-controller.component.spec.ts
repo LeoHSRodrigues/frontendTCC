@@ -8,7 +8,7 @@ describe('GestaoPessoaControllerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GestaoPessoaControllerComponent ]
+      declarations: [ GestaoPessoaControllerComponent ],
     })
     .compileComponents();
   }));

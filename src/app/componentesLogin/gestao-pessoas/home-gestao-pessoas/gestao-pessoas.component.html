@@ -38,7 +38,8 @@
                     <br>
                     <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">{{listaPessoas.tipoConta}}</span><br>
                     <hr>
-                    <button mat-stroked-button>Visualizar</button>
+                    <button mat-stroked-button (click)="visualizarPerfil(listaPessoas.CPF)">Visualizar</button>
+                    <button mat-stroked-button style="margin-left: 10%" (click)="apagar(listaPessoas.CPF)">Apagar</button>
                 </div>
             </div>
         </div>

@@ -1,10 +1,10 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthenticationService } from './_services/authentication.service';
 import { Title } from '@angular/platform-browser';
-import { map, shareReplay } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { map, shareReplay } from 'rxjs/operators';
+import { AuthenticationService } from './_services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -15,20 +15,20 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 export class AppComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
   .pipe(
-    map(result => result.matches),
-    shareReplay()
+    map((result) => result.matches),
+    shareReplay(),
   );
+  mobile: boolean;
+
+  title: string;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authenticationService: AuthenticationService,
     public router: Router,
-    private titleService: Title
+    private titleService: Title,
     ) {
   }
-  mobile: boolean;
-
-  title: string;
 
   ngOnInit() {
     this.mobile = false;

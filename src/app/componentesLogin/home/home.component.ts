@@ -3,39 +3,39 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {
-  }
   public rede = [
     {
       name: 'Uso médio de rede',
-      value: 514250
+      value: 514250,
     },
   ];
 
   public cpu = [
     {
       name: 'Uso médio de CPU',
-      value: 2500
+      value: 2500,
     },
   ];
 
   public memoria = [
     {
       name: 'Uso médio de memória',
-      value: 524288000
+      value: 524288000,
     },
   ];
   public disco = [
     {
       name: 'Uso médio de disco',
-      value: 25000000
+      value: 25000000,
     },
   ];
 
   colorScheme = {domain: ['#ffffff']};
+  constructor() {
+  }
   ngOnInit() {
   }
   public gaugeValueFormatting = (valor: string) => {

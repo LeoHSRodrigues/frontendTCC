@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './_helpers/auth.guard';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './componentesSemLogin/login/login.component';
-import { HomeComponent } from './componentesLogin/home/home.component';
+import { AuditoriaComponent } from './componentesLogin/auditoria/auditoria.component';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
-import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoPessoasEditarComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas-editar/form-gestao-pessoas-editar.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoPessoasNovoComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas-novo/form-gestao-pessoas-novo.component';
+import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/home-gestao-pessoas/gestao-pessoas.component';
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
-import { AuditoriaComponent } from './auditoria/auditoria.component';
+import { HomeComponent } from './componentesLogin/home/home.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
-import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
-import { AuthGuard } from './_helpers/auth.guard';
+import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
+import { LoginComponent } from './componentesSemLogin/login/login.component';
+import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
-import { FormGestaoPessoasComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas/form-gestao-pessoas.component';
-import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 
 const appRoutes: Routes = [
   {
@@ -24,15 +27,16 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
-      { path: 'votacao', component: VotacaoComponent, },
+      { path: 'votacao', component: VotacaoComponent },
       { path: 'gestaoPessoal', component: GestaoPessoaControllerComponent, children: [
         {path: '', component: GestaoPessoasComponent},
-        {path: 'novo', component: FormGestaoPessoasComponent}
+        {path: 'novo', component: FormGestaoPessoasNovoComponent},
+        {path: 'editar/:id', component: FormGestaoPessoasEditarComponent},
       ]},
-      { path: 'gestaoUrna', component: GestaoUrnasComponent,  },
-      { path: 'auditoria', component: AuditoriaComponent,  },
-      { path: 'relatorio', component: RelatorioComponent,  },
-    ]
+      { path: 'gestaoUrna', component: GestaoUrnasComponent  },
+      { path: 'auditoria', component: AuditoriaComponent  },
+      { path: 'relatorio', component: RelatorioComponent  },
+    ],
   },
   {
     path: '',
@@ -40,12 +44,12 @@ const appRoutes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
       },
     ],
   },
   {path: 'registrar', component: RegistroComponent},
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
@@ -53,11 +57,11 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       // { enableTracing: true }
-    )
+    ),
   ],
   exports: [
-    RouterModule
-  ]
+    RouterModule,
+  ],
 })
 
 

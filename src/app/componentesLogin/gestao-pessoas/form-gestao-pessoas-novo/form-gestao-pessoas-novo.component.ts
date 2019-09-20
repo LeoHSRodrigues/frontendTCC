@@ -1,52 +1,41 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar, MatStepper } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { Validacoes } from '../login/validacoes';
-import { MustMatch } from './validacoes';
-
+import { Validacoes } from 'src/app/componentesSemLogin/login/validacoes';
+import { MustMatch } from 'src/app/componentesSemLogin/registro/validacoes';
 
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.css'],
+  selector: 'app-form-gestao-pessoas',
+  templateUrl: './form-gestao-pessoas-novo.component.html',
+  styleUrls: ['./form-gestao-pessoas-novo.component.css'],
 })
 
-export class RegistroComponent implements OnInit {
-  get f() { return this.formulario.controls; }
-
+export class FormGestaoPessoasNovoComponent implements OnInit {
   formulario: FormGroup;
-  isEditable = false;
-  CPF: any;
+  resultadoEncriptacao: any;
+  valorDigital: any;
+  stepper: any;
   connection: any;
-  digital: boolean;
-  valorDigital: string;
+  get f() { return this.formulario.controls; }
   conta = [
     { valor: 'Admin', label: 'Administrador' },
     { valor: 'Func', label: 'Funcionário' },
     { valor: 'User', label: 'Usuário' },
   ];
-  resultadoEncriptacao: any;
-  digitalReadOnly: boolean;
-
-  @ViewChild(MatStepper, { static: true }) stepper: MatStepper;
-
-  // tslint:disable-next-line: variable-name
-  constructor(private _formBuilder: FormBuilder,
-              private router: Router,
-              public snackBar: MatSnackBar,
+  constructor(private router: Router,
               private socket: Socket,
-              private authenticationService: AuthenticationService ) { }
+              private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService,
+              private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
-    this.digital = true;
-    this.digitalReadOnly = false;
-    this.formulario = this._formBuilder.group({
+    this.formulario = this.formBuilder.group({
       Nome: ['', Validators.required],
       CPF: ['', Validators.compose([Validators.required, Validators.minLength(11), Validacoes])],
       tipoConta: ['', Validators.required],
@@ -54,12 +43,8 @@ export class RegistroComponent implements OnInit {
       confirmaSenha: ['', Validators.required],
       valorDigital: [''],
     }, {
-        validator: MustMatch('senha', 'confirmaSenha'),
-      });
-  }
-  voltar(event) {
-    event.preventDefault();
-    this.router.navigate(['login']);
+      validator: MustMatch('senha', 'confirmaSenha'),
+    });
   }
 
   getMessages(tipo: string) {
@@ -110,9 +95,9 @@ export class RegistroComponent implements OnInit {
   }
 }
 
-  lerDigital() {
-    this.connection = this.getMessages('autenticar').subscribe((message) => {
-    });
+  voltar(event) {
+    event.preventDefault();
+    this.router.navigate(['gestaoPessoal']);
   }
 
   cadastrarDigital() {
@@ -120,7 +105,7 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  complete(formulario) {
+  onSubmit(formulario) {
     if (this.formulario.invalid) {
       return;
     }
@@ -132,23 +117,26 @@ export class RegistroComponent implements OnInit {
       this.valorDigital = 'vazio';
     }
     this.resultadoEncriptacao = CryptoJS.SHA256(formulario.senha).toString();
-    const campos = {Nome: formulario.Nome,
-                    CPF: formulario.CPF,
-                    tipoConta: formulario.tipoConta,
-                    Senha: this.resultadoEncriptacao,
-                    Digital: this.valorDigital};
+    const campos = {
+      Nome: formulario.Nome,
+      CPF: formulario.CPF,
+      tipoConta: formulario.tipoConta,
+      Senha: this.resultadoEncriptacao,
+      Digital: this.valorDigital,
+    };
     this.authenticationService.cadastro(campos)
-    .pipe(first()).subscribe((data) => {
-        if (data === 'cadastrado') {
-      this.stepper.selected.completed = true;
-      this.stepper.selected.editable = false;
-      this.stepper.next();
-        }
-      },
-      (error) => {
-        this.snackBar.open('CPF já cadastrado no sistema', 'Fechar', {
-          duration: 2000,
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data === 'cadastrado') {
+            localStorage.setItem('mensagem', campos.Nome + ' cadastrado(a) com sucesso!');
+            this.router.navigate(['gestaoPessoal']);
+          }
+        },
+        (error) => {
+          this.snackBar.open('CPF já cadastrado', 'Fechar', {
+            duration: 2000,
+          });
         });
-      });
   }
 }

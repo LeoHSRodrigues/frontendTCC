@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navs.component.html',
-  styleUrls: ['./navs.component.css']
+  styleUrls: ['./navs.component.css'],
 })
 export class ComponentesnavsComponent implements OnInit {
 
@@ -17,20 +17,20 @@ export class ComponentesnavsComponent implements OnInit {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
   .pipe(
-    map(result => result.matches),
-    shareReplay()
+    map((result) => result.matches),
+    shareReplay(),
   );
+  mobile: boolean;
+
+  title: string;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authenticationService: AuthenticationService,
     public router: Router,
-    private titleService: Title
+    private titleService: Title,
     ) {
   }
-  mobile: boolean;
-
-  title: string;
 
   ngOnInit() {
     this.mobile = false;

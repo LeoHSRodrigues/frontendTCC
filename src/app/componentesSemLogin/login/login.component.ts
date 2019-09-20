@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Validacoes } from './validacoes';
-import { Router, ActivatedRoute } from '@angular/router';
+import { MatBottomSheet } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthenticationService } from '../../_services/authentication.service';
-import { first } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { Socket } from 'ngx-socket-io';
 import { Observable } from 'rxjs';
-import { MatBottomSheet } from '@angular/material';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from '../../_services/authentication.service';
+import { Validacoes } from './validacoes';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       CPF: ['', Validators.compose([Validators.required, Validators.minLength(11), Validacoes])],
       Senha: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      Lembrar: false
+      Lembrar: false,
     });
     if (localStorage.getItem('lembrar')) {
       this.loginForm.controls.CPF.setValue(localStorage.getItem('lembrar'));
@@ -62,8 +62,20 @@ export class LoginComponent implements OnInit {
 
   getMessages() {
     this.socket.emit('login', 'mensagem1' + this.f.CPF.value);
-    const observable = new Observable(observer => {
+    const observable = new Observable((observer) => {
       this.socket.on('login', (data) => {
+        if (typeof data !== 'object' && data !== null) {
+          this.snackBar.open(data, 'Fechar', {
+            duration: 2000,
+          });
+      } else {
+          this.authenticationService.loginDigital(data);
+          if (this.route.snapshot.queryParamMap.get('returnUrl')) {
+              this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
+          } else {
+              this.router.navigate(['home']);
+          }
+        }
         observer.next(data);
       });
       return () => {
@@ -75,11 +87,11 @@ export class LoginComponent implements OnInit {
 
   lerDigital() {
     if (this.CPF.valid) {
-      this.connection = this.getMessages().subscribe(message => {
+      this.connection = this.getMessages().subscribe((message) => {
       });
     } else {
       this.snackBar.open('Por favor preencha o CPF', 'Fechar', {
-        duration: 2000
+        duration: 2000,
       });
     }
   }
@@ -97,7 +109,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.f.CPF.value, this.resultadoEncriptacao)
       .pipe(first())
       .subscribe(
-        data => {
+        (data) => {
           if (this.f.Lembrar.value === true) {
             localStorage.setItem('lembrar', this.f.CPF.value);
           } else {
@@ -109,9 +121,9 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['home']);
           }
         },
-        error => {
+        (error) => {
           this.snackBar.open('CPF ou Senha incorreto', 'Fechar', {
-            duration: 2000
+            duration: 2000,
           });
         });
   }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { FormGestaoPessoasComponent } from './form-gestao-pessoas-editar.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('FormGestaoPessoasComponent', () => {
+  let component: FormGestaoPessoasComponent;
+  let fixture: ComponentFixture<FormGestaoPessoasComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ],
+      declarations: [ FormGestaoPessoasComponent ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(FormGestaoPessoasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
