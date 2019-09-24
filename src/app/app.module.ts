@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatPaginatorIntl, MatPaginatorModule, MatSelectModule } from '@angular/material';
+import { MatDialog, MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatSelectModule } from '@angular/material';
 import { MatBadgeModule} from '@angular/material/badge';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule} from '@angular/material/button';
@@ -31,13 +31,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuditoriaComponent } from './componentesLogin/auditoria/auditoria.component';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
+import { DialogoConfirmacaoComponent } from './componentesLogin/dialogo-confirmacao/dialogo-confirmacao.component';
 // tslint:disable-next-line: max-line-length
 import { FormGestaoPessoasEditarComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas-editar/form-gestao-pessoas-editar.component';
 // tslint:disable-next-line: max-line-length
 import { FormGestaoPessoasNovoComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas-novo/form-gestao-pessoas-novo.component';
 import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/home-gestao-pessoas/gestao-pessoas.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoUrnaEditarComponent } from './componentesLogin/gestao-urnas/form-gestao-urna-editar/form-gestao-urna-editar.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoUrnaNovoComponent } from './componentesLogin/gestao-urnas/form-gestao-urna-novo/form-gestao-urna-novo.component';
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
+// tslint:disable-next-line: max-line-length
+import { HomeGestaoUrnaComponent } from './componentesLogin/gestao-urnas/home-gestao-urna/home-gestao-urna.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { ComponentesnavsComponent } from './componentesLogin/navs/navs.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
@@ -68,6 +75,10 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     FormGestaoPessoasNovoComponent,
     FormGestaoPessoasEditarComponent,
     GestaoPessoaControllerComponent,
+    DialogoConfirmacaoComponent,
+    FormGestaoUrnaEditarComponent,
+    FormGestaoUrnaNovoComponent,
+    HomeGestaoUrnaComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,10 +111,11 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatProgressSpinnerModule,
     MatStepperModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],
-  entryComponents: [],
+  entryComponents: [DialogoConfirmacaoComponent],
   providers: [{ provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
 })
 

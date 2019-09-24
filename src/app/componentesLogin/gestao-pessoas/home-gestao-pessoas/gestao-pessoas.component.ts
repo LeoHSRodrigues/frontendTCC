@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { GetterServices } from 'src/app/_services/getters.service';
+import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
+
 @Component({
   selector: 'app-pessoas-component',
   templateUrl: './gestao-pessoas.component.html',
@@ -18,7 +20,8 @@ export class GestaoPessoasComponent implements OnInit {
   constructor(private getterServices: GetterServices,
               private router: Router,
               private snackBar: MatSnackBar,
-              ) { }
+              public dialog: MatDialog,
+  ) { }
 
   ngOnInit() {
     this.buscarLista();
@@ -46,15 +49,15 @@ export class GestaoPessoasComponent implements OnInit {
 
   buscarLista() {
     this.getterServices.listaPessoas()
-    .pipe(first())
-    .subscribe(
-      (data) => {
-        this.pessoas = data;
-        return data;
-      },
-      (error) => {
-        console.log(error);
-      });
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.pessoas = data;
+          return data;
+        },
+        (error) => {
+          console.log(error);
+        });
   }
 
   visualizarPerfil(id) {
@@ -62,16 +65,29 @@ export class GestaoPessoasComponent implements OnInit {
   }
 
   apagar(id) {
-    this.getterServices.apagarPessoa(id)
-    .pipe(first())
-    .subscribe(
-      (data) => {
-        this.pessoas = data;
-        return data;
-      },
-      (error) => {
-        console.log(error);
-      });
+    this.openDialog(id);
+  }
+
+  openDialog(id): void {
+    const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
+      width: '350px',
+      data: 'Deseja realmente apagar este registro?',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getterServices.apagarPessoa(id)
+          .pipe(first())
+          .subscribe(
+            (data) => {
+              this.ngOnInit();
+              return ;
+            },
+            (error) => {
+              console.log(error);
+            });
+      }
+    });
   }
 
 

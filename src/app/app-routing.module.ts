@@ -10,6 +10,10 @@ import { FormGestaoPessoasEditarComponent } from './componentesLogin/gestao-pess
 import { FormGestaoPessoasNovoComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas-novo/form-gestao-pessoas-novo.component';
 import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/home-gestao-pessoas/gestao-pessoas.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoUrnaEditarComponent } from './componentesLogin/gestao-urnas/form-gestao-urna-editar/form-gestao-urna-editar.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoUrnaNovoComponent } from './componentesLogin/gestao-urnas/form-gestao-urna-novo/form-gestao-urna-novo.component';
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
@@ -18,6 +22,7 @@ import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesS
 import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
+import { HomeGestaoUrnaComponent } from './componentesLogin/gestao-urnas/home-gestao-urna/home-gestao-urna.component';
 
 const appRoutes: Routes = [
   {
@@ -33,7 +38,11 @@ const appRoutes: Routes = [
         {path: 'novo', component: FormGestaoPessoasNovoComponent},
         {path: 'editar/:id', component: FormGestaoPessoasEditarComponent},
       ]},
-      { path: 'gestaoUrna', component: GestaoUrnasComponent  },
+      { path: 'gestaoUrna', component: GestaoUrnasComponent, children: [
+        {path: '', component: HomeGestaoUrnaComponent},
+        {path: 'novo', component: FormGestaoUrnaNovoComponent},
+        {path: 'editar/:id', component: FormGestaoUrnaEditarComponent},
+      ]},
       { path: 'auditoria', component: AuditoriaComponent  },
       { path: 'relatorio', component: RelatorioComponent  },
     ],
