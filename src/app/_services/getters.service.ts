@@ -33,6 +33,16 @@ export class GetterServices {
                 }
             }));
     }
+    listaUrnas() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/listaUrnas`)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
 
     buscarPessoa(id) {
         return this.http.get<any>(`http://127.0.0.1:8000/api/buscarPessoa/` + id)

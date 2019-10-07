@@ -5,6 +5,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { first } from 'rxjs/operators';
 import { GetterServices } from 'src/app/_services/getters.service';
 
+
 let logData: Urna[] = [
 ];
 
@@ -13,6 +14,7 @@ let logData: Urna[] = [
   templateUrl: './home-gestao-urna.component.html',
   styleUrls: ['./home-gestao-urna.component.css'],
 })
+
 export class HomeGestaoUrnaComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -30,7 +32,7 @@ export class HomeGestaoUrnaComponent implements OnInit {
   }
 
   buscarLista() {
-    this.getterServices.listaLogs()
+    this.getterServices.listaUrnas()
     .pipe(first())
     .subscribe(
       (data) => {

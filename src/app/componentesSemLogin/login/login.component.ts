@@ -104,8 +104,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.resultadoEncriptacao = CryptoJS.SHA256(this.f.Senha.value).toString();
-    this.hash = CryptoJS.SHA256(this.f.Senha.value);
-
     this.authenticationService.login(this.f.CPF.value, this.resultadoEncriptacao)
       .pipe(first())
       .subscribe(

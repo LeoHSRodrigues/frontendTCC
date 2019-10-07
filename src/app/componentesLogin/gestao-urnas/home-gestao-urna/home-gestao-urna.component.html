@@ -1,31 +1,46 @@
 <title>Gestão de Auditoria</title>
-<span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/gestaoUrna/novo" color="primary">Cadastrar
+<div class="pb-5">
+  <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/gestaoUrna/novo" color="primary">Cadastrar
     Urna</button></span>
+</div>
 <div class="teste">
 
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table class="tabela" [dataSource]="dataSource" matSort>
       
           <!-- Position Column -->
           <ng-container matColumnDef="CPF">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> CPF Responsável </th>
-            <td mat-cell *matCellDef="let urna"> {{urna.CPF}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> UUID </th>
+            <td mat-cell *matCellDef="let urna"> {{urna.UUID}} </td>
           </ng-container>
       
           <!-- Name Column -->
           <ng-container matColumnDef="Acao">
-            <th mat-header-cell *matHeaderCellDef> Ação </th>
-            <td mat-cell *matCellDef="let urna"> {{urna.Acao}} </td>
+            <th mat-header-cell *matHeaderCellDef> Apelido </th>
+            <td mat-cell *matCellDef="let urna"> {{urna.Apelido}} </td>
           </ng-container>
       
           <!-- Weight Column -->
           <ng-container matColumnDef="Data">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
-            <td mat-cell *matCellDef="let urna"> {{urna.Data}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="align-right"> Ações </th>
+            <td mat-cell *matCellDef="let urna" class="align-right"> 
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Apagar</span>
+              </button>
+            </mat-menu> </td>
           </ng-container>
       
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       
-        <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+        <mat-paginator class="tabela" [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
       </div>
