@@ -15,6 +15,7 @@ import { FormGestaoUrnaEditarComponent } from './componentesLogin/gestao-urnas/f
 // tslint:disable-next-line: max-line-length
 import { FormGestaoUrnaNovoComponent } from './componentesLogin/gestao-urnas/form-gestao-urna-novo/form-gestao-urna-novo.component';
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
+import { HomeGestaoUrnaComponent } from './componentesLogin/gestao-urnas/home-gestao-urna/home-gestao-urna.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
 import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
@@ -22,7 +23,7 @@ import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesS
 import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
-import { HomeGestaoUrnaComponent } from './componentesLogin/gestao-urnas/home-gestao-urna/home-gestao-urna.component';
+import { VotarComponent } from './componentesSemLogin/votar/votar.component';
 
 const appRoutes: Routes = [
   {
@@ -33,18 +34,22 @@ const appRoutes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'votacao', component: VotacaoComponent },
-      { path: 'gestaoPessoal', component: GestaoPessoaControllerComponent, children: [
-        {path: '', component: GestaoPessoasComponent},
-        {path: 'novo', component: FormGestaoPessoasNovoComponent},
-        {path: 'editar/:id', component: FormGestaoPessoasEditarComponent},
-      ]},
-      { path: 'gestaoUrna', component: GestaoUrnasComponent, children: [
-        {path: '', component: HomeGestaoUrnaComponent},
-        {path: 'novo', component: FormGestaoUrnaNovoComponent},
-        {path: 'editar/:id', component: FormGestaoUrnaEditarComponent},
-      ]},
-      { path: 'auditoria', component: AuditoriaComponent  },
-      { path: 'relatorio', component: RelatorioComponent  },
+      {
+        path: 'gestaoPessoal', component: GestaoPessoaControllerComponent, children: [
+          { path: '', component: GestaoPessoasComponent },
+          { path: 'novo', component: FormGestaoPessoasNovoComponent },
+          { path: 'editar/:id', component: FormGestaoPessoasEditarComponent },
+        ],
+      },
+      {
+        path: 'gestaoUrna', component: GestaoUrnasComponent, children: [
+          { path: '', component: HomeGestaoUrnaComponent },
+          { path: 'novo', component: FormGestaoUrnaNovoComponent },
+          { path: 'editar/:id', component: FormGestaoUrnaEditarComponent },
+        ],
+      },
+      { path: 'auditoria', component: AuditoriaComponent },
+      { path: 'relatorio', component: RelatorioComponent },
     ],
   },
   {
@@ -57,7 +62,8 @@ const appRoutes: Routes = [
       },
     ],
   },
-  {path: 'registrar', component: RegistroComponent},
+  { path: 'votar', component: VotarComponent },
+  { path: 'registrar', component: RegistroComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
 

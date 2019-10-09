@@ -26,6 +26,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { ProximoDirective } from './_helpers/proximo.directive';
 import { getPortuguesPaginatorIntl } from './_helpers/traducaoTabela';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,6 +54,7 @@ import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesS
 import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
+import { VotarComponent } from './componentesSemLogin/votar/votar.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
@@ -79,6 +81,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     FormGestaoUrnaEditarComponent,
     FormGestaoUrnaNovoComponent,
     HomeGestaoUrnaComponent,
+    VotarComponent,
+    ProximoDirective,
   ],
   imports: [
     BrowserModule,
