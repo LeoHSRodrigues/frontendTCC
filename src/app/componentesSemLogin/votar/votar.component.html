@@ -3,18 +3,18 @@
 </head>
 <div class="flex-container formNumeros flex-container-style fixed-height">
     <div class="flex-item">
-        <input type="text" name="n" [primeiroInput] maxlength="1" [appProximoDirective]="input2" #input1 class="inputNumero" id="primeiroInput">
+        <input type="text" name="n" [primeiroInput] maxlength="1" [appAnteriorDirective]="input1" [appProximoDirective]="input2" #input1 class="inputNumero" id="primeiroInput">
     </div>
     <div class="flex-item">
-        <input type="text" name="n" maxlength="1" [appProximoDirective]="input3" #input2 class="inputNumero" id="">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input1" [appProximoDirective]="input3" #input2 class="inputNumero" id="">
     </div>
     <div class="flex-item">
-        <input type="text" name="n" maxlength="1" [appProximoDirective]="input4" #input3 class="inputNumero" id="">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input2" [appProximoDirective]="input4" #input3 class="inputNumero" id="">
     </div>
     <div class="flex-item">
-        <input type="text" name="n" maxlength="1" [appProximoDirective]="input5" #input4 class="inputNumero" id="">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input3" [appProximoDirective]="input5" #input4 class="inputNumero" id="">
     </div>
     <div class="flex-item">
-        <input type="text" name="n" maxlength="1" [appProximoDirective]="input5" #input5 class="inputNumero" id="">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input4" [appProximoDirective]="input5" #input5 class="inputNumero" id="">
     </div>
 </div>

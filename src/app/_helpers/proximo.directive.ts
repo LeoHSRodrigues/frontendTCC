@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[appProximoDirective],[primeiroInput]',
@@ -6,37 +6,40 @@ import { AfterViewInit, Directive, ElementRef, HostListener, Input, Renderer2, V
 export class ProximoDirective implements AfterViewInit {
 
   @Input('appProximoDirective') appProximoDirective;
+  @Input('appAnteriorDirective') appAnteriorDirective;
   @Input('primeiroInput') primeiroInput;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
+  constructor(private el: ElementRef, private renderer: Renderer2) {    const aa = new Event('input', {
+    bubbles: true,
+    cancelable: true,
+}); }
 
   ngAfterViewInit() {
-    // this.el.nativeElement.focus();
-    // this.renderer.selectRootElement(this.primeiroInput.focus());
     this.renderer.selectRootElement('#primeiroInput').focus();
-  //   setTimeout(() => {
-  //     console.log(this.el);
-  //     this.el.nativeElement.focus();
-
-  // }, 500);
-    // this.primeiroInput.nativeElement.focus();
   }
 
-  @HostListener('input', ['$event.target']) onInput(input) {
+  @HostListener('input', ['$event.target'])
+  onInput(input) {
     const length = input.value.length;
     const maxLength = input.attributes.maxlength.value;
-    console.log(this.appProximoDirective);
     if (length >= maxLength) {
       this.appProximoDirective.focus();
+    }
+    if (length === 0 ) {
+      this.appAnteriorDirective.focus();
     }
   }
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent) {
+  //   const aa = new Event('input', {
+  //     bubbles: true,
+  //     cancelable: true,
+  // });
     if (
-      [8].indexOf(e.keyCode) !== -1) {
-      return;  // let it happen, don't do anything
+      e.keyCode === 8) {
+        // e.target.dispatchEvent(aa);
+        return;
     }
-    // Ensure that it is a number and stop the keypress
     if (
       (e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) &&
       (e.keyCode < 96 || e.keyCode > 105)
