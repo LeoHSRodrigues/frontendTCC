@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-pessoas-component',
@@ -76,16 +77,24 @@ export class GestaoPessoasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.getterServices.apagarPessoa(id)
-          .pipe(first())
-          .subscribe(
-            (data) => {
-              this.ngOnInit();
-              return ;
-            },
-            (error) => {
-              console.log(error);
-            });
+        const values = JSON.parse(localStorage.getItem('usuario'));
+        if (id === values.CPF) {
+          this.snackBar.open('Não é possível apagar sua conta enquanto você estiver logado', 'Fechar', {
+            duration: 3000,
+          });
+          return ;
+        } else {
+          this.getterServices.apagarPessoa(id)
+            .pipe(first())
+            .subscribe(
+              (data) => {
+                this.ngOnInit();
+                return ;
+              },
+              (error) => {
+                console.log(error);
+              });
+        }
       }
     });
   }

@@ -19,6 +19,7 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
   formulario: FormGroup;
   resultadoEncriptacao: any;
   valorDigital: any;
+  senhaNova: any;
   stepper: any;
   connection: any;
   resultadoPessoa: string;
@@ -48,8 +49,8 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
       Nome: ['', Validators.required],
       CPF: ['', Validators.compose([Validators.required, Validators.minLength(11), Validacoes])],
       tipoConta: ['', Validators.required],
-      senha: [''],
-      confirmaSenha: [''],
+      senha: ['', [Validators.required, Validators.minLength(8)]],
+      confirmaSenha: ['', Validators.required],
       valorDigital: [''],
     }, {
       validator: MustMatch('senha', 'confirmaSenha'),
@@ -123,6 +124,8 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
         this.formulario.controls.Nome.setValue(data.Nome);
         this.formulario.controls.CPF.setValue(data.CPF);
         this.formulario.controls.tipoConta.setValue(data.tipoConta);
+        this.formulario.controls.senha.setValue(data.Senha);
+        this.formulario.controls.confirmaSenha.setValue(data.Senha);
       },
       (error) => {
         localStorage.setItem('mensagem', ' Erro, cadastro não encontrado!');
@@ -142,15 +145,20 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
     } else {
       this.valorDigital = 'vazio';
     }
-    this.resultadoEncriptacao = CryptoJS.SHA256(formulario.senha).toString();
+    const calculaSenha = String(formulario.senha);
+    if (calculaSenha.length >= 64) {
+      this.senhaNova = formulario.senha;
+    } else {
+      this.senhaNova = CryptoJS.SHA256(formulario.senha).toString();
+    }
     const campos = {
       Nome: formulario.Nome,
       CPF: formulario.CPF,
       tipoConta: formulario.tipoConta,
-      Senha: this.resultadoEncriptacao,
+      Senha: this.senhaNova,
       Digital: this.valorDigital,
     };
-    this.authenticationService.atualizar(campos)
+    this.authenticationService.atualizarPessoa(campos)
       .pipe(first())
       .subscribe(
         (data) => {

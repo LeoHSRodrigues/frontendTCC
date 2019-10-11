@@ -66,8 +66,18 @@ export class AuthenticationService {
         }));
     }
 
-    atualizar(formulario) {
-       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizar`, {formulario})
+    atualizarPessoa(formulario) {
+       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarPessoa`, {formulario})
+        .pipe(map((aa) => {
+            if (aa != null) {
+                return 'cadastrado';
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
+    }
+    atualizarUrna(formulario) {
+       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarUrna`, {formulario})
         .pipe(map((aa) => {
             if (aa != null) {
                 return 'cadastrado';

@@ -54,8 +54,28 @@ export class GetterServices {
                 }
             }));
     }
+    buscarUrna(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/buscarUrna/` + id)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
     apagarPessoa(id) {
         return this.http.get<any>(`http://127.0.0.1:8000/api/apagarPessoa/` + id)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    apagarUrna(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/apagarUrna/` + id)
             .pipe(map((user) => {
                 if (user !== null) {
                     return user;
