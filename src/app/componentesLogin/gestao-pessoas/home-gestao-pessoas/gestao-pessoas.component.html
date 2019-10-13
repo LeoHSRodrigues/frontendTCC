@@ -30,7 +30,7 @@
 
         <div class="col" *ngFor="let listaPessoas of pessoas">
             <div class="card ">
-                <img class="card-img-top iconeImagem" src="https://www.w3schools.com/howto/img_avatar.png"
+                <img class="card-img-top iconeImagem" [src]="listaPessoas.Foto ? listaPessoas.Foto : 'https://www.groundai.com/static/groundai/img/avatar-placeholder.png'"
                     alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{listaPessoas.Nome}}</h5>

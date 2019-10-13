@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 import { PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { Socket } from 'ngx-socket-io';
@@ -24,8 +25,9 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
   connection: any;
   resultadoPessoa: string;
   id: string;
-  fragment: any;
-  queryParams: any;
+  url: any;
+  Foto: any;
+  fotoFinal: any;
   get f() { return this.formulario.controls; }
   conta = [
     { valor: 'Admin', label: 'Administrador' },
@@ -37,7 +39,8 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
               private formBuilder: FormBuilder,
               private authenticationService: AuthenticationService,
               private snackBar: MatSnackBar,
-              private getterServices: GetterServices ) {
+              private getterServices: GetterServices,
+              private sanitizer: DomSanitizer ) {
                 const tree: UrlTree = router.parseUrl(this.router.url);
                 const g: UrlSegmentGroup = tree.root.children[PRIMARY_OUTLET];
                 const s: UrlSegment[] = g.segments;
@@ -52,9 +55,33 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
       senha: ['', [Validators.required, Validators.minLength(8)]],
       confirmaSenha: ['', Validators.required],
       valorDigital: [''],
+      foto: [''],
     }, {
       validator: MustMatch('senha', 'confirmaSenha'),
     });
+  }
+
+  onSelectFile(imagem) {
+    if (imagem.target.files[0].type !== 'image/png' && imagem.target.files[0].type !== 'image/jpeg') {
+      this.snackBar.open('Tipo de arquivo não permitido', 'Fechar', {
+        duration: 2000,
+      });
+      this.formulario.controls.foto.setValue('');
+      this.Foto = '';
+      return;
+    }
+    if (imagem.target.files && imagem.target.files[0]) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(imagem.target.files[0]);
+
+      reader.onload = (resultadoImagem) => {
+        this.Foto = (resultadoImagem.target as FileReader).result;
+      };
+      this.formulario.patchValue({
+        foto: imagem.target.files[0],
+      });
+    }
   }
 
   getMessages(tipo: string) {
@@ -120,12 +147,17 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
     .pipe(first())
     .subscribe(
       (data) => {
-        this.formulario.controls.valorDigital.setValue(data.Digital);
+        if (data.Digital === 'undefined') {
+          this.formulario.controls.valorDigital.setValue('');
+        } else {
+          this.formulario.controls.valorDigital.setValue(data.Digital);
+        }
         this.formulario.controls.Nome.setValue(data.Nome);
         this.formulario.controls.CPF.setValue(data.CPF);
         this.formulario.controls.tipoConta.setValue(data.tipoConta);
         this.formulario.controls.senha.setValue(data.Senha);
         this.formulario.controls.confirmaSenha.setValue(data.Senha);
+        this.Foto = this.sanitizer.bypassSecurityTrustUrl('http://' + data.Foto);
       },
       (error) => {
         console.log(error);
@@ -146,29 +178,28 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
     } else {
       this.valorDigital = 'vazio';
     }
-    const calculaSenha = String(formulario.senha);
-    if (calculaSenha.length >= 64) {
-      this.senhaNova = formulario.senha;
+    if (formulario.foto !== undefined && formulario.foto !== '') {
+      this.fotoFinal = formulario.foto;
     } else {
-      this.senhaNova = CryptoJS.SHA256(formulario.senha).toString();
+      this.fotoFinal = 'vazio';
     }
-    const campos = {
-      Nome: formulario.Nome,
-      CPF: formulario.CPF,
-      tipoConta: formulario.tipoConta,
-      Senha: this.senhaNova,
-      Digital: this.valorDigital,
-    };
-    this.authenticationService.atualizarPessoa(campos)
+    this.resultadoEncriptacao = CryptoJS.SHA256(formulario.senha).toString();
+    const formData: FormData = new FormData();
+    formData.append('Nome', formulario.Nome);
+    formData.append('CPF', formulario.CPF);
+    formData.append('tipoConta', formulario.tipoConta);
+    formData.append('Senha', this.resultadoEncriptacao);
+    formData.append('Digital', formulario.Digital);
+    formData.append('Foto', this.fotoFinal);
+    this.authenticationService.atualizarPessoa(formData)
       .pipe(first())
       .subscribe(
         (data) => {
-          if (data === 'cadastrado') {
-            localStorage.setItem('mensagem', campos.Nome + ' atualizado(a) com sucesso!');
+            localStorage.setItem('mensagem', formulario.Nome + ' atualizado(a) com sucesso!');
             this.router.navigate(['gestaoPessoal']);
-          }
         },
         (error) => {
+          console.log(error);
           this.snackBar.open('CPF já cadastrado', 'Fechar', {
             duration: 2000,
           });

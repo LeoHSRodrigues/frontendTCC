@@ -1,11 +1,16 @@
 <title>Cadastrar Pessoa</title>
 <div class="formulario">
     <h3>Editar Pessoa</h3>
-    <div class="Icones" style="text-align: center">
-        <img src="https://www.w3schools.com/howto/img_avatar.png" class="avatar" alt="Avatar">
-    </div>
-    <br />
-    <form [formGroup]="formulario" autocomplete="off" (ngSubmit)="onSubmit(formulario.value)">
+    <form [formGroup]="formulario" enctype="multipart/form-data" autocomplete="off" (ngSubmit)="onSubmit(formulario.value)">
+            <div class="Icones">
+                    <label class="hoverable" for="fileInput">
+                            <img [src]="Foto ? Foto : 'https://www.groundai.com/static/groundai/img/avatar-placeholder.png'"  alt="Avatar">
+                        <div class="hover-text">Escolha a foto</div>
+                        <div class="background"></div>
+                      </label>
+                      <br/>
+                      <input id="fileInput" type='file' (change)="onSelectFile($event)">
+                </div>
         <div class="form-group row">
             <div class="col-sm-6">
                 <mat-form-field [color]="primary" appearance="outline">

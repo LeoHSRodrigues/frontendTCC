@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { MatPaginator } from '@angular/material/paginator';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
-import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-pessoas-component',
@@ -17,11 +17,13 @@ export class GestaoPessoasComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   private pessoas: any;
+  private fotoSanitizada: any;
 
   constructor(private getterServices: GetterServices,
               private router: Router,
               private snackBar: MatSnackBar,
               public dialog: MatDialog,
+              private sanitizer: DomSanitizer,
   ) { }
 
   ngOnInit() {
@@ -53,7 +55,22 @@ export class GestaoPessoasComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.pessoas = data;
+          const resultadoFinal = [];
+          data.forEach((element) => {
+            // tslint:disable-next-line: forin
+            for (const i in element) {
+              if (i === 'Foto') {
+                if (element[i] === 'N/A') {
+                this.fotoSanitizada = undefined;
+                } else {
+                this.fotoSanitizada = this.sanitizer.bypassSecurityTrustUrl(element[i]);
+                }
+              } else { }
+            }
+            resultadoFinal.push({Nome: element.Nome, CPF: element.CPF,
+                                 tipoConta: element.tipoConta, Foto: this.fotoSanitizada});
+        });
+          this.pessoas = resultadoFinal;
           return data;
         },
         (error) => {

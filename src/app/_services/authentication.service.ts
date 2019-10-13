@@ -45,16 +45,16 @@ export class AuthenticationService {
         this.currentUserSubject.next(null);
     }
 
-    cadastroPessoa(formulario) {
-       return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroPessoa`, formulario)
-        .pipe(map((aa) => {
-            if (aa != null) {
-                return 'cadastrado';
-            } else {
-                return error('Usuário já cadastrado');
-            }
-        }));
-    }
+    // cadastroPessoa(formulario) {
+    //     return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroPessoa`, formulario)
+    //     .pipe(map((aa) => {
+    //         if (aa != null) {
+    //             return 'cadastrado';
+    //         } else {
+    //             return error('Usuário já cadastrado');
+    //         }
+    //     }));
+    // }
     cadastroUrna(formulario) {
        return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroUrna`, {formulario})
         .pipe(map((aa) => {
@@ -65,9 +65,18 @@ export class AuthenticationService {
             }
         }));
     }
-
+    cadastroPessoa(formulario) {
+        return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroPessoa`, formulario)
+        .pipe(map((aa) => {
+            if (aa != null) {
+                return 'cadastrado';
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
+    }
     atualizarPessoa(formulario) {
-       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarPessoa`, {formulario})
+       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarPessoa`, formulario)
         .pipe(map((aa) => {
             if (aa != null) {
                 return 'cadastrado';
