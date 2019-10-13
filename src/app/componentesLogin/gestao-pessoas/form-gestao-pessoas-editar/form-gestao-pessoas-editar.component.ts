@@ -128,8 +128,9 @@ export class FormGestaoPessoasEditarComponent implements OnInit {
         this.formulario.controls.confirmaSenha.setValue(data.Senha);
       },
       (error) => {
-        localStorage.setItem('mensagem', ' Erro, cadastro não encontrado!');
-        this.router.navigate(['gestaoPessoal']);
+        console.log(error);
+        // localStorage.setItem('mensagem', ' Erro, cadastro não encontrado!');
+        // this.router.navigate(['gestaoPessoal']);
       });
     return this.resultadoPessoa;
   }

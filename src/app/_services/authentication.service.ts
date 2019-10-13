@@ -45,8 +45,8 @@ export class AuthenticationService {
         this.currentUserSubject.next(null);
     }
 
-    cadastro(formulario) {
-       return this.http.post<any>(`http://127.0.0.1:8000/api/cadastro`, {formulario})
+    cadastroPessoa(formulario) {
+       return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroPessoa`, formulario)
         .pipe(map((aa) => {
             if (aa != null) {
                 return 'cadastrado';

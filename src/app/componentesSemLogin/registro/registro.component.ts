@@ -137,7 +137,7 @@ export class RegistroComponent implements OnInit {
                     tipoConta: formulario.tipoConta,
                     Senha: this.resultadoEncriptacao,
                     Digital: this.valorDigital};
-    this.authenticationService.cadastro(campos)
+    this.authenticationService.cadastroPessoa(campos)
     .pipe(first()).subscribe((data) => {
         if (data === 'cadastrado') {
       this.stepper.selected.completed = true;

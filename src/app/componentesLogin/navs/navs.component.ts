@@ -1,10 +1,12 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SecurityContext } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { first, map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { GetterServices } from 'src/app/_services/getters.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +16,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 export class ComponentesnavsComponent implements OnInit {
 
   Nome: string;
+  Foto: any;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
   .pipe(
@@ -29,6 +32,8 @@ export class ComponentesnavsComponent implements OnInit {
     private authenticationService: AuthenticationService,
     public router: Router,
     private titleService: Title,
+    private getterServices: GetterServices,
+    private sanitizer: DomSanitizer,
     ) {
   }
 
@@ -39,7 +44,19 @@ export class ComponentesnavsComponent implements OnInit {
       this.mobile = true;
     }
     const values = JSON.parse(localStorage.getItem('usuario'));
-    this.Nome = values.Nome;
+    this.buscarPessoa(values.CPF);
+  }
+  buscarPessoa(id) {
+    this.getterServices.buscarPessoaNav(id)
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        this.Nome = data.Nome;
+        this.Foto = this.sanitizer.bypassSecurityTrustUrl('http://' + data.Foto);
+        return ;
+      },
+      (error) => {
+      });
   }
 
   logout() {

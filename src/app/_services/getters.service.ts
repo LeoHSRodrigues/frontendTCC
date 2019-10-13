@@ -54,6 +54,16 @@ export class GetterServices {
                 }
             }));
     }
+    buscarPessoaNav(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/buscarPessoaNav/` + id)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
     buscarUrna(id) {
         return this.http.get<any>(`http://127.0.0.1:8000/api/buscarUrna/` + id)
             .pipe(map((user) => {
