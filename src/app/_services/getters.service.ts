@@ -22,6 +22,16 @@ export class GetterServices {
                 }
             }));
     }
+    listaVotacao() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/listaVotacao`)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
 
     listaLogs() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/listaLogs`)

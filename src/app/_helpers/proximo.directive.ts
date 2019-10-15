@@ -28,6 +28,9 @@ export class ProximoDirective implements AfterViewInit {
     if (length === 0 ) {
       this.appAnteriorDirective.focus();
     }
+    if (input.attributes.id.value === 'input5' ) {
+      console.log(input.attributes.id.value);
+    }
   }
 
   @HostListener('keydown', ['$event'])

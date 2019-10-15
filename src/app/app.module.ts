@@ -62,6 +62,7 @@ import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { VotarComponent } from './componentesSemLogin/votar/votar.component';
+import { ModalCandidatoComponent } from './componentesLogin/modal-candidato/modal-candidato.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
@@ -93,6 +94,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     HomeGestaoVotacaoComponent,
     FormGestaoVotacaoNovoComponent,
     FormGestaoVotacaoEditarComponent,
+    ModalCandidatoComponent,
   ],
   imports: [
     BrowserModule,
@@ -129,7 +131,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],
-  entryComponents: [DialogoConfirmacaoComponent],
+  entryComponents: [DialogoConfirmacaoComponent, ModalCandidatoComponent],
   providers: [{ provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
 })
 

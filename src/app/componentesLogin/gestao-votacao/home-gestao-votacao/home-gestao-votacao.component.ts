@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
+import { ModalCandidatoComponent } from '../../modal-candidato/modal-candidato.component';
 
 @Component({
   selector: 'app-home-gestao-votacao',
@@ -18,6 +19,7 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   private pessoas: any;
   private fotoSanitizada: any;
   private activeButton: any;
+  private tipoPerfil: any;
 
   constructor(private getterServices: GetterServices,
               private router: Router,
@@ -53,7 +55,7 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   };
 
   buscarLista() {
-    this.getterServices.listaPessoas()
+    this.getterServices.listaVotacao()
       .pipe(first())
       .subscribe(
         (data) => {
@@ -68,9 +70,16 @@ export class HomeGestaoVotacaoComponent implements OnInit {
                 this.fotoSanitizada = this.sanitizer.bypassSecurityTrustUrl(element[i]);
                 }
               } else { }
+              if (i === 'tipoConta') {
+                if (element[i] === 'Candidato') {
+                  this.tipoPerfil = true;
+                  } else {
+                  this.tipoPerfil = false;
+                  }
+              }
             }
             resultadoFinal.push({Nome: element.Nome, CPF: element.CPF,
-                                 tipoConta: element.tipoConta, Foto: this.fotoSanitizada});
+                                 tipoConta: element.tipoConta, Foto: this.fotoSanitizada, Numero: element.Numero, tipoPerfil: this.tipoPerfil});
         });
           this.pessoas = resultadoFinal;
           return data;
@@ -84,14 +93,15 @@ export class HomeGestaoVotacaoComponent implements OnInit {
     this.router.navigate(['gestaoPessoal/editar/' + id]);
   }
 
-  apagar(id) {
+  modalCadastro(tipo,id) {
+    console.log(tipo);
     this.openDialog(id);
   }
 
   openDialog(id): void {
-    const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
+    const dialogRef = this.dialog.open(ModalCandidatoComponent, {
       width: '350px',
-      data: 'Deseja realmente apagar este registro?',
+      data: 'ola',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

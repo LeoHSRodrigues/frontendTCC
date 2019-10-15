@@ -11,7 +11,7 @@
 .card {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     width: 250px;
-    height: 370px;
+    height: 465px;
     border-radius: 8px;
     text-align: center;
     padding: 15px;
@@ -143,4 +143,13 @@ h3 {
     width: 200px;
     height: 55px;
     border-radius: 30px;
+}
+
+.botaoFab {
+    position: fixed;
+}
+
+.botaoCadastrarCandidato {
+    text-align: -moz-center;
+    text-align: -webkit-center;
 }

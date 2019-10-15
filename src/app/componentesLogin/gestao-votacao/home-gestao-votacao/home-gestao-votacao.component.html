@@ -1,8 +1,9 @@
 <title>Gestão de Votação</title>
 
 <div class="conteudoPagina">
-    <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/gestaoPessoal/novo" color="primary">Gerenciar Votação</button></span>
-    <h3 class="pl-3 pt-4">Gestão de Votação</h3>
+    <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/gestaoPessoal/novo"
+            color="primary">Gerenciar Votação</button></span>
+    <h3 class="pl-3 pt-4" style="text-align: center;">Gestão de Votação</h3>
 
     <div class="listaOpcoes">
         <span [class.selecionado]="isActive('todos')" (click)="setActive('todos')"
@@ -30,17 +31,38 @@
     <div class="row">
 
         <div class="col" *ngFor="let listaPessoas of pessoas">
-            <div class="card ">
-                <img class="card-img-top iconeImagem" [src]="listaPessoas.Foto ? listaPessoas.Foto : 'https://www.groundai.com/static/groundai/img/avatar-placeholder.png'"
+            <div class="card">
+                <img class="card-img-top iconeImagem"
+                    [src]="listaPessoas.Foto ? listaPessoas.Foto : 'https://www.groundai.com/static/groundai/img/avatar-placeholder.png'"
                     alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{listaPessoas.Nome}}</h5>
-                    <span style="float: left;">CPF </span><span style="float: right">{{listaPessoas.CPF}}</span>
+                    <span style="float: left;">CPF </span>
+                    <span style="float: right">{{listaPessoas.CPF}}</span>
                     <br>
-                    <hr><span style="float: left;">Tipo</span><span style="float: right">{{listaPessoas.tipoConta}}</span><br>
                     <hr>
-                    <button mat-stroked-button (click)="visualizarPerfil(listaPessoas.CPF)">Visualizar</button>
-                    <button mat-stroked-button style="margin-left: 10%" (click)="apagar(listaPessoas.CPF)">Apagar</button>
+                    <span style="float: left;">Tipo</span><span style="float: right">{{listaPessoas.tipoConta}}</span>
+                    <br>
+                    <hr>
+                    <div *ngIf="listaPessoas.tipoPerfil;else candidatoNumero">
+                        <span style="float: left;">Número</span>
+                        <span style="float: right">{{listaPessoas.Numero}}</span>
+                    </div>
+                    <ng-template #candidatoNumero>
+                        <span style="float: left;">Número</span>
+                        <span style="float: right">N/D</span>
+                    </ng-template>
+                    <br>
+                    <hr>
+                    <div class="botaoCadastrarCandidato">
+                        <button *ngIf="listaPessoas.tipoPerfil;else candidato" mat-stroked-button
+                            (click)="modalCadastro('Atualizar',listaPessoas.CPF)"
+                            style="display: block; margin-top: 35px;">Atualizar candidato</button>
+                        <ng-template #candidato>
+                            <button mat-stroked-button (click)="modalCadastro('Cadastrar',listaPessoas.CPF)"
+                                style="display: block; margin-top: 35px;">Cadastrar como candidato</button>
+                        </ng-template>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,4 +70,3 @@
 
     </div>
 </div>
-<router-outlet></router-outlet>
