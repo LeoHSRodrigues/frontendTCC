@@ -1,0 +1,12 @@
+.mat-dialog-actions {
+    justify-content: center;
+}
+.mat-dialog-content {
+    text-align: center;
+}
+.titulo{
+    padding-bottom: 30px;
+}
+.botaoCancelar{
+    margin-top: 5px;
+}

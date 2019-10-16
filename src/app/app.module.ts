@@ -26,6 +26,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { NumerosApenasDirective } from './_helpers/numeros-apenas.directive';
 import { ProximoDirective } from './_helpers/proximo.directive';
 import { getPortuguesPaginatorIntl } from './_helpers/traducaoTabela';
 import { AppRoutingModule } from './app-routing.module';
@@ -55,6 +56,7 @@ import { FormGestaoVotacaoNovoComponent } from './componentesLogin/gestao-votaca
 import { HomeGestaoVotacaoComponent } from './componentesLogin/gestao-votacao/home-gestao-votacao/home-gestao-votacao.component';
 import { VotacaoComponent } from './componentesLogin/gestao-votacao/votacao.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
+import { ModalCandidatoComponent } from './componentesLogin/modal-candidato/modal-candidato.component';
 import { ComponentesnavsComponent } from './componentesLogin/navs/navs.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
@@ -62,7 +64,6 @@ import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { VotarComponent } from './componentesSemLogin/votar/votar.component';
-import { ModalCandidatoComponent } from './componentesLogin/modal-candidato/modal-candidato.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
@@ -95,6 +96,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     FormGestaoVotacaoNovoComponent,
     FormGestaoVotacaoEditarComponent,
     ModalCandidatoComponent,
+    NumerosApenasDirective,
   ],
   imports: [
     BrowserModule,

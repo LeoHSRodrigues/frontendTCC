@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
 import { ModalCandidatoComponent } from '../../modal-candidato/modal-candidato.component';
@@ -11,7 +12,7 @@ import { ModalCandidatoComponent } from '../../modal-candidato/modal-candidato.c
 @Component({
   selector: 'app-home-gestao-votacao',
   templateUrl: './home-gestao-votacao.component.html',
-  styleUrls: ['./home-gestao-votacao.component.css']
+  styleUrls: ['./home-gestao-votacao.component.css'],
 })
 export class HomeGestaoVotacaoComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -26,6 +27,7 @@ export class HomeGestaoVotacaoComponent implements OnInit {
               private snackBar: MatSnackBar,
               public dialog: MatDialog,
               private sanitizer: DomSanitizer,
+              private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit() {
@@ -89,41 +91,48 @@ export class HomeGestaoVotacaoComponent implements OnInit {
         });
   }
 
-  visualizarPerfil(id) {
-    this.router.navigate(['gestaoPessoal/editar/' + id]);
+  modalCadastro(Tipo, CPF, Nome, Numero) {
+    const dados = ({Nome, CPF, Tipo, Numero});
+    this.openDialog(dados);
   }
 
-  modalCadastro(tipo,id) {
-    console.log(tipo);
-    this.openDialog(id);
-  }
-
-  openDialog(id): void {
+  openDialog(dados): void {
     const dialogRef = this.dialog.open(ModalCandidatoComponent, {
-      width: '350px',
-      data: 'ola',
+      width: '750px',
+      height: '430px',
+      data: dados,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const values = JSON.parse(localStorage.getItem('usuario'));
-        if (id === values.CPF) {
-          this.snackBar.open('Não é possível apagar sua conta enquanto você estiver logado', 'Fechar', {
-            duration: 3000,
+        this.buscarLista();
+      }
+    });
+  }
+
+  removerCandidatura(CPF) {
+    this.confirmacaoRemoverCandidatura(CPF);
+  }
+
+  confirmacaoRemoverCandidatura(CPF): void {
+    const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
+      width: '350px',
+      data: 'Deseja realmente apagar este registro?',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.authenticationService.removerCandidatura(CPF)
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            this.buscarLista();
+          },
+          (error) => {
+            this.snackBar.open('Erro', 'Fechar', {
+              duration: 2000,
+            });
           });
-          return ;
-        } else {
-          this.getterServices.apagarPessoa(id)
-            .pipe(first())
-            .subscribe(
-              (data) => {
-                this.ngOnInit();
-                return ;
-              },
-              (error) => {
-                console.log(error);
-              });
-        }
       }
     });
   }

@@ -55,11 +55,12 @@
                     <br>
                     <hr>
                     <div class="botaoCadastrarCandidato">
-                        <button *ngIf="listaPessoas.tipoPerfil;else candidato" mat-stroked-button
-                            (click)="modalCadastro('Atualizar',listaPessoas.CPF)"
-                            style="display: block; margin-top: 35px;">Atualizar candidato</button>
+                        <div *ngIf="listaPessoas.tipoPerfil;else candidato">
+                        <button  mat-stroked-button (click)="modalCadastro('Atualizar',listaPessoas.CPF, listaPessoas.Nome, listaPessoas.Numero)" style="display: block; margin-top: 35px;">Atualizar candidato</button>
+                            <button mat-stroked-button style="margin-top: 10px;" (click)="removerCandidatura(listaPessoas.CPF)">Remover candidatura</button>
+                        </div>
                         <ng-template #candidato>
-                            <button mat-stroked-button (click)="modalCadastro('Cadastrar',listaPessoas.CPF)"
+                            <button mat-stroked-button (click)="modalCadastro('Novo',listaPessoas.CPF, listaPessoas.Nome)"
                                 style="display: block; margin-top: 35px;">Cadastrar como candidato</button>
                         </ng-template>
                     </div>

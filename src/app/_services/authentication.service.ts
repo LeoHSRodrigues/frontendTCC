@@ -44,17 +44,6 @@ export class AuthenticationService {
         localStorage.removeItem('usuario');
         this.currentUserSubject.next(null);
     }
-
-    // cadastroPessoa(formulario) {
-    //     return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroPessoa`, formulario)
-    //     .pipe(map((aa) => {
-    //         if (aa != null) {
-    //             return 'cadastrado';
-    //         } else {
-    //             return error('Usuário já cadastrado');
-    //         }
-    //     }));
-    // }
     cadastroUrna(formulario) {
        return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroUrna`, {formulario})
         .pipe(map((aa) => {
@@ -75,6 +64,16 @@ export class AuthenticationService {
             }
         }));
     }
+    cadastroCandidato(formulario) {
+        return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroCandidato`, formulario)
+        .pipe(map((aa) => {
+            if (aa != null) {
+                return 'cadastrado';
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
+    }
     atualizarPessoa(formulario) {
        return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarPessoa`, formulario)
         .pipe(map((aa) => {
@@ -87,6 +86,26 @@ export class AuthenticationService {
     }
     atualizarUrna(formulario) {
        return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarUrna`, {formulario})
+        .pipe(map((aa) => {
+            if (aa != null) {
+                return 'cadastrado';
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
+    }
+    atualizarCandidato(formulario) {
+       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarCandidato`, formulario)
+        .pipe(map((aa) => {
+            if (aa != null) {
+                return 'cadastrado';
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
+    }
+    removerCandidatura(id) {
+       return this.http.get<any>(`http://127.0.0.1:8000/api/removerCandidatura/` + id)
         .pipe(map((aa) => {
             if (aa != null) {
                 return 'cadastrado';

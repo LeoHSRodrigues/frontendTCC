@@ -50,6 +50,7 @@ export class ProximoDirective implements AfterViewInit {
       e.preventDefault();
     }
   }
+
   buscarCandidato() {
     this.getterServices.buscaCandidato()
       .pipe(first())
