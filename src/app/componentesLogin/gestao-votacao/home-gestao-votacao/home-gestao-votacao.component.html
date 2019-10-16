@@ -1,8 +1,18 @@
-<title>Gestão de Pessoas</title>
+<title>Gestão de Votação</title>
 
 <div class="conteudoPagina">
-    <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/gestaoPessoal/novo" color="primary">Cadastrar Pessoa</button></span>
-    <h3 class="pl-3 pt-4">Gestão de Pessoas</h3>
+    <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/gestaoPessoal/novo" color="primary">Gerenciar Votação</button></span>
+    <h3 class="pl-3 pt-4">Gestão de Votação</h3>
+
+    <div class="listaOpcoes">
+        <span [class.selecionado]="isActive('todos')" (click)="setActive('todos')"
+            class="text-muted p-2 opcoesFiltro">Todos</span>
+        <span [class.selecionado]="isActive('eleitores')" (click)="setActive('eleitores')"
+            class="text-muted p-2 opcoesFiltro">Eleitores</span>
+        <span [class.selecionado]="isActive('candidatos')" (click)="setActive('candidatos')"
+            class="text-muted p-2 opcoesFiltro">Candidatos</span>
+    </div>
+    <hr>
 
     <div class="refinar">
         <div class="form-group has-search">
@@ -27,7 +37,7 @@
                     <h5 class="card-title">{{listaPessoas.Nome}}</h5>
                     <span style="float: left;">CPF </span><span style="float: right">{{listaPessoas.CPF}}</span>
                     <br>
-                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">{{listaPessoas.tipoConta}}</span><br>
+                    <hr><span style="float: left;">Tipo</span><span style="float: right">{{listaPessoas.tipoConta}}</span><br>
                     <hr>
                     <button mat-stroked-button (click)="visualizarPerfil(listaPessoas.CPF)">Visualizar</button>
                     <button mat-stroked-button style="margin-left: 10%" (click)="apagar(listaPessoas.CPF)">Apagar</button>

@@ -82,7 +82,6 @@ export class FormGestaoUrnaEditarComponent implements OnInit {
           }
         },
         (error) => {
-          // tslint:disable-next-line: max-line-length
           this.snackBar.open('Senha alterada, por favor renomeie o apelido da urna por questões de segurança', 'Fechar', {
             duration: 3000,
           });

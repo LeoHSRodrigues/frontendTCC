@@ -8,12 +8,11 @@ import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
 
 @Component({
-  selector: 'app-pessoas-component',
-  templateUrl: './gestao-pessoas.component.html',
-  styleUrls: ['./gestao-pessoas.component.css'],
+  selector: 'app-home-gestao-votacao',
+  templateUrl: './home-gestao-votacao.component.html',
+  styleUrls: ['./home-gestao-votacao.component.css']
 })
-
-export class GestaoPessoasComponent implements OnInit {
+export class HomeGestaoVotacaoComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   private pessoas: any;
@@ -29,6 +28,7 @@ export class GestaoPessoasComponent implements OnInit {
 
   ngOnInit() {
     this.buscarLista();
+    this.activeButton = 'todos';
     this.setRefinar('grade');
     if (localStorage.getItem('mensagem') !== undefined && localStorage.getItem('mensagem') !== null) {
       this.snackBar.open(localStorage.getItem('mensagem'), 'Fechar', {
@@ -37,8 +37,15 @@ export class GestaoPessoasComponent implements OnInit {
       localStorage.removeItem('mensagem');
     }
   }
+  setActive = function(buttonName) {
+    this.activeButton = buttonName;
+  };
+  isActive = function(buttonName) {
+    return this.activeButton === buttonName;
+  };
 
   setRefinar = function(opcao) {
+    this.opcaoAtiva = opcao;
     this.opcaoAtiva = opcao;
   };
   isRefinar = function(opcao) {

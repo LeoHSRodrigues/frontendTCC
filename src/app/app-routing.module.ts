@@ -4,21 +4,20 @@ import { AuthGuard } from './_helpers/auth.guard';
 import { AppComponent } from './app.component';
 import { AuditoriaComponent } from './componentesLogin/auditoria/auditoria.component';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
-// tslint:disable-next-line: max-line-length
 import { FormGestaoPessoasEditarComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas-editar/form-gestao-pessoas-editar.component';
-// tslint:disable-next-line: max-line-length
 import { FormGestaoPessoasNovoComponent } from './componentesLogin/gestao-pessoas/form-gestao-pessoas-novo/form-gestao-pessoas-novo.component';
 import { GestaoPessoaControllerComponent } from './componentesLogin/gestao-pessoas/gestao-pessoa-controller.component';
 import { GestaoPessoasComponent } from './componentesLogin/gestao-pessoas/home-gestao-pessoas/gestao-pessoas.component';
-// tslint:disable-next-line: max-line-length
 import { FormGestaoUrnaEditarComponent } from './componentesLogin/gestao-urnas/form-gestao-urna-editar/form-gestao-urna-editar.component';
-// tslint:disable-next-line: max-line-length
 import { FormGestaoUrnaNovoComponent } from './componentesLogin/gestao-urnas/form-gestao-urna-novo/form-gestao-urna-novo.component';
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
 import { HomeGestaoUrnaComponent } from './componentesLogin/gestao-urnas/home-gestao-urna/home-gestao-urna.component';
+import { FormGestaoVotacaoEditarComponent } from './componentesLogin/gestao-votacao/form-gestao-votacao-editar/form-gestao-votacao-editar.component';
+import { FormGestaoVotacaoNovoComponent } from './componentesLogin/gestao-votacao/form-gestao-votacao-novo/form-gestao-votacao-novo.component';
+import { HomeGestaoVotacaoComponent } from './componentesLogin/gestao-votacao/home-gestao-votacao/home-gestao-votacao.component';
+import { VotacaoComponent } from './componentesLogin/gestao-votacao/votacao.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
-import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
 import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
@@ -33,7 +32,6 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
-      { path: 'votacao', component: VotacaoComponent },
       {
         path: 'gestaoPessoal', component: GestaoPessoaControllerComponent, children: [
           { path: '', component: GestaoPessoasComponent },
@@ -46,6 +44,13 @@ const appRoutes: Routes = [
           { path: '', component: HomeGestaoUrnaComponent },
           { path: 'novo', component: FormGestaoUrnaNovoComponent },
           { path: 'editar/:id', component: FormGestaoUrnaEditarComponent },
+        ],
+      },
+      {
+        path: 'votacao', component: VotacaoComponent, children: [
+          { path: '', component: HomeGestaoVotacaoComponent },
+          { path: 'novo', component: FormGestaoVotacaoNovoComponent },
+          { path: 'editar/:id', component: FormGestaoVotacaoEditarComponent },
         ],
       },
       { path: 'auditoria', component: AuditoriaComponent },

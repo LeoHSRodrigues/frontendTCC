@@ -67,6 +67,7 @@ hr {
 .botaoCadastrar {
     float: right;
     padding-right: 5%;
+    padding-top: 55px;
 }
 
 .iconeRefinar {

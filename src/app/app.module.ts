@@ -46,10 +46,17 @@ import { FormGestaoUrnaNovoComponent } from './componentesLogin/gestao-urnas/for
 import { GestaoUrnasComponent } from './componentesLogin/gestao-urnas/gestao-urnas.component';
 // tslint:disable-next-line: max-line-length
 import { HomeGestaoUrnaComponent } from './componentesLogin/gestao-urnas/home-gestao-urna/home-gestao-urna.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoVotacaoEditarComponent } from './componentesLogin/gestao-votacao/form-gestao-votacao-editar/form-gestao-votacao-editar.component';
+// tslint:disable-next-line: max-line-length
+import { FormGestaoVotacaoNovoComponent } from './componentesLogin/gestao-votacao/form-gestao-votacao-novo/form-gestao-votacao-novo.component';
+// tslint:disable-next-line: ordered-imports
+// tslint:disable-next-line: max-line-length
+import { HomeGestaoVotacaoComponent } from './componentesLogin/gestao-votacao/home-gestao-votacao/home-gestao-votacao.component';
+import { VotacaoComponent } from './componentesLogin/gestao-votacao/votacao.component';
 import { HomeComponent } from './componentesLogin/home/home.component';
 import { ComponentesnavsComponent } from './componentesLogin/navs/navs.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
-import { VotacaoComponent } from './componentesLogin/votacao/votacao.component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
 import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
@@ -83,6 +90,9 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     HomeGestaoUrnaComponent,
     VotarComponent,
     ProximoDirective,
+    HomeGestaoVotacaoComponent,
+    FormGestaoVotacaoNovoComponent,
+    FormGestaoVotacaoEditarComponent,
   ],
   imports: [
     BrowserModule,

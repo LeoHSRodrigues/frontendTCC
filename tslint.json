@@ -1,9 +1,7 @@
 {
     "extends": "tslint:recommended",
     "rules": {
-        "max-line-length": {
-            "options": [120]
-        },
+        "max-line-length": false,
         "object-literal-sort-keys": false,
         "new-parens": true,
         "no-arg": true,
@@ -17,9 +15,7 @@
         "interface-name" : [true, "never-prefix"]
     },
     "jsRules": {
-        "max-line-length": {
-            "options": [120]
-        },
+        "max-line-length": false,
         "member-access": false,
         "no-empty": false,
         "object-literal-sort-keys": false
