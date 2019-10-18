@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatSelectModule } from '@angular/material';
+import { MatCardModule, MatDialog, MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatSelectModule } from '@angular/material';
 import { MatBadgeModule} from '@angular/material/badge';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule} from '@angular/material/button';
@@ -64,6 +64,7 @@ import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { VotarComponent } from './componentesSemLogin/votar/votar.component';
+import { RedirecionadorComponent } from './_helpers/redirecionador/redirecionador.component';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
@@ -97,6 +98,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     FormGestaoVotacaoEditarComponent,
     ModalCandidatoComponent,
     NumerosApenasDirective,
+    RedirecionadorComponent,
   ],
   imports: [
     BrowserModule,
@@ -130,6 +132,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatStepperModule,
     MatSelectModule,
     MatDialogModule,
+    MatCardModule,
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],

@@ -22,8 +22,18 @@ export class GetterServices {
                 }
             }));
     }
-    buscaCandidato() {
-        return this.http.get<any>(`http://127.0.0.1:8000/api/buscarCandidato`)
+    buscaCandidato(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/buscarCandidato/` + id)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    salvarOpcaoVoto(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/salvarOpcaoVoto/` + id)
             .pipe(map((user) => {
                 if (user != null) {
                     return user;

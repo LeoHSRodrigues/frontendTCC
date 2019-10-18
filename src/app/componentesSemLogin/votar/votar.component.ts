@@ -14,10 +14,5 @@ export class VotarComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private renderer: Renderer2, private el: ElementRef) { }
 
   ngOnInit() {
-    this.formulario = this._formBuilder.group({});
-  }
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.log('oi');
   }
 }

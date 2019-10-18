@@ -1,28 +1,39 @@
 <head>
     <title>Votar</title>
 </head>
-<form [formGroup]="formulario" (ngSubmit)="onSubmit()" autocomplete="off">
-    <div class="flex-container formNumeros flex-container-style fixed-height">
-
-        <div class="flex-item">
-            <input type="text" name="n" [primeiroInput] maxlength="1" [appAnteriorDirective]="input1"
-                [appProximoDirective]="input2" #input1 class="inputNumero" id="primeiroInput">
-        </div>
-        <div class="flex-item">
-            <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input1" [appProximoDirective]="input3"
-                #input2 class="inputNumero" id="input2">
-        </div>
-        <div class="flex-item">
-            <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input2" [appProximoDirective]="input4"
-                #input3 class="inputNumero" id="input3">
-        </div>
-        <div class="flex-item">
-            <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input3" [appProximoDirective]="input5"
-                #input4 class="inputNumero" id="input4">
-        </div>
-        <div class="flex-item">
-            <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input4" [appProximoDirective]="input5"
-                #input5 class="inputNumero" id="input5">
-        </div>
+<div class="flex-container formNumeros flex-container-style fixed-height">
+    <div class="flex-item">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input1" [appProximoDirective]="input2" #input1
+            class="inputNumero" id="primeiroInput">
     </div>
-</form>
+    <div class="flex-item">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input1" [appProximoDirective]="input3" #input2
+            class="inputNumero" id="input2">
+    </div>
+    <div class="flex-item">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input2" [appProximoDirective]="input4" #input3
+            class="inputNumero" id="input3">
+    </div>
+    <div class="flex-item">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input3" [appProximoDirective]="input5" #input4
+            class="inputNumero" id="input4">
+    </div>
+    <div class="flex-item">
+        <input type="text" name="n" maxlength="1" [appAnteriorDirective]="input4" [appProximoDirective]="input5" #input5
+            class="inputNumero" id="input5">
+    </div>
+</div>
+
+<div class="candidato" id="candidato">
+    <mat-card class="example-card">
+        <mat-card-header>
+            <div class="titulo">
+                <mat-card-title id="tituloCartao"></mat-card-title>
+            </div>
+        </mat-card-header>
+        <img class="imagem" id="imagem" mat-card-image >
+        <mat-card-content>
+            <p id="conteudo"></p>
+        </mat-card-content>
+    </mat-card>
+</div>

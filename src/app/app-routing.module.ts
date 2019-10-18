@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './_helpers/auth.guard';
+import { RedirecionadorComponent } from './_helpers/redirecionador/redirecionador.component';
 import { AppComponent } from './app.component';
 import { AuditoriaComponent } from './componentesLogin/auditoria/auditoria.component';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
@@ -68,6 +69,7 @@ const appRoutes: Routes = [
     ],
   },
   { path: 'votar', component: VotarComponent },
+  { path: 'teste', component: RedirecionadorComponent },
   { path: 'registrar', component: RegistroComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
@@ -76,7 +78,7 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      // { enableTracing: true }
+      { onSameUrlNavigation: 'reload' },
     ),
   ],
   exports: [
