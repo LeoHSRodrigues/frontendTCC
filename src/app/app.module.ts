@@ -1,12 +1,14 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule, MatDialog, MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatSelectModule } from '@angular/material';
+import { MAT_DATE_LOCALE, MatCardModule, MatDialog, MatDialogModule, MatPaginatorIntl, MatPaginatorModule, MatSelectModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatBadgeModule} from '@angular/material/badge';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule} from '@angular/material/button';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatIconModule} from '@angular/material/icon';
 import { MatInputModule} from '@angular/material/input';
 import { MatListModule} from '@angular/material/list';
@@ -25,9 +27,11 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { NumerosApenasDirective } from './_helpers/numeros-apenas.directive';
 import { ProximoDirective } from './_helpers/proximo.directive';
+import { RedirecionadorComponent } from './_helpers/redirecionador/redirecionador.component';
 import { getPortuguesPaginatorIntl } from './_helpers/traducaoTabela';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -64,7 +68,8 @@ import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { VotarComponent } from './componentesSemLogin/votar/votar.component';
-import { RedirecionadorComponent } from './_helpers/redirecionador/redirecionador.component';
+
+
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
@@ -133,11 +138,14 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatSelectModule,
     MatDialogModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    NgxMaterialTimepickerModule.setLocale('pt-BR'),
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],
   entryComponents: [DialogoConfirmacaoComponent, ModalCandidatoComponent],
-  providers: [{ provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }],
+  providers: [{ provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }, {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}],
 })
 
 export class AppModule {

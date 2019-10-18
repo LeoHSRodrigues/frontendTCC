@@ -114,6 +114,16 @@ export class GetterServices {
                 }
             }));
     }
+    apagarCandidato(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/apagarCandidato/` + id)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
     apagarUrna(id) {
         return this.http.get<any>(`http://127.0.0.1:8000/api/apagarUrna/` + id)
             .pipe(map((user) => {

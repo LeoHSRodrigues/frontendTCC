@@ -11,7 +11,9 @@ export class RedirecionadorComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.router.navigate(['/votar']);
+    setTimeout(() => {
+      this.router.navigate(['/votar']);
+    }, 5000);
   }
 
 }

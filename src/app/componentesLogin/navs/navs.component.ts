@@ -39,6 +39,7 @@ export class ComponentesnavsComponent implements OnInit {
 
   ngOnInit() {
     this.mobile = false;
+    this.verificaAdmin();
     window.onresize = () => this.mobile = window.innerWidth <= 800;
     if (window.screen.width <= 800) { // 768px portrait
       this.mobile = true;
@@ -52,11 +53,20 @@ export class ComponentesnavsComponent implements OnInit {
     .subscribe(
       (data) => {
         this.Nome = data.Nome;
-        this.Foto = this.sanitizer.bypassSecurityTrustUrl('http://' + data.Foto);
+        if (data.Foto !== undefined) {
+          this.Foto = this.sanitizer.bypassSecurityTrustUrl('http://' + data.Foto);
+        } else {
+          this.Foto = undefined;
+        }
         return ;
       },
       (error) => {
       });
+  }
+
+  verificaAdmin() {
+    const admin = this.authenticationService.currentUserValue;
+    // console.log(admin.CPF);
   }
 
   logout() {

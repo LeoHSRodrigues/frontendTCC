@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
 
@@ -25,6 +26,7 @@ export class GestaoPessoasComponent implements OnInit {
               private snackBar: MatSnackBar,
               public dialog: MatDialog,
               private sanitizer: DomSanitizer,
+              private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit() {
@@ -55,10 +57,10 @@ export class GestaoPessoasComponent implements OnInit {
             // tslint:disable-next-line: forin
             for (const i in element) {
               if (i === 'Foto') {
-                if (element[i] === 'N/A') {
-                this.fotoSanitizada = undefined;
+                if (element[i] !== undefined && element[i] !== 'N/A') {
+                  this.fotoSanitizada = this.sanitizer.bypassSecurityTrustUrl(element[i]);
                 } else {
-                this.fotoSanitizada = this.sanitizer.bypassSecurityTrustUrl(element[i]);
+                  this.fotoSanitizada = undefined;
                 }
               } else { }
             }
@@ -78,7 +80,20 @@ export class GestaoPessoasComponent implements OnInit {
   }
 
   apagar(id) {
-    this.openDialog(id);
+    const admin = this.authenticationService.currentUserValue;
+    if (admin.tipoConta !== 'Admin') {
+      this.snackBar.open('Você não possui permissão para apagar contas de administrador', 'Fechar', {
+        duration: 3000,
+      });
+    } else {
+      if (admin.CPF === id) {
+          this.snackBar.open('Não é possível apagar sua conta enquanto você estiver logado', 'Fechar', {
+            duration: 3000,
+          });
+      } else {
+        this.openDialog(id);
+      }
+    }
   }
 
   openDialog(id): void {
@@ -88,26 +103,24 @@ export class GestaoPessoasComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const values = JSON.parse(localStorage.getItem('usuario'));
-        if (id === values.CPF) {
-          this.snackBar.open('Não é possível apagar sua conta enquanto você estiver logado', 'Fechar', {
-            duration: 3000,
-          });
-          return ;
-        } else {
           this.getterServices.apagarPessoa(id)
             .pipe(first())
             .subscribe(
               (data) => {
-                this.ngOnInit();
-                return ;
+                this.getterServices.apagarCandidato(id)
+                .pipe(first())
+                .subscribe(
+                  () => {
+                    this.buscarLista();
+                    return ;
+                  },
+                  (error) => {
+                    console.log(error);
+                  });
               },
               (error) => {
                 console.log(error);
               });
-        }
-      }
     });
   }
 
