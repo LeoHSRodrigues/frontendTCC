@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './_helpers/auth.guard';
 import { RedirecionadorComponent } from './_helpers/redirecionador/redirecionador.component';
+import { VerificaVotacaoAtivaGuard } from './_helpers/verifica-votacao-ativa.guard';
 import { AppComponent } from './app.component';
 import { AuditoriaComponent } from './componentesLogin/auditoria/auditoria.component';
 import { ComponentesLoginComponent } from './componentesLogin/componentesLogin-component';
@@ -34,7 +35,7 @@ const appRoutes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       {
-        path: 'gestaoPessoal', component: GestaoPessoaControllerComponent, children: [
+        path: 'gestaoPessoal', component: GestaoPessoaControllerComponent, canLoad: [VerificaVotacaoAtivaGuard], children: [
           { path: '', component: GestaoPessoasComponent },
           { path: 'novo', component: FormGestaoPessoasNovoComponent },
           { path: 'editar/:id', component: FormGestaoPessoasEditarComponent },

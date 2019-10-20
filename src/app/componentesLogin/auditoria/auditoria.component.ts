@@ -22,6 +22,7 @@ export class AuditoriaComponent implements OnInit {
   private displayedColumns: string[] = ['CPF', 'Acao', 'Data'];
   // tslint:disable-next-line: no-use-before-declare
   private dataSource = new MatTableDataSource(logData);
+  private resultadoVotacao: boolean;
   constructor(private getterServices: GetterServices) {
     this.buscarLista();
   }
@@ -32,6 +33,22 @@ export class AuditoriaComponent implements OnInit {
   }
 
   buscarLista() {
+    // this.resultadoVotacao = true;
+    this.getterServices.verificaVotacaoAtivada().pipe(first())
+    .subscribe(
+      (data) => {
+      if (data.Status === 'Iniciada') {
+          return this.resultadoVotacao = true;
+        } else {
+          return this.resultadoVotacao = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+      });
+
+    console.log(this.resultadoVotacao);
+
     this.getterServices.listaLogs()
     .pipe(first())
     .subscribe(

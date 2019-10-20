@@ -1,11 +1,13 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDatepickerInputEvent, MatSnackBar } from '@angular/material';
+import { MatDatepickerInputEvent, MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import * as CryptoJS from 'crypto-js';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { MustMatch } from 'src/app/componentesSemLogin/registro/validacoes';
+import { id } from '@swimlane/ngx-charts/release/utils';
+import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
 
 @Component({
   selector: 'app-form-gestao-votacao-novo',
@@ -27,7 +29,8 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
@@ -52,7 +55,6 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
     this.horaMax = type;
   }
   horaMinima(type) {
-    // console.log(type);
     this.horaMin = type;
   }
 
@@ -60,24 +62,37 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
     if (this.formulario.invalid) {
       return;
     }
-    this.resultadoEncriptacao = CryptoJS.SHA256(formulario.senha).toString();
-    const campos = {
-      Apelido: formulario.Apelido,
-      Senha: this.resultadoEncriptacao,
-    };
-    this.authenticationService.cadastroUrna(campos)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          if (data === 'cadastrado') {
-            localStorage.setItem('mensagem', campos.Apelido + ' cadastrado(a) com sucesso!');
-            this.router.navigate(['gestaoUrna']);
-          }
-        },
-        (error) => {
-          this.snackBar.open('Urna com apelido já cadastrado', 'Fechar', {
-            duration: 2000,
-          });
-        });
+    const login = this.authenticationService.currentUserValue;
+    const dataInicioVotacao = formulario.DataInicio.format('YYYY-MM-DD') + 'T' + formulario.HoraInicio + ':00Z';
+    const DataTerminoVotacao = formulario.DataTermino.format('YYYY-MM-DD') + 'T' + formulario.HoraTermino + ':00Z';
+    const nomeEleicao = formulario.Nome;
+    this.openDialog(dataInicioVotacao, DataTerminoVotacao, nomeEleicao, login.CPF);
+  }
+
+  openDialog(dataInicioVotacao, DataTerminoVotacao, nomeEleicao, CPF) {
+    const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
+      width: '350px',
+      data: 'Uma vez iniciada a votação, você não conseguirá editar tampouco criar novos usuários enquanto a mesma estiver ativa. As principais páginas estarão bloqueadas e somente um administrador poderá cancelar ou finalizar a votação, caso não tenha expirado o horário escolhido de encerramento. Você realmente deseja iniciar a votação?',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result){
+        const formData: FormData = new FormData();
+        formData.append('DataInicioVotacao', dataInicioVotacao);
+        formData.append('DataTerminoVotacao', DataTerminoVotacao);
+        formData.append('NomeEleicao', nomeEleicao);
+        formData.append('CPF', CPF);
+        formData.append('Status', 'Iniciada');
+        this.authenticationService.opcoesVotacao(formData)
+          .pipe(first())
+          .subscribe(
+            (data) => {
+              localStorage.setItem('mensagem', nomeEleicao + ' iniciada com sucesso!');
+              this.router.navigate(['votacao']);
+            },
+            (error) => {
+            });
+      }
+    });
   }
 }

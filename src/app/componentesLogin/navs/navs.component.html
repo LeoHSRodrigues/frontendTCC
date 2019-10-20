@@ -13,18 +13,34 @@
             <!-- <hr> -->
             <span class="tituloSidenav">GESTÃO DE PESSOAS</span>
             <div class="Icones">
-                <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/gestaoPessoal">
-                    <mat-icon class="iconeLateral" title="Gestão de Pessoas">people_outline</mat-icon>
-                    <span class="pl-3 textoNavBar">Gestão de Pessoas</span>
-                </a>
+                <div class="bloqueado" *ngIf="votacaoAtivada;else votacaoNaoAtivadaGP">
+                    <a mat-list-item class="nPermitido">
+                        <mat-icon class="iconeLateral" title="Gestão de Pessoas">people_outline</mat-icon>
+                        <span class="pl-3 textoNavBar">Gestão de Pessoas</span>
+                    </a>
+                </div>
+                <ng-template #votacaoNaoAtivadaGP>
+                    <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/gestaoPessoal">
+                        <mat-icon class="iconeLateral" title="Gestão de Pessoas">people_outline</mat-icon>
+                        <span class="pl-3 textoNavBar">Gestão de Pessoas</span>
+                    </a>
+                </ng-template>
             </div>
 
             <span class="tituloSidenav">GESTÃO DE URNAS</span>
             <div class="Icones">
-                <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/gestaoUrna">
-                    <mat-icon class="iconeLateral" title="Gestão de Urnas">tablet</mat-icon>
-                    <span class="pl-3 textoNavBar">Gestão de Urnas</span>
-                </a>
+                <div class="bloqueado" *ngIf="votacaoAtivada;else votacaoNaoAtivadaUrna">
+                    <a mat-list-item class="nPermitido">
+                        <mat-icon class="iconeLateral" title="Gestão de Urnas">tablet</mat-icon>
+                        <span class="pl-3 textoNavBar">Gestão de Urnas</span>
+                    </a>
+                </div>
+                <ng-template #votacaoNaoAtivadaUrna>
+                    <a mat-list-item href="#" routerLinkActive="active-list-item" routerLink="/gestaoUrna">
+                        <mat-icon class="iconeLateral" title="Gestão de Urnas">tablet</mat-icon>
+                        <span class="pl-3 textoNavBar">Gestão de Urnas</span>
+                    </a>
+                </ng-template>
             </div>
 
             <span class="tituloSidenav">GESTÃO DE VOTAÇÃO</span>
@@ -58,7 +74,7 @@
 
                 <div class="Icones" style="text-align: center">
                     <button mat-button [matMenuTriggerFor]="perfil" class="menuPerfil">
-                        <img [src]="Foto ? Foto : 'https://www.groundai.com/static/groundai/img/avatar-placeholder.png'"
+                        <img [src]="Foto ? Foto : 'assets/avatar-placeholder.png'"
                             class="avatar" alt="Avatar">
                         <span class="text-muted pl-3 pt-5">{{Nome}}</span>
                     </button>

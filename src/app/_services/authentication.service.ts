@@ -74,6 +74,16 @@ export class AuthenticationService {
             }
         }));
     }
+    opcoesVotacao(formulario) {
+        return this.http.post<any>(`http://127.0.0.1:8000/api/opcoesVotacao`, formulario)
+        .pipe(map((aa) => {
+            if (aa != null) {
+                return 'cadastrado';
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
+    }
     atualizarPessoa(formulario) {
        return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarPessoa`, formulario)
         .pipe(map((aa) => {

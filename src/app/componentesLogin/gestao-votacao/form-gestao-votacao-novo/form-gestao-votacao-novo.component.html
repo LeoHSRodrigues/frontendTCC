@@ -48,8 +48,8 @@
                     <ngx-material-timepicker (timeSet)="horaMinima($event)" #horaInicio></ngx-material-timepicker>
                 </mat-form-field>
                 <div class="validacao text-muted"
-                    *ngIf="(f.DataInicio.dirty || f.DataInicio.touched) && f.DataInicio.errors">
-                    <div *ngIf="f.DataInicio.errors.required">
+                    *ngIf="(f.HoraInicio.dirty || f.HoraInicio.touched) && f.HoraInicio.errors">
+                    <div *ngIf="f.HoraInicio.errors.required">
                         Escolha uma hora de Início
                     </div>
                 </div>
@@ -61,8 +61,8 @@
                     <ngx-material-timepicker (timeSet)="horaMaxima($event)" #horaTermino></ngx-material-timepicker>
                 </mat-form-field>
                 <div class="validacao text-muted"
-                    *ngIf="(f.DataInicio.dirty || f.DataInicio.touched) && f.DataInicio.errors">
-                    <div *ngIf="f.DataInicio.errors.required">
+                    *ngIf="(f.HoraTermino.dirty || f.HoraTermino.touched) && f.HoraTermino.errors">
+                    <div *ngIf="f.HoraTermino.errors.required">
                         Escolha uma hora de Termino
                     </div>
                 </div>

@@ -26,6 +26,7 @@ export class ComponentesnavsComponent implements OnInit {
   mobile: boolean;
 
   title: string;
+  votacaoAtivada: boolean;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -39,7 +40,9 @@ export class ComponentesnavsComponent implements OnInit {
 
   ngOnInit() {
     this.mobile = false;
+    this.votacaoAtivada = true;
     this.verificaAdmin();
+    this.votacaoAtiva();
     window.onresize = () => this.mobile = window.innerWidth <= 800;
     if (window.screen.width <= 800) { // 768px portrait
       this.mobile = true;
@@ -66,7 +69,10 @@ export class ComponentesnavsComponent implements OnInit {
 
   verificaAdmin() {
     const admin = this.authenticationService.currentUserValue;
-    // console.log(admin.CPF);
+  }
+
+  votacaoAtiva() {
+    
   }
 
   logout() {

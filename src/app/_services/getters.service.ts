@@ -6,11 +6,7 @@ import { error } from 'util';
 @Injectable({ providedIn: 'root' })
 export class GetterServices {
 
-
-    constructor(private http: HttpClient) {
-    }
-
-
+    constructor(private http: HttpClient) {}
 
     listaPessoas() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/listaPessoas`)
@@ -65,6 +61,17 @@ export class GetterServices {
     }
     listaUrnas() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/listaUrnas`)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+
+    verificaVotacaoAtivada() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada`)
             .pipe(map((user) => {
                 if (user != null) {
                     return user;
