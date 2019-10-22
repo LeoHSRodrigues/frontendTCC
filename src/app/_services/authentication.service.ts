@@ -39,7 +39,16 @@ export class AuthenticationService {
                     this.currentUserSubject.next(user);
                     return user;
     }
-
+    loginUrna(formulario) {
+        return this.http.post<any>(`http://127.0.0.1:8000/api/loginUrna`, formulario)
+        .pipe(map((aa) => {
+            if (aa) {
+                return aa;
+            } else {
+                return error('Usuário já cadastrado');
+            }
+        }));
+    }
     logout() {
         localStorage.removeItem('usuario');
         this.currentUserSubject.next(null);

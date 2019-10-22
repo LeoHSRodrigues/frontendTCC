@@ -87,3 +87,7 @@ input[type="text"]
   padding-right: 10px;
   padding-bottom: 10px;
 }
+.backdropBackground{
+  -webkit-filter: blur(500px) grayscale(90%);
+  filter: blur(500px)
+}

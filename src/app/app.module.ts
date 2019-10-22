@@ -68,6 +68,7 @@ import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { VotarComponent } from './componentesSemLogin/votar/votar.component';
+import { DialogoUrnaComponent } from './componentesSemLogin/dialogo-urna/dialogo-urna.component';
 
 
 
@@ -104,6 +105,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     ModalCandidatoComponent,
     NumerosApenasDirective,
     RedirecionadorComponent,
+    DialogoUrnaComponent,
   ],
   imports: [
     BrowserModule,
@@ -144,7 +146,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],
-  entryComponents: [DialogoConfirmacaoComponent, ModalCandidatoComponent],
+  entryComponents: [DialogoConfirmacaoComponent, ModalCandidatoComponent, DialogoUrnaComponent],
   providers: [{ provide: MatPaginatorIntl, useValue: getPortuguesPaginatorIntl() }, {provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}],
 })
 
