@@ -111,6 +111,16 @@ export class GetterServices {
                 }
             }));
     }
+    verificaUrnaAtivada() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
     apagarPessoa(id) {
         return this.http.get<any>(`http://127.0.0.1:8000/api/apagarPessoa/` + id)
             .pipe(map((user) => {

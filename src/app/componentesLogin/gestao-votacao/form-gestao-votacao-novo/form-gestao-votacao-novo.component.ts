@@ -1,12 +1,13 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDatepickerInputEvent, MatSnackBar, MatDialog } from '@angular/material';
+import { MatDatepickerInputEvent, MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { id } from '@swimlane/ngx-charts/release/utils';
 import * as CryptoJS from 'crypto-js';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { GetterServices } from 'src/app/_services/getters.service';
 import { MustMatch } from 'src/app/componentesSemLogin/registro/validacoes';
-import { id } from '@swimlane/ngx-charts/release/utils';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
 
 @Component({
@@ -30,7 +31,12 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private getterServices: GetterServices) {
+
+
+    this.verificaVotacaoAtivada();
+  }
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
@@ -40,6 +46,8 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
       HoraInicio: ['', Validators.required],
       HoraTermino: ['', Validators.required],
     });
+
+
   }
   voltar(event) {
     event.preventDefault();
@@ -76,7 +84,7 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result){
+      if (result) {
         const formData: FormData = new FormData();
         formData.append('DataInicioVotacao', dataInicioVotacao);
         formData.append('DataTerminoVotacao', DataTerminoVotacao);
@@ -94,5 +102,23 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
             });
       }
     });
+  }
+  verificaVotacaoAtivada() {
+    this.getterServices.verificaUrnaAtivada()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data.Status === 'Iniciada') {
+            localStorage.setItem('mensagem', 'Votação em andamento, acompanhe pela página de relatórios!');
+            this.router.navigate(['relatorio']);
+          } else {
+            return;
+          }
+        },
+        (error) => {
+          // localStorage.setItem('mensagem', ' Erro, urna não encontrada!');
+          // this.router.navigate(['gestaoUrna']);
+        });
+    return;
   }
 }

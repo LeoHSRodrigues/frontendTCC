@@ -40,7 +40,7 @@ export class ComponentesnavsComponent implements OnInit {
 
   ngOnInit() {
     this.mobile = false;
-    this.votacaoAtivada = true;
+    this.votacaoAtivada = false;
     this.verificaAdmin();
     this.votacaoAtiva();
     window.onresize = () => this.mobile = window.innerWidth <= 800;

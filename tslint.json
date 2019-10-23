@@ -23,5 +23,9 @@
     "scripts": {
         "tslint": "tslint --project tsconfig.json",
         "tslint-fix": "tslint --fix --project tsconfig.json"
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+        "source.fixAll": true
     }
 }

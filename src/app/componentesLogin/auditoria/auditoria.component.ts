@@ -46,9 +46,6 @@ export class AuditoriaComponent implements OnInit {
       (error) => {
         console.log(error);
       });
-
-    console.log(this.resultadoVotacao);
-
     this.getterServices.listaLogs()
     .pipe(first())
     .subscribe(

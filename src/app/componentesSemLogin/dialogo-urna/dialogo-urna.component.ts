@@ -36,6 +36,7 @@ export class DialogoUrnaComponent implements OnInit {
       .subscribe(
         (data) => {
           localStorage.setItem('Urna', JSON.stringify(data));
+          this.dialogRef.close('oi');
         },
         (error) => {
           this.snackBar.open('Dados da Urna não encontrados ou a mesma já está sendo usada', 'Fechar', {

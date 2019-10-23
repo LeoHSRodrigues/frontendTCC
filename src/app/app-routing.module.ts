@@ -52,7 +52,7 @@ const appRoutes: Routes = [
         path: 'votacao', component: VotacaoComponent, children: [
           { path: '', component: HomeGestaoVotacaoComponent },
           { path: 'novo', component: FormGestaoVotacaoNovoComponent },
-          { path: 'editar/:id', component: FormGestaoVotacaoEditarComponent },
+          { path: 'editar', component: FormGestaoVotacaoEditarComponent },
         ],
       },
       { path: 'auditoria', component: AuditoriaComponent },
