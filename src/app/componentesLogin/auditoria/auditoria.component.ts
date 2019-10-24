@@ -33,19 +33,6 @@ export class AuditoriaComponent implements OnInit {
   }
 
   buscarLista() {
-    // this.resultadoVotacao = true;
-    this.getterServices.verificaVotacaoAtivada().pipe(first())
-    .subscribe(
-      (data) => {
-      if (data.Status === 'Iniciada') {
-          return this.resultadoVotacao = true;
-        } else {
-          return this.resultadoVotacao = false;
-        }
-      },
-      (error) => {
-        console.log(error);
-      });
     this.getterServices.listaLogs()
     .pipe(first())
     .subscribe(

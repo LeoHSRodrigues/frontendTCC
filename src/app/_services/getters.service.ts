@@ -72,13 +72,13 @@ export class GetterServices {
 
     verificaVotacaoAtivada() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada`)
-            .pipe(map((user) => {
-                if (user != null) {
-                    return user;
-                } else {
-                    return error('Username or password is incorrect');
-                }
-            }));
+        .pipe(map((votacao) => {
+          if (votacao.Status === 'Iniciada') {
+              return true;
+            } else {
+              return false;
+            }
+        }));
     }
 
     buscarPessoa(id) {

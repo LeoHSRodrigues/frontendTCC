@@ -1,4 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, SecurityContext } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -35,12 +36,12 @@ export class ComponentesnavsComponent implements OnInit {
     private titleService: Title,
     private getterServices: GetterServices,
     private sanitizer: DomSanitizer,
+    private http: HttpClient,
     ) {
   }
 
   ngOnInit() {
     this.mobile = false;
-    this.votacaoAtivada = false;
     this.verificaAdmin();
     this.votacaoAtiva();
     window.onresize = () => this.mobile = window.innerWidth <= 800;
@@ -72,7 +73,18 @@ export class ComponentesnavsComponent implements OnInit {
   }
 
   votacaoAtiva() {
-    
+    this.getterServices.verificaVotacaoAtivada()
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        if (data) {
+          this.votacaoAtivada = true;
+        } else {
+          this.votacaoAtivada = false;
+        }
+      },
+      (error) => {
+      });
   }
 
   logout() {

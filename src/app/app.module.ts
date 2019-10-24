@@ -8,7 +8,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule} from '@angular/material/button';
 import { MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatCheckboxModule} from '@angular/material/checkbox';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatIconModule} from '@angular/material/icon';
 import { MatInputModule} from '@angular/material/input';
 import { MatListModule} from '@angular/material/list';
@@ -21,13 +21,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule, MatStepperNext } from '@angular/material/stepper';
 import { MatTableModule} from '@angular/material/table';
 import { MatToolbarModule} from '@angular/material/toolbar';
+import { MatTooltipModule} from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { NumerosApenasDirective } from './_helpers/numeros-apenas.directive';
 import { ProximoDirective } from './_helpers/proximo.directive';
@@ -64,13 +65,11 @@ import { ModalCandidatoComponent } from './componentesLogin/modal-candidato/moda
 import { ComponentesnavsComponent } from './componentesLogin/navs/navs.component';
 import { RelatorioComponent } from './componentesLogin/relatorio/relatorio.component';
 import { ComponentesSemLoginComponent } from './componentesSemLogin/componentesSemLogin-component';
+import { DialogoUrnaComponent } from './componentesSemLogin/dialogo-urna/dialogo-urna.component';
 import { LoginComponent } from './componentesSemLogin/login/login.component';
 import { PageNotFoundComponent } from './componentesSemLogin/page-not-found/page-not-found.component';
 import { RegistroComponent } from './componentesSemLogin/registro/registro.component';
 import { VotarComponent } from './componentesSemLogin/votar/votar.component';
-import { DialogoUrnaComponent } from './componentesSemLogin/dialogo-urna/dialogo-urna.component';
-
-
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
@@ -143,6 +142,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatDatepickerModule,
     MatMomentDateModule,
     NgxMaterialTimepickerModule.setLocale('pt-BR'),
+    MatTooltipModule,
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],

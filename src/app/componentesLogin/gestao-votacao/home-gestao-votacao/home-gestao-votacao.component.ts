@@ -21,6 +21,7 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   private fotoSanitizada: any;
   private activeButton: any;
   private tipoPerfil: any;
+  private votacaoAtivada: boolean;
 
   constructor(private getterServices: GetterServices,
               private router: Router,
@@ -32,6 +33,7 @@ export class HomeGestaoVotacaoComponent implements OnInit {
 
   ngOnInit() {
     this.buscarLista();
+    this.votacaoAtiva();
     this.activeButton = 'todos';
     this.setRefinar('grade');
     if (localStorage.getItem('mensagem') !== undefined && localStorage.getItem('mensagem') !== null) {
@@ -55,6 +57,21 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   isRefinar = function(opcao) {
     return this.opcaoAtiva === opcao;
   };
+
+  votacaoAtiva() {
+    this.getterServices.verificaVotacaoAtivada()
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        if (data) {
+          this.votacaoAtivada = true;
+        } else {
+          this.votacaoAtivada = false;
+        }
+      },
+      (error) => {
+      });
+  }
 
   buscarLista() {
     this.getterServices.listaVotacao()
@@ -92,8 +109,15 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   }
 
   modalCadastro(Tipo, CPF, Nome, Numero) {
-    const dados = ({Nome, CPF, Tipo, Numero});
-    this.openDialog(dados);
+    if (this.votacaoAtivada === true) {
+      this.snackBar.open('Votação em andamento', 'Fechar', {
+        duration: 2000,
+      });
+      return;
+    } else {
+      const dados = ({Nome, CPF, Tipo, Numero});
+      this.openDialog(dados);
+    }
   }
 
   openDialog(dados): void {
@@ -111,13 +135,20 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   }
 
   removerCandidatura(CPF) {
-    this.confirmacaoRemoverCandidatura(CPF);
+    if (this.votacaoAtivada === true) {
+      this.snackBar.open('Votação em andamento', 'Fechar', {
+        duration: 2000,
+      });
+      return;
+    } else {
+      this.confirmacaoRemoverCandidatura(CPF);
+    }
   }
 
   confirmacaoRemoverCandidatura(CPF): void {
     const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
       width: '350px',
-      data: 'Deseja realmente apagar este registro?',
+      data: 'Deseja realmente remover a candidatura?',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
