@@ -1,33 +1,37 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from './_services/authentication.service';
 
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 
 export class AppComponent implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
-  .pipe(
-    map((result) => result.matches),
-    shareReplay(),
-  );
+    .pipe(
+      map((result) => result.matches),
+      shareReplay(),
+    );
   mobile: boolean;
 
   title: string;
+  public loading: boolean = true;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authenticationService: AuthenticationService,
     public router: Router,
     private titleService: Title,
-    ) {
+  ) {
+    router.events.subscribe((event: RouterEvent) => {
+      this.navigationInterceptor(event);
+    });
   }
 
   ngOnInit() {
@@ -37,8 +41,26 @@ export class AppComponent implements OnInit {
       this.mobile = true;
     }
   }
+
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
+  }
+  // Shows and hides the loading spinner during RouterEvent changes
+  navigationInterceptor(event: RouterEvent): void {
+    if (event instanceof NavigationStart) {
+      this.loading = true;
+    }
+    if (event instanceof NavigationEnd) {
+        this.loading = false;
+    }
+
+    // Set loading state to false in both of the below events to hide the spinner in case a request fails
+    if (event instanceof NavigationCancel) {
+      this.loading = false;
+    }
+    if (event instanceof NavigationError) {
+      this.loading = false;
+    }
   }
 }

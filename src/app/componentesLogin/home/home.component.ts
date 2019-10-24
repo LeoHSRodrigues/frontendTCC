@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { first } from 'rxjs/operators';
+import { GetterServices } from 'src/app/_services/getters.service';
 
 @Component({
   selector: 'app-home',
@@ -6,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
+
   public rede = [
     {
       name: 'Uso médio de rede',
@@ -32,11 +36,20 @@ export class HomeComponent implements OnInit {
       value: 25000000,
     },
   ];
-
   colorScheme = {domain: ['#ffffff']};
-  constructor() {
+  private contagemCadastrados: string;
+  private contagemUrnas: string;
+  constructor(private snackBar: MatSnackBar, private getterServices: GetterServices) {
   }
   ngOnInit() {
+    this.contaCadastrados();
+    this.contaUrnas();
+    if (localStorage.getItem('mensagem') !== undefined && localStorage.getItem('mensagem') !== null) {
+      this.snackBar.open(localStorage.getItem('mensagem'), 'Fechar', {
+        duration: 2000,
+      });
+      localStorage.removeItem('mensagem');
+    }
   }
   public gaugeValueFormatting = (valor: string) => {
     return valor + '%';
@@ -56,4 +69,32 @@ export class HomeComponent implements OnInit {
 
     return '1.5Ghz';
   }
+
+  contaCadastrados() {
+    this.getterServices.contaCadastrados()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.contagemCadastrados = data;
+        },
+        (error) => {
+          this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
+  }
+  contaUrnas() {
+    this.getterServices.contaUrnas()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.contagemUrnas = data;
+        },
+        (error) => {
+          this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
+  }
+
 }

@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
         private authenticationService: AuthenticationService,
         private getterServices: GetterServices,
         private http: HttpClient,
-    ) {}
+    ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.authenticationService.currentUserValue;
@@ -23,28 +23,32 @@ export class AuthGuard implements CanActivate {
             const isExpired = helper.isTokenExpired(currentUser.token);
             const expirationDate = helper.getTokenExpirationDate(currentUser.token);
             if (isExpired === true) {
-              this.authenticationService.logout();
-              this.router.navigate(['/login']);
+                this.authenticationService.logout();
+                this.router.navigate(['/login']);
             } else {
-              return true;
+                return true;
             }
         }
 
         // not logged in so redirect to login page with the return url
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
         return false;
     }
 
     canActivateChild(): Observable<boolean> | Promise<boolean> | boolean {
 
-          return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada`)
-              .pipe(map((votacao) => {
-                  if (votacao.Status === 'Iniciada') {
-                      this.router.navigate(['/']);
-                      return false;
+        return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada`)
+            .pipe(map((votacao) => {
+                if (votacao) {
+                    if (votacao.Status === 'Iniciada' || votacao.Status === 'Contagem') {
+                        this.router.navigate(['/']);
+                        return false;
                     } else {
-                      return true;
-                  }
-              }));
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }));
     }
 }

@@ -108,7 +108,7 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          if (data.Status === 'Iniciada') {
+          if (data.Status === 'Iniciada' || data.Status === 'Contagem') {
             localStorage.setItem('mensagem', 'Votação em andamento, acompanhe pela página de relatórios!');
             this.router.navigate(['relatorio']);
           } else {

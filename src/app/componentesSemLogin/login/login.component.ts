@@ -120,9 +120,17 @@ export class LoginComponent implements OnInit {
           }
         },
         (error) => {
-          this.snackBar.open('CPF ou Senha incorreto', 'Fechar', {
-            duration: 2000,
-          });
+          console.log(error.status);
+          if (error.status === 400) {
+            this.snackBar.open('CPF ou Senha incorreto', 'Fechar', {
+              duration: 2000,
+            });
+          } else {
+            this.snackBar.open('Usuário sem permissão de acesso', 'Fechar', {
+              duration: 2000,
+            });
+          }
+
         });
   }
 }

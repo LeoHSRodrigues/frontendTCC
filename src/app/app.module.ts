@@ -25,6 +25,7 @@ import { MatTooltipModule} from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
@@ -143,6 +144,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatMomentDateModule,
     NgxMaterialTimepickerModule.setLocale('pt-BR'),
     MatTooltipModule,
+    EcoFabSpeedDialModule,
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],

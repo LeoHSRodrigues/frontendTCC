@@ -20,8 +20,15 @@ export class VotarComponent implements OnInit {
   Senha: string;
   formulario: FormGroup;
   encontrado: boolean;
+  votacaoAtivada: boolean;
   // tslint:disable-next-line: variable-name
-  constructor(private _formBuilder: FormBuilder, public dialog: MatDialog, private renderer: Renderer2, private el: ElementRef, private router: Router, private getterServices: GetterServices, private snackBar: MatSnackBar, private authenticationService: AuthenticationService) { }
+  constructor(private _formBuilder: FormBuilder, public dialog: MatDialog,
+              private renderer: Renderer2, private el: ElementRef,
+              private router: Router, private getterServices: GetterServices,
+              private snackBar: MatSnackBar,
+              private authenticationService: AuthenticationService) {
+                this.votacaoAtiva();
+  }
 
   ngOnInit() {
     this.encontrado = false;
@@ -31,16 +38,16 @@ export class VotarComponent implements OnInit {
       formData.append('Apelido', urnaValidada.UUID);
       formData.append('Senha', urnaValidada.Hash);
       this.authenticationService.loginUrna(formData)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          // localStorage.setItem('Urna', JSON.stringify(data));
-        },
-        (error) => {
-          this.snackBar.open('Dados da Urna não encontrados ou a mesma já está sendo usada', 'Fechar', {
-            duration: 2000,
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            // localStorage.setItem('Urna', JSON.stringify(data));
+          },
+          (error) => {
+            this.snackBar.open('Dados da Urna não encontrados ou a mesma já está sendo usada', 'Fechar', {
+              duration: 2000,
+            });
           });
-        });
     } else {
       this.openDialog();
     }
@@ -64,29 +71,29 @@ export class VotarComponent implements OnInit {
     if (curr.value.length === 1) {
       const numero = this.renderer.selectRootElement('#primeiroInput').value + this.renderer.selectRootElement('#input2').value + this.renderer.selectRootElement('#input3').value + this.renderer.selectRootElement('#input4').value + this.renderer.selectRootElement('#input5').value;
       this.getterServices.buscaCandidato(numero)
-          .pipe(first())
-          .subscribe(
-            (data) => {
-              const tituloCartao = this.renderer.selectRootElement('#tituloCartao');
-              const nomeTitulo = this.renderer.createText(data.Nome);
-              const descricaoTexto = this.renderer.createText('Pressione ENTER para confirmar o voto ou BACKSPACE para apagar os números');
-              this.renderer.appendChild(tituloCartao, nomeTitulo);
-              const imagemCartao = this.renderer.selectRootElement('#imagem');
-              this.renderer.setAttribute(imagemCartao, 'src', 'http://' + data.Foto);
-              const descricaoCard = this.renderer.selectRootElement('#conteudo');
-              this.renderer.appendChild(descricaoCard, descricaoTexto);
-              this.encontrado = true;
-            },
-            (error) => {
-              // console.log(error);
-              this.snackBar.open('Candidato não encontrado', 'Fechar', {
-                duration: 1500,
-              });
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            const tituloCartao = this.renderer.selectRootElement('#tituloCartao');
+            const nomeTitulo = this.renderer.createText(data.Nome);
+            const descricaoTexto = this.renderer.createText('Pressione ENTER para confirmar o voto ou BACKSPACE para apagar os números');
+            this.renderer.appendChild(tituloCartao, nomeTitulo);
+            const imagemCartao = this.renderer.selectRootElement('#imagem');
+            this.renderer.setAttribute(imagemCartao, 'src', 'http://' + data.Foto);
+            const descricaoCard = this.renderer.selectRootElement('#conteudo');
+            this.renderer.appendChild(descricaoCard, descricaoTexto);
+            this.encontrado = true;
+          },
+          (error) => {
+            // console.log(error);
+            this.snackBar.open('Candidato não encontrado', 'Fechar', {
+              duration: 1500,
             });
+          });
     } else {
       return;
     }
-    }
+  }
 
   salvarVoto() {
     if (this.encontrado === true) {
@@ -115,7 +122,7 @@ export class VotarComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogoUrnaComponent, {
       width: '280px',
       height: '300px',
-      data: {Apelido: this.Apelido, Senha: this.Senha},
+      data: { Apelido: this.Apelido, Senha: this.Senha },
       backdropClass: 'backdropBackground',
     });
 
@@ -123,9 +130,25 @@ export class VotarComponent implements OnInit {
       if (result) {
 
       } else {
-        this.router.navigate(['gestaoUrna']);
+        this.router.navigate(['/']);
       }
     });
+  }
+
+  votacaoAtiva() {
+    this.getterServices.verificaVotacaoAtivadaVotos()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data === true) {
+            return;
+          } else {
+            localStorage.setItem('mensagem', 'Nenhuma votação em andamento ou fechada para votos!');
+            this.router.navigate(['/']);
+          }
+        },
+        (error) => {
+        });
   }
 
 }

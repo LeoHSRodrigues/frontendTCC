@@ -69,10 +69,10 @@
   .flex-item-contador {
     background: #ffffff;
     padding: 5px;
-    max-width: 550px;
-    max-height: 250px;
-    min-width: 550px;
-    min-height: 180px;
+    max-width: 500px;
+    max-height: 150px;
+    min-width: 500px;
+    min-height: 150px;
     margin: 5px;
     line-height: 50px;
     color: black;
@@ -90,4 +90,11 @@
     transform: scale(1.02);
     cursor: pointer;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+  .fabSpeedDial{
+    text-align: right;
+    margin-right: 30px;
+  }
+  .listaRelatorio{
+    padding-bottom: 5px;
   }

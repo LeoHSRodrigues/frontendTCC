@@ -77,11 +77,7 @@ export class ComponentesnavsComponent implements OnInit {
     .pipe(first())
     .subscribe(
       (data) => {
-        if (data) {
-          this.votacaoAtivada = true;
-        } else {
-          this.votacaoAtivada = false;
-        }
+        this.votacaoAtivada = data;
       },
       (error) => {
       });

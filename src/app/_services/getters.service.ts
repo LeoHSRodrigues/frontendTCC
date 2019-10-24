@@ -73,10 +73,38 @@ export class GetterServices {
     verificaVotacaoAtivada() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada`)
         .pipe(map((votacao) => {
-          if (votacao.Status === 'Iniciada') {
-              return true;
+            if (votacao) {
+                if (votacao.Status === 'Iniciada' || votacao.Status === 'Contagem') {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-              return false;
+                return false;
+            }
+        }));
+    }
+    verificaVotacaoAtivadaVotos() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada`)
+        .pipe(map((votacao) => {
+            if (votacao) {
+                if (votacao.Status === 'Iniciada') {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }));
+    }
+    verificaStatusVotacao() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/verificaStatusVotacao`)
+        .pipe(map((votacao) => {
+            if (votacao !== null) {
+                return votacao;
+            } else {
+                return error('Username or password is incorrect');
             }
         }));
     }
@@ -113,6 +141,56 @@ export class GetterServices {
     }
     verificaUrnaAtivada() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/verificaVotacaoAtivada/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    contaCandidatos() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/contaCandidatos/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    contaCadastrados() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/contaCadastrados/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    contaVotos() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/contaVotos/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    encerraVotacao(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/encerraVotacao/` + id)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    contaUrnas() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/contaUrnas/`)
             .pipe(map((user) => {
                 if (user !== null) {
                     return user;
