@@ -3,14 +3,18 @@
 <ng-template [ngIf]="statusVotacao == 1">
   <ul class="flex-container dash1 space-around">
     <li title="Pessoas Cadastradas" class="flex-item-contador">
-      <img src="assets/Clock_Days.png" width="470px" alt="Avatar">
-
+      <!-- <img src="assets/Clock_Days.png" width="470px" alt="Avatar"> -->
+      <span class="clock">{{ time }}</span>
+      <!-- <countdown [config]="dadosInicio" #cd class="clock"></countdown> -->
       <br>
       <p class="text-muted legenda">Tempo desde o inicio da Votação</p>
     </li>
     <li title="Votações Finalizadas" class="flex-item-contador">
-      <img src="assets/Clock_Days.png" width="470px" alt="Avatar">
-
+      <!-- <img src="assets/Clock_Days.png" width="470px" alt="Avatar"> -->
+      <!-- <div class="flip-clock"> -->
+        <span class="spacing"></span>
+        <countdown [config]="dadosFim" #cd class="clock"></countdown>
+      <!-- </div> -->
       <br>
       <p class="text-muted legenda">Tempo restante de Votação</p>
     </li>

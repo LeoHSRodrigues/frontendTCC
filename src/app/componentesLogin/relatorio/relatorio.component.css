@@ -68,7 +68,7 @@
   }
   .flex-item-contador {
     background: #ffffff;
-    padding: 5px;
+    padding: 30px;
     max-width: 500px;
     max-height: 150px;
     min-width: 500px;
@@ -110,6 +110,12 @@
 th.mat-sort-header-sorted {
   color: black;
 }
-.teste {
+/* .teste {
   padding-bottom: 30%;
+} */
+.clock{
+  font-size: 50px !important;
+}
+.item {
+  padding-top: 30px !important;
 }

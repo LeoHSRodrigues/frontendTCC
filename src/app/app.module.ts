@@ -28,6 +28,7 @@ import { RouterModule } from '@angular/router';
 import { EcoFabSpeedDialModule } from '@ecodev/fab-speed-dial';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CountdownModule } from 'ngx-countdown';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
@@ -145,6 +146,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     NgxMaterialTimepickerModule.setLocale('pt-BR'),
     MatTooltipModule,
     EcoFabSpeedDialModule,
+    CountdownModule,
   ],
   // tslint:disable-next-line: object-literal-sort-keys
   bootstrap: [AppComponent],

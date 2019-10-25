@@ -199,6 +199,16 @@ export class GetterServices {
                 }
             }));
     }
+    datasVotacaoIniciada() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/datasVotacao/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
     encerraVotacao(id) {
         return this.http.get<any>(`http://127.0.0.1:8000/api/encerraVotacao/` + id)
             .pipe(map((user) => {

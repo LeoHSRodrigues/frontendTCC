@@ -72,8 +72,8 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
       return;
     }
     const login = this.authenticationService.currentUserValue;
-    const dataInicioVotacao = formulario.DataInicio.format('YYYY-MM-DD') + 'T' + formulario.HoraInicio + ':00Z';
-    const DataTerminoVotacao = formulario.DataTermino.format('YYYY-MM-DD') + 'T' + formulario.HoraTermino + ':00Z';
+    const dataInicioVotacao = formulario.DataInicio.format('YYYY-MM-DD') + ' ' + formulario.HoraInicio;
+    const DataTerminoVotacao = formulario.DataTermino.format('YYYY-MM-DD') + ' ' + formulario.HoraTermino;
     const nomeEleicao = formulario.Nome;
     this.openDialog(dataInicioVotacao, DataTerminoVotacao, nomeEleicao, login.CPF);
   }

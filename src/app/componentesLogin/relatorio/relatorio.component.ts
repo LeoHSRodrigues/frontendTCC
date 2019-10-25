@@ -2,14 +2,21 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatSnackBar } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import * as $ from 'jquery';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
+import * as moment from 'moment';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 
+
+
+
+declare var $: any;
 let logData: DataLog[] = [];
 @Component({
   selector: 'app-relatorio',
@@ -19,6 +26,13 @@ let logData: DataLog[] = [];
 export class RelatorioComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  public dadosInicio: any;
+  public dadosFim: any;
+  public time: string;
+  timer;
+  public inicio: string;
+  @ViewChild('cd', { static: true }) private countdown: CountdownComponent;
   private contagemCandidatos: string;
   private contagemCadastrados: string;
   private contagemVotos: string;
@@ -46,7 +60,10 @@ export class RelatorioComponent implements OnInit {
     this.contaCadastrados();
     this.contaVotos();
     this.buscarLista();
+    this.datasVotacao();
+    setInterval(() => { this.contaVotos(); }, 2000);
   }
+
   contaCandidato() {
     this.getterServices.contaCandidatos()
       .pipe(first())
@@ -79,6 +96,42 @@ export class RelatorioComponent implements OnInit {
       .subscribe(
         (data) => {
           this.contagemVotos = data;
+        },
+        (error) => {
+          this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
+  }
+  datasVotacao() {
+    this.getterServices.datasVotacaoIniciada()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          const termino = moment(data.DataTermino);
+          const inicioVotacao = moment(data.DataInicio);
+          const agora = moment(new Date());
+          console.log('Antes de Finalizar', moment(agora).isBefore(termino));
+          console.log('Depois de começar', moment(agora).isAfter(inicioVotacao));
+          setTimeout(() => {
+            this.dadosFim = {
+              leftTime: termino.diff(agora, 'seconds'), format: 'HH:mm:ss', prettyText: (text) => {
+                return text
+                  .split(':')
+                  .map((v) => `<span class="item">${v}</span>`)
+                  .join(':');
+              },
+            };
+          }, 1100);
+          this.timer = setInterval(() => {
+
+            const agoraFinal = moment(new Date());
+            const inicioContagem = moment(data.DataInicio); // now
+            const diff: any = moment.duration(moment(agoraFinal).diff(moment(inicioContagem)));
+            const ms = moment(agoraFinal, 'DD/MM/YYYY HH:mm:ss').diff(moment(inicioContagem, 'DD/MM/YYYY HH:mm:ss'));
+            this.time = moment.utc(ms).format('HH:mm:ss');
+
+          }, 1000);
         },
         (error) => {
           this.snackBar.open('Erro', 'Fechar', {
@@ -124,7 +177,7 @@ export class RelatorioComponent implements OnInit {
           }
         },
         (error) => {
-        this.snackBar.open('Erro', 'Fechar', {
+          this.snackBar.open('Erro', 'Fechar', {
             duration: 2000,
           });
         });
@@ -140,6 +193,7 @@ export class RelatorioComponent implements OnInit {
           this.changeDetectorRef.detectChanges();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          // this.countdown.begin();
           return data;
         },
         (error) => {
@@ -221,7 +275,6 @@ export class RelatorioComponent implements OnInit {
         (data) => {
           if (data.length > 0) {
             data.forEach((key, val) => {
-              console.log(key)
               listaUrnas.push([key._id, key.Contagem]);
             });
             const documento = new jsPDF('portrait', 'px', 'a4') as JsPDFWithPlugin;
@@ -320,6 +373,17 @@ export class RelatorioComponent implements OnInit {
         }
       });
     }
+  }
+
+  tempoRestante(fim, inicio) {
+    const t = Date.parse(fim) - Date.parse(inicio);
+    return {
+      Total: t,
+      Days: Math.floor(t / (1000 * 60 * 60 * 24)),
+      Hours: Math.floor((t / (1000 * 60 * 60)) % 24),
+      Minutes: Math.floor((t / 1000 / 60) % 60),
+      Seconds: Math.floor((t / 1000) % 60),
+    };
   }
 }
 interface JsPDFWithPlugin extends jsPDF {

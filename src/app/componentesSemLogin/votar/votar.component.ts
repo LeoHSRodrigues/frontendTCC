@@ -79,7 +79,11 @@ export class VotarComponent implements OnInit {
             const descricaoTexto = this.renderer.createText('Pressione ENTER para confirmar o voto ou BACKSPACE para apagar os números');
             this.renderer.appendChild(tituloCartao, nomeTitulo);
             const imagemCartao = this.renderer.selectRootElement('#imagem');
-            this.renderer.setAttribute(imagemCartao, 'src', 'http://' + data.Foto);
+            if (data.Foto !== undefined && data.Foto.substr(data.Foto.length - 3) !== 'N/A') {
+              this.renderer.setAttribute(imagemCartao, 'src', 'http://' + data.Foto);
+            } else {
+              this.renderer.setAttribute(imagemCartao, 'src', 'assets/avatar-placeholder.png');
+            }
             const descricaoCard = this.renderer.selectRootElement('#conteudo');
             this.renderer.appendChild(descricaoCard, descricaoTexto);
             this.encontrado = true;
