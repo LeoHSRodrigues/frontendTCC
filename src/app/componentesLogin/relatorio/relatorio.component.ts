@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatPaginator, MatSnackBar } from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
@@ -8,20 +10,28 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 
-
+let logData: DataLog[] = [];
 @Component({
   selector: 'app-relatorio',
   templateUrl: './relatorio.component.html',
   styleUrls: ['./relatorio.component.css'],
 })
 export class RelatorioComponent implements OnInit {
-
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   private contagemCandidatos: string;
   private contagemCadastrados: string;
   private contagemVotos: string;
   private statusVotacao: string;
 
-  constructor(private snackBar: MatSnackBar, private getterServices: GetterServices, private authenticationService: AuthenticationService, public dialog: MatDialog) { }
+  private displayedColumns: string[] = ['_id', 'Contagem'];
+  // tslint:disable-next-line: no-use-before-declare
+  private dataSource = new MatTableDataSource(logData);
+  private resultadoVotacao: boolean;
+  constructor(private snackBar: MatSnackBar, private getterServices: GetterServices,
+              private authenticationService: AuthenticationService, public dialog: MatDialog,
+              private changeDetectorRef: ChangeDetectorRef) {
+  }
 
   ngOnInit() {
     if (localStorage.getItem('mensagem') !== undefined && localStorage.getItem('mensagem') !== null) {
@@ -30,10 +40,12 @@ export class RelatorioComponent implements OnInit {
       });
       localStorage.removeItem('mensagem');
     }
+    this.dataSource.paginator = this.paginator;
     this.verificaVotacao();
     this.contaCandidato();
     this.contaCadastrados();
     this.contaVotos();
+    this.buscarLista();
   }
   contaCandidato() {
     this.getterServices.contaCandidatos()
@@ -81,7 +93,17 @@ export class RelatorioComponent implements OnInit {
         duration: 2000,
       });
     } else {
-      this.openDialog(admin.CPF);
+      this.openDialog(admin.CPF, 'Encerrar');
+    }
+  }
+  FinalizarVotacao() {
+    const admin = this.authenticationService.currentUserValue;
+    if (admin.tipoConta !== 'Admin') {
+      this.snackBar.open('Você não possui permissão para encerrar a votação', 'Fechar', {
+        duration: 2000,
+      });
+    } else {
+      this.openDialog(admin.CPF, 'Finalizar');
     }
   }
   verificaVotacao() {
@@ -89,12 +111,69 @@ export class RelatorioComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          if (data.Status === 'Iniciada') {
-            this.statusVotacao = '1';
-          } else if (data.Status === 'Contagem') {
-            this.statusVotacao = '2';
+          if (data) {
+            if (data.Status === 'Iniciada') {
+              this.statusVotacao = '1';
+            } else if (data.Status === 'Contagem') {
+              this.statusVotacao = '2';
+            } else {
+              this.statusVotacao = '3';
+            }
           } else {
             this.statusVotacao = '3';
+          }
+        },
+        (error) => {
+        this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
+  }
+
+  buscarLista() {
+    this.getterServices.listaVotos()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          logData = data;
+          this.dataSource = new MatTableDataSource(logData);
+          this.changeDetectorRef.detectChanges();
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          return data;
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
+
+  listaPessoasCadastradas() {
+    const listaUrnas = [];
+    this.getterServices.listaPessoas()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data.length > 0) {
+            data.forEach((key, val) => {
+              if (key.tipoConta === 'Admin') {
+                listaUrnas.push([key.CPF, key.Nome, 'Administrador']);
+              } else if (key.tipoConta === 'Func') {
+                listaUrnas.push([key.CPF, key.Nome, 'Funcionário']);
+              } else {
+                listaUrnas.push([key.CPF, key.Nome, 'Usuário']);
+              }
+            });
+            const documento = new jsPDF('portrait', 'px', 'a4') as JsPDFWithPlugin;
+            documento.setProperties({
+              title: 'Lista de Pessoas Cadastradas',
+            });
+            documento.text('Lista de Pessoas Cadastradas', 150, 30);
+            documento.autoTable({ head: [['CPF', 'Nome', 'Tipo de Conta']], body: listaUrnas, startY: 50, theme: 'grid' });
+            documento.output('dataurlnewwindow');
+          } else {
+            this.snackBar.open('Erro nenhum candidato encontrado', 'Fechar', {
+              duration: 2000,
+            });
           }
         },
         (error) => {
@@ -104,80 +183,150 @@ export class RelatorioComponent implements OnInit {
         });
   }
 
-  listaPessoasCadastradas() {
-    const documento = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
-    documento.setProperties({
-      title: 'Lista de Pessoas Cadastradas',
-      });
-    documento.text('Lista de Pessoas Cadastradas', 20, 30);
-    documento.autoTable({
-        head: [['CPF', 'Nome', 'Tipo de Conta']],
-        body: [
-          ['David', 'david@example.com', 'Sweden'],
-          ['Castille', 'castille@example.com', 'Norway'],
-        ],
-      });
-    documento.output('dataurlnewwindow');
+  listaCandidatosCadastradas() {
+    const listaUrnas = [];
+    this.getterServices.listaCandidatos()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data.length > 0) {
+            data.forEach((key, val) => {
+              listaUrnas.push([key.CPF, key.Nome, key.Numero]);
+            });
+            const documento = new jsPDF('portrait', 'px', 'a4') as JsPDFWithPlugin;
+            documento.setProperties({
+              title: 'Lista de Candidatos Cadastradas',
+            });
+            documento.text('Lista de Candidatos Cadastradas', 140, 30);
+            documento.autoTable({ head: [['CPF', 'Nome', 'Número']], body: listaUrnas, startY: 50, theme: 'grid' });
+            documento.output('dataurlnewwindow');
+          } else {
+            this.snackBar.open('Erro nenhum candidato encontrado', 'Fechar', {
+              duration: 2000,
+            });
+          }
+        },
+        (error) => {
+          this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
   }
 
-  listaCandidatosCadastradas() {
-    const documento = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
-    documento.setProperties({
-      title: 'Lista de Candidatos',
-      });
-    documento.text('Lista de Candidatos Cadastradas', 20, 30);
-    documento.autoTable({
-      head: [['CPF', 'Nome', 'Número']],
-      body: [
-        ['David', 'david@example.com', 'Sweden'],
-        ['Castille', 'castille@example.com', 'Norway'],
-      ],
-    });
-    documento.output('dataurlnewwindow');
+  listaFinalVotacao() {
+    const listaUrnas = [];
+    this.getterServices.listaVotos()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data.length > 0) {
+            data.forEach((key, val) => {
+              console.log(key)
+              listaUrnas.push([key._id, key.Contagem]);
+            });
+            const documento = new jsPDF('portrait', 'px', 'a4') as JsPDFWithPlugin;
+            documento.setProperties({
+              title: 'Resultado da contagem de Votos',
+            });
+            documento.text('Resultado da contagem de Votos', 140, 30);
+            documento.autoTable({ head: [['Número', 'Contagem']], body: listaUrnas, startY: 50, theme: 'grid' });
+            documento.output('dataurlnewwindow');
+          } else {
+            this.snackBar.open('Erro nenhum candidato encontrado', 'Fechar', {
+              duration: 2000,
+            });
+          }
+        },
+        (error) => {
+          this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
   }
 
   listaUrnasCadastradas() {
-    const documento = new jsPDF('portrait', 'px', 'a4') as jsPDFWithPlugin;
-    documento.setProperties({
-      title: 'Lista de Urnas',
-      });
-    documento.text('Lista de Urnas Cadastradas', 150, 30);
-    documento.text('', 150, 30);
-    documento.autoTable({
-        head: [['UUID', 'Apelido']],
-        body: [['David', 'david@example.com'],
-          ['Castille', 'castille@example.com'],
-        ],
-      });
-    documento.output('dataurlnewwindow');
+    const listaUrnas = [];
+    this.getterServices.listaUrnas()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data.length > 0) {
+            data.forEach((key, val) => {
+              listaUrnas.push([key.UUID, key.Apelido]);
+            });
+            const documento = new jsPDF('portrait', 'px', 'a4') as JsPDFWithPlugin;
+            documento.setProperties({
+              title: 'Lista de Urnas',
+            });
+            documento.text('Lista de Urnas Cadastradas', 150, 30);
+            documento.autoTable({ head: [['UUID', 'Apelido']], body: listaUrnas, startY: 50, theme: 'grid' });
+            documento.output('dataurlnewwindow');
+          } else {
+            this.snackBar.open('Erro nenhum candidato encontrado', 'Fechar', {
+              duration: 2000,
+            });
+          }
+        },
+        (error) => {
+          this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
   }
 
-  openDialog(CPF) {
-    const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
-      width: '350px',
-      data: 'Você realmente deseja finalizar a votação e iniciar a validação dos votos?',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getterServices.encerraVotacao(CPF)
-          .pipe(first())
-          .subscribe(
-            (data) => {
-              this.verificaVotacao();
-              this.contaCandidato();
-              this.contaCadastrados();
-              this.contaVotos();
-            },
-            (error) => {
-              this.snackBar.open('Erro', 'Fechar', {
-                duration: 2000,
+  openDialog(CPF, tipo) {
+    if (tipo === 'Encerrar') {
+      const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
+        width: '350px',
+        data: 'Você realmente deseja finalizar a votação e iniciar a validação dos votos?',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.getterServices.encerraVotacao(CPF)
+            .pipe(first())
+            .subscribe(
+              (data) => {
+                this.verificaVotacao();
+                this.contaCandidato();
+                this.contaCadastrados();
+                this.contaVotos();
+              },
+              (error) => {
+                this.snackBar.open('Erro', 'Fechar', {
+                  duration: 2000,
+                });
               });
-            });
-      }
-    });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
+        width: '350px',
+        data: 'Você realmente deseja finalizar a votação?',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.getterServices.finalizarVotacao(CPF)
+            .pipe(first())
+            .subscribe(
+              (data) => {
+                this.verificaVotacao();
+                this.listaFinalVotacao();
+              },
+              (error) => {
+                this.snackBar.open('Erro', 'Fechar', {
+                  duration: 2000,
+                });
+              });
+        }
+      });
+    }
   }
 }
-interface jsPDFWithPlugin extends jsPDF {
+interface JsPDFWithPlugin extends jsPDF {
   autoTable: (options: UserOptions) => jsPDF;
+}
+export interface DataLog {
+  Acao: string;
+  CPF: string;
+  Data: string;
 }

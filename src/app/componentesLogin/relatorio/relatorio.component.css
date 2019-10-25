@@ -98,3 +98,18 @@
   .listaRelatorio{
     padding-bottom: 5px;
   }
+  table{
+    width: 100%
+}
+.tituloColuna{
+  text-align: center;
+}
+.conteudoColuna{
+  text-align: center;
+}
+th.mat-sort-header-sorted {
+  color: black;
+}
+.teste {
+  padding-bottom: 30%;
+}

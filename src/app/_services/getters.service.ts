@@ -48,6 +48,16 @@ export class GetterServices {
                 }
             }));
     }
+    listaVotos() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/listaVotos`)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
 
     listaLogs() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/listaLogs`)
@@ -61,6 +71,16 @@ export class GetterServices {
     }
     listaUrnas() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/listaUrnas`)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    listaCandidatos() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/listaCandidatos`)
             .pipe(map((user) => {
                 if (user != null) {
                     return user;
@@ -101,10 +121,10 @@ export class GetterServices {
     verificaStatusVotacao() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/verificaStatusVotacao`)
         .pipe(map((votacao) => {
-            if (votacao !== null) {
+            if (votacao) {
                 return votacao;
             } else {
-                return error('Username or password is incorrect');
+                return null;
             }
         }));
     }
@@ -181,6 +201,16 @@ export class GetterServices {
     }
     encerraVotacao(id) {
         return this.http.get<any>(`http://127.0.0.1:8000/api/encerraVotacao/` + id)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+    finalizarVotacao(id) {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/finalizarVotacao/` + id)
             .pipe(map((user) => {
                 if (user !== null) {
                     return user;

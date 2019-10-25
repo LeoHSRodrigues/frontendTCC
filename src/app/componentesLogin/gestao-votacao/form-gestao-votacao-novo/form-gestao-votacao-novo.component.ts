@@ -4,6 +4,7 @@ import { MatDatepickerInputEvent, MatDialog, MatSnackBar } from '@angular/materi
 import { Router } from '@angular/router';
 import { id } from '@swimlane/ngx-charts/release/utils';
 import * as CryptoJS from 'crypto-js';
+import * as moment from 'moment';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { GetterServices } from 'src/app/_services/getters.service';
@@ -46,9 +47,9 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
       HoraInicio: ['', Validators.required],
       HoraTermino: ['', Validators.required],
     });
-
-
+    this.dataMinima = new Date();
   }
+
   voltar(event) {
     event.preventDefault();
     this.router.navigate(['gestaoUrna']);

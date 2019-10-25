@@ -6,8 +6,7 @@ import { first } from 'rxjs/operators';
 import { GetterServices } from 'src/app/_services/getters.service';
 
 
-let logData: DataLog[] = [
-];
+let logData: DataLog[] = [];
 
 @Component({
   selector: 'app-auditoria',
@@ -18,7 +17,6 @@ let logData: DataLog[] = [
 export class AuditoriaComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
   private displayedColumns: string[] = ['CPF', 'Acao', 'Data'];
   // tslint:disable-next-line: no-use-before-declare
   private dataSource = new MatTableDataSource(logData);
@@ -29,7 +27,6 @@ export class AuditoriaComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   buscarLista() {
