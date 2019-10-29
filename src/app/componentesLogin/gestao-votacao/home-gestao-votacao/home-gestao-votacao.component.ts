@@ -34,6 +34,7 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   ngOnInit() {
     this.buscarLista();
     this.votacaoAtiva();
+    this.verificaVotacaoIniciada();
     this.activeButton = 'todos';
     this.setRefinar('grade');
     if (localStorage.getItem('mensagem') !== undefined && localStorage.getItem('mensagem') !== null) {
@@ -49,6 +50,16 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   isActive = function(buttonName) {
     return this.activeButton === buttonName;
   };
+
+  verificaVotacaoIniciada() {
+    this.getterServices.verificaAgendamentoVotacao()
+    .pipe(first())
+    .subscribe(
+      (data) => {
+      },
+      (error) => {
+      });
+}
 
   setRefinar = function(opcao) {
     this.opcaoAtiva = opcao;

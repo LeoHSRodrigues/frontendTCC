@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { GetterServices } from 'src/app/_services/getters.service';
@@ -23,11 +24,11 @@ export class VotarComponent implements OnInit {
   votacaoAtivada: boolean;
   // tslint:disable-next-line: variable-name
   constructor(private _formBuilder: FormBuilder, public dialog: MatDialog,
-              private renderer: Renderer2, private el: ElementRef,
-              private router: Router, private getterServices: GetterServices,
-              private snackBar: MatSnackBar,
-              private authenticationService: AuthenticationService) {
-                this.votacaoAtiva();
+    private renderer: Renderer2, private el: ElementRef,
+    private router: Router, private getterServices: GetterServices,
+    private snackBar: MatSnackBar,
+    private authenticationService: AuthenticationService) {
+    this.votacaoAtiva();
   }
 
   ngOnInit() {
@@ -101,19 +102,7 @@ export class VotarComponent implements OnInit {
 
   salvarVoto() {
     if (this.encontrado === true) {
-      const numero = this.renderer.selectRootElement('#primeiroInput').value + this.renderer.selectRootElement('#input2').value + this.renderer.selectRootElement('#input3').value + this.renderer.selectRootElement('#input4').value + this.renderer.selectRootElement('#input5').value;
-      this.getterServices.salvarOpcaoVoto(numero)
-        .pipe(first())
-        .subscribe(
-          (data) => {
-            this.router.navigate(['/teste']);
-          },
-          (error) => {
-            // console.log(error);
-            this.snackBar.open('Preencha todos os campos', 'Fechar', {
-              duration: 1500,
-            });
-          });
+      this.votacaoAtiva();
     } else {
       this.snackBar.open('Candidato não encontrado', 'Fechar', {
         duration: 1500,
@@ -145,7 +134,19 @@ export class VotarComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data === true) {
-            return;
+            const numero = this.renderer.selectRootElement('#primeiroInput').value + this.renderer.selectRootElement('#input2').value + this.renderer.selectRootElement('#input3').value + this.renderer.selectRootElement('#input4').value + this.renderer.selectRootElement('#input5').value;
+            this.getterServices.salvarOpcaoVoto(numero)
+              .pipe(first())
+              .subscribe(
+                () => {
+                  this.router.navigate(['/teste']);
+                },
+                (error) => {
+                  // console.log(error);
+                  this.snackBar.open('Preencha todos os campos', 'Fechar', {
+                    duration: 1500,
+                  });
+                });
           } else {
             localStorage.setItem('mensagem', 'Nenhuma votação em andamento ou fechada para votos!');
             this.router.navigate(['/']);
@@ -154,7 +155,6 @@ export class VotarComponent implements OnInit {
         (error) => {
         });
   }
-
 }
 
 export interface DadosUrna {

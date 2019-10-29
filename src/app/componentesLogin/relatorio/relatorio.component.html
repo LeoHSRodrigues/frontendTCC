@@ -13,7 +13,7 @@
       <!-- <img src="assets/Clock_Days.png" width="470px" alt="Avatar"> -->
       <!-- <div class="flip-clock"> -->
         <span class="spacing"></span>
-        <countdown [config]="dadosFim" #cd class="clock"></countdown>
+        <countdown [config]="dadosFim" (event)="handleEvent($event)" #cd class="clock"></countdown>
       <!-- </div> -->
       <br>
       <p class="text-muted legenda">Tempo restante de Votação</p>

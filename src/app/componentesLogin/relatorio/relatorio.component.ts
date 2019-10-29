@@ -7,7 +7,7 @@ import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
 import * as moment from 'moment';
-import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { GetterServices } from 'src/app/_services/getters.service';
@@ -111,8 +111,6 @@ export class RelatorioComponent implements OnInit {
           const termino = moment(data.DataTermino);
           const inicioVotacao = moment(data.DataInicio);
           const agora = moment(new Date());
-          console.log('Antes de Finalizar', moment(agora).isBefore(termino));
-          console.log('Depois de começar', moment(agora).isAfter(inicioVotacao));
           setTimeout(() => {
             this.dadosFim = {
               leftTime: termino.diff(agora, 'seconds'), format: 'HH:mm:ss', prettyText: (text) => {
@@ -181,6 +179,22 @@ export class RelatorioComponent implements OnInit {
             duration: 2000,
           });
         });
+  }
+
+  handleEvent(e: CountdownEvent) {
+    if (e.action === 'done') {
+        this.getterServices.verificaAgendamentoVotacao()
+        .pipe(first())
+        .subscribe(
+          (data) => {
+            this.verificaVotacao();
+          },
+          (error) => {
+          });
+    } else {
+
+    }
+    console.log(e);
   }
 
   buscarLista() {

@@ -3,8 +3,9 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { first, map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from './_services/authentication.service';
+import { GetterServices } from './_services/getters.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     public router: Router,
     private titleService: Title,
+    private getterServices: GetterServices,
   ) {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
@@ -40,14 +42,25 @@ export class AppComponent implements OnInit {
     if (window.screen.width <= 800) { // 768px portrait
       this.mobile = true;
     }
+    this.verificaVotacaoIniciada();
   }
 
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
+
+  verificaVotacaoIniciada() {
+    this.getterServices.verificaAgendamentoVotacao()
+    .pipe(first())
+    .subscribe(
+      (data) => {
+      },
+      (error) => {
+      });
+}
   // Shows and hides the loading spinner during RouterEvent changes
-  navigationInterceptor(event: RouterEvent): void {
+navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
       this.loading = true;
     }
