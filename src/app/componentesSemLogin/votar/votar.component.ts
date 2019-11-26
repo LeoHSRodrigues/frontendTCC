@@ -24,10 +24,10 @@ export class VotarComponent implements OnInit {
   votacaoAtivada: boolean;
   // tslint:disable-next-line: variable-name
   constructor(private _formBuilder: FormBuilder, public dialog: MatDialog,
-    private renderer: Renderer2, private el: ElementRef,
-    private router: Router, private getterServices: GetterServices,
-    private snackBar: MatSnackBar,
-    private authenticationService: AuthenticationService) {
+              private renderer: Renderer2, private el: ElementRef,
+              private router: Router, private getterServices: GetterServices,
+              private snackBar: MatSnackBar,
+              private authenticationService: AuthenticationService) {
     this.votacaoAtiva();
   }
 
@@ -71,6 +71,17 @@ export class VotarComponent implements OnInit {
   consultaCandidato(curr) {
     if (curr.value.length === 1) {
       const numero = this.renderer.selectRootElement('#primeiroInput').value + this.renderer.selectRootElement('#input2').value + this.renderer.selectRootElement('#input3').value + this.renderer.selectRootElement('#input4').value + this.renderer.selectRootElement('#input5').value;
+      if (numero === '00000') {
+        const tituloCartao = this.renderer.selectRootElement('#tituloCartao');
+        const nomeTitulo = this.renderer.createText('Branco');
+        const descricaoTexto = this.renderer.createText('Pressione ENTER para confirmar o voto ou BACKSPACE para apagar os números');
+        this.renderer.appendChild(tituloCartao, nomeTitulo);
+        const imagemCartao = this.renderer.selectRootElement('#imagem');
+        this.renderer.setAttribute(imagemCartao, 'src', 'assets/avatar-placeholder.png');
+        const descricaoCard = this.renderer.selectRootElement('#conteudo');
+        this.renderer.appendChild(descricaoCard, descricaoTexto);
+        this.encontrado = true;
+      } else {
       this.getterServices.buscaCandidato(numero)
         .pipe(first())
         .subscribe(
@@ -95,6 +106,7 @@ export class VotarComponent implements OnInit {
               duration: 1500,
             });
           });
+        }
     } else {
       return;
     }
@@ -135,6 +147,7 @@ export class VotarComponent implements OnInit {
         (data) => {
           if (data === true) {
             const numero = this.renderer.selectRootElement('#primeiroInput').value + this.renderer.selectRootElement('#input2').value + this.renderer.selectRootElement('#input3').value + this.renderer.selectRootElement('#input4').value + this.renderer.selectRootElement('#input5').value;
+            if (this.renderer.selectRootElement('#input5').value !== '') {
             this.getterServices.salvarOpcaoVoto(numero)
               .pipe(first())
               .subscribe(
@@ -147,6 +160,7 @@ export class VotarComponent implements OnInit {
                     duration: 1500,
                   });
                 });
+              }
           } else {
             localStorage.setItem('mensagem', 'Nenhuma votação em andamento ou fechada para votos!');
             this.router.navigate(['/']);

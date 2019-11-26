@@ -108,10 +108,11 @@ export class RelatorioComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          const termino = moment(data.DataTermino);
-          const inicioVotacao = moment(data.DataInicio);
-          const agora = moment(new Date());
-          setTimeout(() => {
+          if (data !== 'Vazio') {
+            const termino = moment(data.DataTermino);
+            const inicioVotacao = moment(data.DataInicio);
+            const agora = moment(new Date());
+            setTimeout(() => {
             this.dadosFim = {
               leftTime: termino.diff(agora, 'seconds'), format: 'HH:mm:ss', prettyText: (text) => {
                 return text
@@ -121,7 +122,7 @@ export class RelatorioComponent implements OnInit {
               },
             };
           }, 1100);
-          this.timer = setInterval(() => {
+            this.timer = setInterval(() => {
 
             const agoraFinal = moment(new Date());
             const inicioContagem = moment(data.DataInicio); // now
@@ -130,9 +131,11 @@ export class RelatorioComponent implements OnInit {
             this.time = moment.utc(ms).format('HH:mm:ss');
 
           }, 1000);
+        }
         },
         (error) => {
-          this.snackBar.open('Erro', 'Fechar', {
+          console.log(error);
+          this.snackBar.open('aa', 'Fechar', {
             duration: 2000,
           });
         });
@@ -194,7 +197,7 @@ export class RelatorioComponent implements OnInit {
     } else {
 
     }
-    console.log(e);
+    // console.log(e);
   }
 
   buscarLista() {
