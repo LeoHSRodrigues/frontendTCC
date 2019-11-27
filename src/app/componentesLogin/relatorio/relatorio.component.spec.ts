@@ -8,7 +8,7 @@ describe('RelatorioComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RelatorioComponent ]
+      declarations: [ RelatorioComponent ],
     })
     .compileComponents();
   }));

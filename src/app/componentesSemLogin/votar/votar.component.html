@@ -1,0 +1,46 @@
+<head>
+    <title>Votar</title>
+</head>
+<div class="flex-container formNumeros flex-container-style fixed-height">
+    <div class="flex-item">
+        <input type="text" autocomplete="off" [appVotacao] mask="0" name="n" maxlength="1" #input1
+        (input)="next(input2)"
+            class="inputNumero" id="primeiroInput">
+    </div>
+    <div class="flex-item">
+        <input type="text" autocomplete="off" [appVotacao] name="n" maxlength="1"   #input2
+        (input)="next(input3)" (keydown.backspace)="previous(input1, input2)"
+            class="inputNumero" id="input2">
+    </div>
+    <div class="flex-item">
+        <input type="text" autocomplete="off" [appVotacao] name="n" maxlength="1" #input3
+        (input)="next(input4)" (keydown.backspace)="previous(input2, input3)"
+            class="inputNumero" id="input3">
+    </div>
+    <div class="flex-item">
+        <input type="text" autocomplete="off" [appVotacao] name="n" maxlength="1" #input4
+        (input)="next(input5)"(keydown.backspace)="previous(input3, input4)"
+            class="inputNumero" id="input4">
+    </div>
+    <div class="flex-item">
+        <input type="text" autocomplete="off" [appVotacao] name="n" maxlength="1" #input5
+        (input)="consultaCandidato(input5)" (keydown.enter)="salvarVoto()" (keydown.backspace)="previous(input4, input5)"
+            class="inputNumero" id="input5">
+        </div>
+    </div>
+    
+    <div class="candidato" id="candidato">
+        <mat-card class="example-card">
+            <mat-card-header>
+                <div class="titulo">
+                    <mat-card-title #tituloCartao id="tituloCartao"></mat-card-title>
+                </div>
+            </mat-card-header>
+            <img class="imagem" id="imagem" mat-card-image >
+            <mat-card-content>
+                <p id="conteudo"></p>
+            </mat-card-content>
+            <br/>
+            * Para votar em Branco digite 00000
+    </mat-card>
+</div>

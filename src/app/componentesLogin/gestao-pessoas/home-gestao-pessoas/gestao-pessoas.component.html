@@ -1,0 +1,40 @@
+<title>Gestão de Pessoas</title>
+
+<div class="conteudoPagina">
+    <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/gestaoPessoal/novo" color="primary">Cadastrar Pessoa</button></span>
+    <h3 class="pl-3 pt-4" style="text-align: center;">Gestão de Pessoas</h3>
+
+    <div class="refinar">
+        <div class="form-group has-search">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Procurar...">
+        </div>
+        <div class="iconeRefinar">
+            <i [class.refinarSelecionado]="isRefinar('lista')" (click)="setRefinar('lista')"
+                class="fas fa-align-left pr-3"></i>
+            <i [class.refinarSelecionado]="isRefinar('grade')" (click)="setRefinar('grade')"
+                class="fas fa-th-large"></i>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col" *ngFor="let listaPessoas of pessoas">
+            <div class="card ">
+                <img class="card-img-top iconeImagem" [src]="listaPessoas.Foto ? listaPessoas.Foto : 'assets/avatar-placeholder.png'"
+                    alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{listaPessoas.Nome}}</h5>
+                    <span style="float: left;">CPF </span><span style="float: right">{{listaPessoas.CPF}}</span>
+                    <br>
+                    <hr><span style="float: left;">Tipo de Conta</span><span style="float: right">{{listaPessoas.tipoConta}}</span><br>
+                    <hr>
+                    <button mat-stroked-button (click)="visualizarPerfil(listaPessoas.CPF)">Visualizar</button>
+                    <button mat-stroked-button style="margin-left: 10%" (click)="apagar(listaPessoas.CPF)">Apagar</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<router-outlet></router-outlet>

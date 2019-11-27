@@ -1,0 +1,51 @@
+<title>Cadastrar Urna</title>
+<div class="formulario pt-5">
+    <h3>Cadastrar Urna</h3>
+    <br />
+    <form [formGroup]="formulario" autocomplete="off" (ngSubmit)="onSubmit(formulario.value)">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Apelido</mat-label>
+                    <input matInput formControlName="Apelido" required>
+                </mat-form-field>
+                <div class="validacao text-muted" *ngIf="(f.Apelido.dirty || f.Apelido.touched) && f.Apelido.errors">
+                    <div *ngIf="f.Apelido.errors.required">
+                        Apelido é obrigatório.
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Senha</mat-label>
+                    <input matInput type="password" formControlName="senha" required>
+                </mat-form-field>
+                <div class="validacao text-muted" *ngIf="(f.senha.dirty || f.senha.touched) && f.senha.errors">
+                    <div *ngIf="f.senha.errors.required || f.senha.errors.minlength">
+                        Digite uma senha com no mínimo 8 dígitos
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Confirme a sua senha</mat-label>
+                    <input matInput type="password" formControlName="confirmaSenha" required>
+                </mat-form-field>
+                <div class="validacao text-muted"
+                    *ngIf="(f.confirmaSenha.dirty || f.confirmaSenha.touched) && f.confirmaSenha.errors">
+                    <div *ngIf="f.confirmaSenha.errors.required || f.confirmaSenha.errors.minlength">
+                        Digite uma senha com no mínimo 8 dígitos
+                    </div>
+                    <div *ngIf="f.confirmaSenha.errors.mustMatch">
+                        As senhas não coincidem
+                    </div>
+                </div>
+            </div>
+            <div class="legenda text-muted col-sm-12">* Campos Obrigatórios</div>
+        </div>
+        <div class="botoes">
+            <button mat-raised-button class="mr-4" color="primary">Cadastrar</button>
+            <button mat-raised-button color="warn" (click)="voltar($event)">Cancelar</button>
+        </div>
+    </form>
+</div>

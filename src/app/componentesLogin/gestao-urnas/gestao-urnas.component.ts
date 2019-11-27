@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-gestao-urnas',
   templateUrl: './gestao-urnas.component.html',
-  styleUrls: ['./gestao-urnas.component.css']
+  styleUrls: ['./gestao-urnas.component.css'],
 })
+
+
 export class GestaoUrnasComponent implements OnInit {
 
   constructor() { }
@@ -12,4 +14,7 @@ export class GestaoUrnasComponent implements OnInit {
   ngOnInit() {
   }
 
+
 }
+
+

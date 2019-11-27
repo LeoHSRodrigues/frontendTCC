@@ -1,0 +1,77 @@
+<title>Gerenciar Votação</title>
+<div class="formulario pt-5">
+    <h3>Iniciar Eleição</h3>
+    <br />
+    <form [formGroup]="formulario" autocomplete="off" (ngSubmit)="onSubmit(formulario.value)">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Nome da eleição</mat-label>
+                    <input matInput formControlName="Nome" required>
+                </mat-form-field>
+                <div class="validacao text-muted" *ngIf="(f.Nome.dirty || f.Nome.touched) && f.Nome.errors">
+                    <div *ngIf="f.Nome.errors.required">
+                        Nome da eleição é obrigatório.
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Data de Inicio</mat-label>
+                    <input matInput [min]="dataMinima" [max]="dataMaxima" (dateInput)="minData($event)" (focus)="dataInicio.open()"
+                        (click)="dataInicio.open()" [matDatepicker]="dataInicio" formControlName="DataInicio" required>
+                    <mat-datepicker #dataInicio></mat-datepicker>
+                </mat-form-field>
+                <div class="validacao text-muted"
+                    *ngIf="(f.DataInicio.dirty || f.DataInicio.touched) && f.DataInicio.errors">
+                    <div *ngIf="f.DataInicio.errors.required">
+                        Escolha uma data de Início
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Data de Término</mat-label>
+                    <input matInput [min]="dataMinima" (focus)="DataTermino.open()" (click)="DataTermino.open()"
+                        [matDatepicker]="DataTermino" (dateInput)="maxData($event)" formControlName="DataTermino"
+                        required>
+                    <mat-datepicker #DataTermino></mat-datepicker>
+                </mat-form-field>
+                <div class="validacao text-muted" *ngIf="(f.DataTermino.dirty || f.DataTermino.touched)  && f.DataTermino.errors">
+                    Escolha uma data de Termino
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Hora de Início</mat-label>
+                    <input matInput formControlName="HoraInicio" [max]="horaMax" [ngxTimepicker]="horaInicio" [format]="24" readonly>
+                    <ngx-material-timepicker (timeSet)="horaMinima($event)" #horaInicio></ngx-material-timepicker>
+                </mat-form-field>
+                <div class="validacao text-muted"
+                    *ngIf="(f.HoraInicio.dirty || f.HoraInicio.touched) && f.HoraInicio.errors">
+                    <div *ngIf="f.HoraInicio.errors.required">
+                        Escolha uma hora de Início
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Hora de Termino</mat-label>
+                    <input matInput formControlName="HoraTermino" [min]="horaMin" [ngxTimepicker]="horaTermino" [format]="24" readonly>
+                    <ngx-material-timepicker (timeSet)="horaMaxima($event)" #horaTermino></ngx-material-timepicker>
+                </mat-form-field>
+                <div class="validacao text-muted"
+                    *ngIf="(f.HoraTermino.dirty || f.HoraTermino.touched) && f.HoraTermino.errors">
+                    <div *ngIf="f.HoraTermino.errors.required">
+                        Escolha uma hora de Termino
+                    </div>
+                </div>
+            </div>
+            <div class="legenda text-muted col-sm-12">* Campos Obrigatórios</div>
+        </div>
+        <div class="botoes">
+            <button mat-raised-button class="mr-4" color="primary">Iniciar</button>
+            <button mat-raised-button color="warn" (click)="voltar($event)">Cancelar</button>
+        </div>
+    </form>
+</div>

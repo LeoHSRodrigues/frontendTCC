@@ -1,0 +1,10 @@
+<div class="divTexto" mat-dialog-content>
+  <h5>Aviso</h5>
+  <p class="texto">
+    {{message}}
+  </p>
+   </div>
+   <div class="dialogo" mat-dialog-actions>
+     <button mat-button  mat-flat-button color="warn" (click)="onNoClick()">Não</button>
+     <button mat-button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Sim</button>
+   </div>

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-componente-login',
   template: '<app-login></app-login>',
-  styles: []
+  styles: [],
 })
 export class ComponentesSemLoginComponent {
 

@@ -1,0 +1,103 @@
+<title>Cadastrar Pessoa</title>
+<div class="formulario">
+    <h3>Editar Pessoa</h3>
+    <form [formGroup]="formulario" enctype="multipart/form-data" autocomplete="off" (ngSubmit)="onSubmit(formulario.value)">
+            <div class="Icones">
+                    <label class="hoverable" for="fileInput">
+                            <img [src]="Foto ? Foto : 'assets/avatar-placeholder.png'"  alt="Avatar">
+                        <div class="hover-text">Escolha a foto</div>
+                        <div class="background"></div>
+                      </label>
+                      <br/>
+                      <input id="fileInput" type='file' (change)="onSelectFile($event)">
+                </div>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Nome</mat-label>
+                    <input matInput formControlName="Nome" required>
+                </mat-form-field>
+                <div class="validacao text-muted" *ngIf="(f.Nome.dirty || f.Nome.touched) && f.Nome.errors">
+                    <div *ngIf="f.Nome.errors.required">
+                        Nome é um campo Obrigatório
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>CPF</mat-label>
+                    <input matInput placeholder="CPF" matInput mask="000.000.000-00" maxlength="14"
+                        formControlName="CPF" required>
+                </mat-form-field>
+                <div class="validacao text-muted" *ngIf="(f.CPF.dirty || f.CPF.touched) && f.CPF.errors">
+                    <div *ngIf="f.CPF.errors.required && f.CPF.errors.invalid">
+                        CPF é obrigatório.
+                    </div>
+                    <div *ngIf="f.CPF.errors.cpfInvalido">
+                        Digite um CPF válido
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Tipo de Conta</mat-label>
+                    <mat-select formControlName="tipoConta" required>
+                        <mat-option *ngFor="let tipo of conta" [value]="tipo.valor">
+                          {{tipo.label}}
+                        </mat-option>
+                      </mat-select>
+                </mat-form-field>
+                <div class="validacao text-muted"
+                *ngIf="(f.tipoConta.dirty || f.tipoConta.touched) && f.tipoConta.errors">
+                <div *ngIf="f.tipoConta.errors.required">
+                  Tipo de conta é um campo Obrigatório
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Senha</mat-label>
+                    <input matInput type="password" formControlName="senha">
+                </mat-form-field>
+                <div class="validacao text-muted" *ngIf="(f.senha.dirty || f.senha.touched) && f.senha.errors">
+                    <div *ngIf="f.senha.errors.required || f.senha.errors.minlength">
+                        Digite uma senha com no mínimo 8 dígitos
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field [color]="primary" appearance="outline">
+                    <mat-label>Confirme a sua senha</mat-label>
+                    <input matInput type="password" formControlName="confirmaSenha">
+                </mat-form-field>
+                <div class="validacao text-muted"
+                    *ngIf="(f.confirmaSenha.dirty || f.confirmaSenha.touched) && f.confirmaSenha.errors">
+                    <div *ngIf="f.confirmaSenha.errors.required || f.confirmaSenha.errors.minlength">
+                        Digite uma senha com no mínimo 8 dígitos
+                    </div>
+                    <div *ngIf="f.confirmaSenha.errors.mustMatch">
+                        As senhas não coincidem
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <mat-form-field appearance="outline">
+                        <mat-label>Digital</mat-label>
+                    <input matInput [readonly]="!digitalReadOnly" formControlName="valorDigital">
+                  </mat-form-field>
+                  <div class="validacao text-muted"
+                  *ngIf="(f.valorDigital.dirty || f.valorDigital.touched)">
+                    Para cadastrar a biometria, clique no ícone referente a biometria
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <i (click)="cadastrarDigital()" class="fas fa-fingerprint pb-5 fa-4x iconeDigital"></i>
+            </div>
+            <div class="legenda text-muted col-sm-12">* Campos Obrigatórios</div>
+        </div>
+        <div class="botoes">
+            <button mat-raised-button class="mr-4" color="primary">Atualizar</button>
+            <button mat-raised-button color="warn" (click)="voltar($event)">Cancelar</button>
+        </div>
+    </form>
+</div>

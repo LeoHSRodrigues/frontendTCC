@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Socket } from 'ngx-socket-io';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatStepper } from '@angular/material';
+import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
+import { Socket } from 'ngx-socket-io';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { Validacoes } from '../login/validacoes';
 import { MustMatch } from './validacoes';
-import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { first } from 'rxjs/operators';
-import * as CryptoJS from 'crypto-js';
 
 
 @Component({
@@ -18,6 +18,7 @@ import * as CryptoJS from 'crypto-js';
 })
 
 export class RegistroComponent implements OnInit {
+  get f() { return this.formulario.controls; }
 
   formulario: FormGroup;
   isEditable = false;
@@ -28,17 +29,19 @@ export class RegistroComponent implements OnInit {
   conta = [
     { valor: 'Admin', label: 'Administrador' },
     { valor: 'Func', label: 'Funcionário' },
-    { valor: 'User', label: 'Usuário' }
+    { valor: 'User', label: 'Usuário' },
   ];
   resultadoEncriptacao: any;
   digitalReadOnly: boolean;
-  get f() { return this.formulario.controls; }
 
+  @ViewChild(MatStepper, { static: true }) stepper: MatStepper;
+
+  // tslint:disable-next-line: variable-name
   constructor(private _formBuilder: FormBuilder,
-    private router: Router,
-    public snackBar: MatSnackBar,
-    private socket: Socket,
-    private authenticationService: AuthenticationService, ) { }
+              private router: Router,
+              public snackBar: MatSnackBar,
+              private socket: Socket,
+              private authenticationService: AuthenticationService ) { }
 
   ngOnInit() {
     this.digital = true;
@@ -51,7 +54,7 @@ export class RegistroComponent implements OnInit {
       confirmaSenha: ['', Validators.required],
       valorDigital: [''],
     }, {
-        validator: MustMatch('senha', 'confirmaSenha')
+        validator: MustMatch('senha', 'confirmaSenha'),
       });
   }
   voltar(event) {
@@ -60,24 +63,22 @@ export class RegistroComponent implements OnInit {
   }
 
   getMessages(tipo: string) {
-    if (tipo === 'autenticar'){
-    this.socket.emit("registro", 'mensagemregistro');
-    let observable = new Observable(observer => {
+    if (tipo === 'autenticar') {
+    this.socket.emit('registro', 'mensagemregistro');
+    const observable = new Observable((observer) => {
       this.socket.on('registro', (data) => {
-        if (data != 'achou' && data != 'nachou') {
+        if (data !== 'achou' && data !== 'nachou') {
           this.snackBar.open(data, 'Fechar', {
-            duration: 2000
+            duration: 2000,
           });
-        }
-        else {
+        } else {
           if (data === 'achou') {
             this.stepper.selected.completed = true;
             this.stepper.selected.editable = false;
             this.stepper.next();
-          }
-          else {
-            this.snackBar.open('n achou', 'Fechar', {
-              duration: 2000
+          } else {
+            this.snackBar.open('Biometria não encontrada no sistema', 'Fechar', {
+              duration: 2000,
             });
           }
         }
@@ -86,68 +87,68 @@ export class RegistroComponent implements OnInit {
       return () => {
         this.socket.disconnect();
       };
-    })
+    });
     return observable;
-  }
-  else{
-    this.socket.emit("cadastro", 'mensagemcadastro');
-    let observable = new Observable(observer => {
+  } else {
+    this.socket.emit('cadastro', 'mensagemcadastro');
+    const observable = new Observable((observer) => {
       this.socket.on('cadastro', (data) => {
-        if (data.indexOf('[') != 0){
+        if (data.indexOf('[') !== 0) {
           this.snackBar.open(data, 'Fechar', {
-            duration: 2000
+            duration: 2000,
           });
-        }
-        else{
-          this.formulario.controls['valorDigital'].setValue(data);
+        } else {
+          this.formulario.controls.valorDigital.setValue(data);
         }
         observer.next(data);
       });
       return () => {
         this.socket.disconnect();
       };
-    })
+    });
     return observable;
   }
 }
 
   lerDigital() {
-    this.connection = this.getMessages('autenticar').subscribe(message => {
+    this.connection = this.getMessages('autenticar').subscribe((message) => {
     });
   }
 
   cadastrarDigital() {
-    this.connection = this.getMessages('criar').subscribe(message => {
+    this.connection = this.getMessages('criar').subscribe((message) => {
     });
   }
-
-  @ViewChild(MatStepper, { static: true }) stepper: MatStepper;
 
   complete(formulario) {
     if (this.formulario.invalid) {
       return;
     }
-    if(formulario.valorDigital != ''){
+    if (formulario.valorDigital !== '') {
       this.valorDigital = formulario.valorDigital;
       this.valorDigital = this.valorDigital.replace(/[ ]*,[ ]*|[ ]+/g, ' ');
-      this.valorDigital = this.valorDigital.slice(1,-3);
-    }
-    else{
+      this.valorDigital = this.valorDigital.slice(1, -3);
+    } else {
       this.valorDigital = 'vazio';
     }
     this.resultadoEncriptacao = CryptoJS.SHA256(formulario.senha).toString();
-    let campos = {Nome: formulario.Nome, CPF: formulario.CPF, tipoConta: formulario.tipoConta, Senha: this.resultadoEncriptacao, Digital: this.valorDigital};
-    this.authenticationService.cadastro(campos)
-    .pipe(first())
-    .subscribe(
-      data => {
-        console.log(data);
+    const campos = {Nome: formulario.Nome,
+                    CPF: formulario.CPF,
+                    tipoConta: formulario.tipoConta,
+                    Senha: this.resultadoEncriptacao,
+                    Digital: this.valorDigital};
+    this.authenticationService.cadastroPessoa(campos)
+    .pipe(first()).subscribe((data) => {
+        if (data === 'cadastrado') {
+      this.stepper.selected.completed = true;
+      this.stepper.selected.editable = false;
+      this.stepper.next();
+        }
       },
-      error => {
-        console.log(error);
+      (error) => {
+        this.snackBar.open('CPF já cadastrado no sistema', 'Fechar', {
+          duration: 2000,
+        });
       });
-    this.stepper.selected.completed = true;
-    this.stepper.selected.editable = false;
-    this.stepper.next();
   }
 }

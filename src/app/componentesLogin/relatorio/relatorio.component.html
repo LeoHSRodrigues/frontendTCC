@@ -1,2 +1,132 @@
 <title>Gestão de Relatórios</title>
-<p>Teste página Relatório</p>
+<h3 class="titulo">Gestão de Relatórios</h3>
+<ng-template [ngIf]="statusVotacao == 1">
+  <ul class="flex-container dash1 space-around">
+    <li title="Pessoas Cadastradas" class="flex-item-contador">
+      <span class="clock">{{ time }}</span>
+      <br>
+      <p class="text-muted legenda">Tempo desde o inicio da Votação</p>
+    </li>
+    <li title="Votações Finalizadas" class="flex-item-contador">
+        <span class="spacing"></span>
+        <countdown [config]="dadosFim" (event)="handleEvent($event)" #cd class="clock"></countdown>
+      <br>
+      <p class="text-muted legenda">Tempo restante de Votação</p>
+    </li>
+  </ul>
+
+  <ul class="flex-container dash1 listaRelatorio space-around">
+    <li title="Pessoas Cadastradas" class="flex-item">
+      <mat-icon class="iconeDash" style="color: #0884fa">people</mat-icon>
+      <br>
+      <span class="text-muted numeral">{{contagemVotos}}</span>
+      <br>
+      <p class="text-muted legenda">Votos registrados</p>
+    </li>
+    <li title="Urnas Cadastradas" class="flex-item">
+      <mat-icon class="iconeDash" style="color: #8b6efe">how_to_vote</mat-icon>
+      <br>
+      <span class="text-muted numeral">{{contagemCandidatos}}</span>
+      <br>
+      <p class="text-muted legenda">Quantidade de Candidatos Cadastrados</p>
+    </li>
+    <li title="Votações Finalizadas" class="flex-item">
+      <mat-icon class="iconeDash" style="color: #febc1b">how_to_vote</mat-icon>
+      <br>
+      <span class="text-muted numeral">{{contagemCadastrados}}</span>
+      <br>
+      <p class="text-muted legenda">Quantidade Total de Pessoas Cadastradas</p>
+    </li>
+  </ul>
+  <div class="fabSpeedDial">
+    <eco-fab-speed-dial #myFab direction="up" animationMode="fling" (mouseenter)="myFab.open = true">
+      <eco-fab-speed-dial-trigger [spin]="spin">
+        <button color="primary" mat-fab>
+          <mat-icon class="spin180">menu</mat-icon>
+        </button>
+      </eco-fab-speed-dial-trigger>
+
+      <eco-fab-speed-dial-actions>
+        <button matTooltip="Encerrar Votação" matTooltipPosition="left" color="primary" mat-mini-fab
+          (click)="encerrarVotacao()">
+          <mat-icon>settings_power</mat-icon>
+        </button>
+        <button matTooltip="Gerar lista de candidatos" matTooltipPosition="left" color="primary" mat-mini-fab
+          (click)="listaCandidatosCadastradas()">
+          <mat-icon>how_to_reg</mat-icon>
+        </button>
+      </eco-fab-speed-dial-actions>
+    </eco-fab-speed-dial>
+  </div>
+</ng-template>
+<ng-template [ngIf]="statusVotacao == 2">
+  <div class="teste">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="Nome">
+        <th mat-header-cell *matHeaderCellDef class="tituloColuna"> Nome </th>
+        <td mat-cell *matCellDef="let logData" class="conteudoColuna"> {{logData._id.Nome}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Numero">
+        <th mat-header-cell *matHeaderCellDef class="tituloColuna"> Numero </th>
+        <td mat-cell *matCellDef="let logData" class="conteudoColuna"> {{logData._id.Numero}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Contagem">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="tituloColuna"> Contagem de Votos </th>
+        <td mat-cell *matCellDef="let logData" class="conteudoColuna"> {{logData.Contagem}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="fabSpeedDialTipo2">
+    <eco-fab-speed-dial #myFab direction="up" animationMode="fling" (mouseenter)="myFab.open = true">
+      <eco-fab-speed-dial-trigger [spin]="spin">
+        <button color="primary" mat-fab>
+          <mat-icon class="spin180">menu</mat-icon>
+        </button>
+      </eco-fab-speed-dial-trigger>
+
+      <eco-fab-speed-dial-actions>
+        <button matTooltip="Finalizar Votação" matTooltipPosition="left" color="primary" mat-mini-fab
+          (click)="FinalizarVotacao()">
+          <mat-icon>settings_power</mat-icon>
+        </button>
+      </eco-fab-speed-dial-actions>
+    </eco-fab-speed-dial>
+  </div>
+</ng-template>
+<ng-template [ngIf]="statusVotacao == 3">
+  <ul class="flex-container dash1 listaRelatorio space-around">
+    <li (click)="listaPessoasCadastradas()" title="Lista de Pessoas Cadastradas" class="flex-item">
+      <mat-icon class="iconeDash" style="color: #0884fa">people</mat-icon>
+      <br>
+      <p class="text-muted legenda">Gerar Lista de Pessoas Cadastradas</p>
+      <mat-icon class="iconeDash" style="color: #0884fa">picture_as_pdf</mat-icon>
+    </li>
+    <li (click)="listaCandidatosCadastradas()" title="Lista de Candidatos" class="flex-item">
+      <mat-icon class="iconeDash" style="color: #8b6efe">how_to_vote</mat-icon>
+      <br>
+      <p class="text-muted legenda pb-4">Gerar Lista de Candidatos</p>
+      <mat-icon class="iconeDash" style="color: #0884fa">picture_as_pdf</mat-icon>
+    </li>
+    <li (click)="listaUrnasCadastradas()" title="Lista de Urnas" class="flex-item">
+      <mat-icon class="iconeDash" style="color: #febc1b">how_to_vote</mat-icon>
+      <br>
+      <p class="text-muted legenda pb-4">Gerar Lista de Urnas</p>
+      <mat-icon class="iconeDash" style="color: #0884fa">picture_as_pdf</mat-icon>
+    </li>
+    <ng-template [ngIf]="countdownAgendamento">
+      <li title="Votações Finalizadas" class="flex-item-contador">
+        <span class="spacing"></span>
+        <countdown [config]="tempoContagem" (event)="contagemRestante($event)" #cd class="clock"></countdown>
+      <br>
+      <p class="text-muted legenda">Tempo restante para o inicio da Votação</p>
+    </li>
+    </ng-template>
+  </ul>
+</ng-template>

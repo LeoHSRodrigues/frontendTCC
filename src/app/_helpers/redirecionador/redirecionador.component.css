@@ -1,0 +1,10 @@
+.divVoto {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+.texto {
+  position: relative;
+  left: -50%;
+  top: -50%;
+}

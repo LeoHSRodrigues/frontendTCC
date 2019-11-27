@@ -1,3 +1,14 @@
+::ng-deep .conteudo, ::ng-deep .raiz {
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  background: url('../../../assets/dashboard.svg') no-repeat right center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: 45%;
+  background-color: #f5f8fd;
+}
+
 .flex-container {
   padding: 0;
   margin: 0;
