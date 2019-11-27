@@ -54,7 +54,7 @@ export class AuthenticationService {
         this.currentUserSubject.next(null);
     }
     cadastroUrna(formulario) {
-       return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroUrna`, {formulario})
+       return this.http.post<any>(`http://127.0.0.1:8000/api/cadastroUrna`, formulario)
         .pipe(map((aa) => {
             if (aa != null) {
                 return 'cadastrado';
@@ -104,7 +104,7 @@ export class AuthenticationService {
         }));
     }
     atualizarUrna(formulario) {
-       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarUrna`, {formulario})
+       return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarUrna`, formulario)
         .pipe(map((aa) => {
             if (aa != null) {
                 return 'cadastrado';
@@ -132,5 +132,15 @@ export class AuthenticationService {
                 return error('Usuário já cadastrado');
             }
         }));
+    }
+    salvarOpcaoVoto(formulario) {
+        return this.http.post<any>(`http://127.0.0.1:8000/api/salvarOpcaoVoto/`, formulario)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
     }
 }

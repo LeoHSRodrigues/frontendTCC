@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
@@ -17,6 +17,7 @@ import { DialogoUrnaComponent } from '../dialogo-urna/dialogo-urna.component';
 
 export class VotarComponent implements OnInit {
 
+  @ViewChild('tituloCartao', {static: true}) tituloCartao: ElementRef;
   Apelido: string;
   Senha: string;
   formulario: FormGroup;
@@ -45,9 +46,11 @@ export class VotarComponent implements OnInit {
             // localStorage.setItem('Urna', JSON.stringify(data));
           },
           (error) => {
+            localStorage.removeItem('Urna');
             this.snackBar.open('Dados da Urna não encontrados ou a mesma já está sendo usada', 'Fechar', {
               duration: 2000,
             });
+            this.openDialog();
           });
     } else {
       this.openDialog();
@@ -146,9 +149,13 @@ export class VotarComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data === true) {
+            const nome = this.tituloCartao.nativeElement.textContent;
             const numero = this.renderer.selectRootElement('#primeiroInput').value + this.renderer.selectRootElement('#input2').value + this.renderer.selectRootElement('#input3').value + this.renderer.selectRootElement('#input4').value + this.renderer.selectRootElement('#input5').value;
+            const formDataVoto: FormData = new FormData();
+            formDataVoto.append('Numero', numero);
+            formDataVoto.append('Nome', nome);
             if (this.renderer.selectRootElement('#input5').value !== '') {
-            this.getterServices.salvarOpcaoVoto(numero)
+            this.authenticationService.salvarOpcaoVoto(formDataVoto)
               .pipe(first())
               .subscribe(
                 () => {
@@ -162,6 +169,7 @@ export class VotarComponent implements OnInit {
                 });
               }
           } else {
+            localStorage.removeItem('Urna');
             localStorage.setItem('mensagem', 'Nenhuma votação em andamento ou fechada para votos!');
             this.router.navigate(['/']);
           }

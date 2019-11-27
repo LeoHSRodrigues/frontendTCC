@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatPaginator, MatSnackBar } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import * as $ from 'jquery';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { UserOptions } from 'jspdf-autotable';
@@ -13,10 +12,6 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 import { GetterServices } from 'src/app/_services/getters.service';
 import { DialogoConfirmacaoComponent } from '../dialogo-confirmacao/dialogo-confirmacao.component';
 
-
-
-
-declare var $: any;
 let logData: DataLog[] = [];
 @Component({
   selector: 'app-relatorio',
@@ -38,10 +33,12 @@ export class RelatorioComponent implements OnInit {
   private contagemVotos: string;
   private statusVotacao: string;
 
-  private displayedColumns: string[] = ['_id', 'Contagem'];
+  private displayedColumns: string[] = ['Nome', 'Numero', 'Contagem'];
   // tslint:disable-next-line: no-use-before-declare
   private dataSource = new MatTableDataSource(logData);
   private resultadoVotacao: boolean;
+  private tempoContagem: { leftTime: number; format: string; prettyText: (text: any) => any; };
+  private countdownAgendamento: boolean;
   constructor(private snackBar: MatSnackBar, private getterServices: GetterServices,
               private authenticationService: AuthenticationService, public dialog: MatDialog,
               private changeDetectorRef: ChangeDetectorRef) {
@@ -61,7 +58,6 @@ export class RelatorioComponent implements OnInit {
     this.contaVotos();
     this.buscarLista();
     this.datasVotacao();
-    setInterval(() => { this.contaVotos(); }, 2000);
   }
 
   contaCandidato() {
@@ -168,9 +164,11 @@ export class RelatorioComponent implements OnInit {
           if (data) {
             if (data.Status === 'Iniciada') {
               this.statusVotacao = '1';
+              setInterval(() => { this.contaVotos(); }, 2000);
             } else if (data.Status === 'Contagem') {
               this.statusVotacao = '2';
             } else {
+              this.countdownInicio();
               this.statusVotacao = '3';
             }
           } else {
@@ -197,7 +195,50 @@ export class RelatorioComponent implements OnInit {
     } else {
 
     }
-    // console.log(e);
+  }
+
+  countdownInicio() {
+    this.getterServices.datasVotacaoIniciada()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data !== 'Vazio') {
+            this.countdownAgendamento = true;
+            const termino = moment(data.DataTermino);
+            const inicioVotacao = moment(data.DataInicio);
+            const agora = moment(new Date());
+            this.tempoContagem = {
+              leftTime: inicioVotacao.diff(agora, 'seconds'), format: 'HH:mm:ss', prettyText: (text) => {
+                return text
+                  .split(':')
+                  .map((v) => `<span class="item">${v}</span>`)
+                  .join(':');
+              },
+            };
+        } else {
+          this.countdownAgendamento = false;
+        }
+        },
+        (error) => {
+          console.log(error);
+          this.snackBar.open('aa', 'Fechar', {
+            duration: 2000,
+          });
+        });
+  }
+
+  contagemRestante(e: CountdownEvent) {
+    if (e.action === 'done') {
+      this.getterServices.verificaAgendamentoVotacao()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.verificaVotacao();
+        },
+        (error) => {
+        });
+  } else {
+  }
   }
 
   buscarLista() {
@@ -292,14 +333,14 @@ export class RelatorioComponent implements OnInit {
         (data) => {
           if (data.length > 0) {
             data.forEach((key, val) => {
-              listaUrnas.push([key._id, key.Contagem]);
+              listaUrnas.push([key._id.Nome, key._id.Numero, key.Contagem]);
             });
             const documento = new jsPDF('portrait', 'px', 'a4') as JsPDFWithPlugin;
             documento.setProperties({
               title: 'Resultado da contagem de Votos',
             });
             documento.text('Resultado da contagem de Votos', 140, 30);
-            documento.autoTable({ head: [['Número', 'Contagem']], body: listaUrnas, startY: 50, theme: 'grid' });
+            documento.autoTable({ head: [['Nome', 'Número', 'Contagem']], body: listaUrnas, startY: 50, theme: 'grid' });
             documento.output('dataurlnewwindow');
           } else {
             this.snackBar.open('Erro nenhum candidato encontrado', 'Fechar', {

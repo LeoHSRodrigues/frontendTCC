@@ -143,7 +143,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8000', options: {} };
     MatCardModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    NgxMaterialTimepickerModule.setLocale('pt-BR'),
+    NgxMaterialTimepickerModule,
     MatTooltipModule,
     EcoFabSpeedDialModule,
     CountdownModule,

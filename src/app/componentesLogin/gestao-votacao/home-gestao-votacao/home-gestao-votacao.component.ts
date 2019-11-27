@@ -22,6 +22,7 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   private activeButton: any;
   private tipoPerfil: any;
   private votacaoAtivada: boolean;
+  private statusVotacao: boolean;
 
   constructor(private getterServices: GetterServices,
               private router: Router,
@@ -52,10 +53,11 @@ export class HomeGestaoVotacaoComponent implements OnInit {
   };
 
   verificaVotacaoIniciada() {
-    this.getterServices.verificaAgendamentoVotacao()
+    this.getterServices.verificaVotacaoAtivadaVotos()
     .pipe(first())
     .subscribe(
       (data) => {
+        this.statusVotacao = data;
       },
       (error) => {
       });

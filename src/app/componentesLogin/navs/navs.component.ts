@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, SecurityContext } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { PRIMARY_OUTLET, Router, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { first, map, shareReplay } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
@@ -51,6 +51,15 @@ export class ComponentesnavsComponent implements OnInit {
     const values = JSON.parse(localStorage.getItem('usuario'));
     this.buscarPessoa(values.CPF);
   }
+  ngAfterViewInit() {
+    const tree: UrlTree = this.router.parseUrl(this.router.url);
+    const g: UrlSegmentGroup = tree.root.children[PRIMARY_OUTLET];
+    const s: UrlSegment[] = g.segments;
+    if (s[0].path !== 'relatorio') {
+      setInterval(() => { this.votacaoAtiva(); }, 5000);
+    }
+  }
+
   buscarPessoa(id) {
     this.getterServices.buscarPessoaNav(id)
     .pipe(first())

@@ -66,23 +66,22 @@ export class FormGestaoUrnaEditarComponent implements OnInit {
     const g: UrlSegmentGroup = tree.root.children[PRIMARY_OUTLET];
     const s: UrlSegment[] = g.segments;
     const UUIDurna =  s[2].path;
-    const campos = {
-      Apelido: formulario.Apelido,
-      Senha: this.senhaNova,
-      UUID: UUIDurna,
-      MudarSenha: this.mudouSenha,
-    };
-    this.authenticationService.atualizarUrna(campos)
+    const formData: FormData = new FormData();
+    formData.append('Apelido', formulario.Apelido);
+    formData.append('Senha', this.senhaNova);
+    formData.append('UUID', UUIDurna);
+    formData.append('MudarSenha', this.mudouSenha);
+    this.authenticationService.atualizarUrna(formData)
       .pipe(first())
       .subscribe(
         (data) => {
           if (data === 'cadastrado') {
-            localStorage.setItem('mensagem', campos.Apelido + ' atualizado(a) com sucesso!');
+            localStorage.setItem('mensagem', formulario.Apelido + ' atualizado(a) com sucesso!');
             this.router.navigate(['gestaoUrna']);
           }
         },
         (error) => {
-          this.snackBar.open('Senha alterada, por favor renomeie o apelido da urna por questões de segurança', 'Fechar', {
+          this.snackBar.open('Senha alterada, por favor use outro apelido por questões de segurança', 'Fechar', {
             duration: 3000,
           });
         });

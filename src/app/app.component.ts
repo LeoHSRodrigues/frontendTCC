@@ -42,7 +42,6 @@ export class AppComponent implements OnInit {
     if (window.screen.width <= 800) { // 768px portrait
       this.mobile = true;
     }
-    this.verificaVotacaoIniciada();
   }
 
   logout() {
@@ -50,15 +49,6 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  verificaVotacaoIniciada() {
-    this.getterServices.verificaAgendamentoVotacao()
-    .pipe(first())
-    .subscribe(
-      (data) => {
-      },
-      (error) => {
-      });
-}
   // Shows and hides the loading spinner during RouterEvent changes
 navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {

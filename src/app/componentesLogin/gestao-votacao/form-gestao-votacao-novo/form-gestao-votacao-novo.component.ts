@@ -2,13 +2,10 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent, MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { id } from '@swimlane/ngx-charts/release/utils';
-import * as CryptoJS from 'crypto-js';
 import * as moment from 'moment';
 import { first } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { GetterServices } from 'src/app/_services/getters.service';
-import { MustMatch } from 'src/app/componentesSemLogin/registro/validacoes';
 import { DialogoConfirmacaoComponent } from '../../dialogo-confirmacao/dialogo-confirmacao.component';
 
 @Component({
@@ -72,10 +69,12 @@ export class FormGestaoVotacaoNovoComponent implements OnInit {
       return;
     }
     const login = this.authenticationService.currentUserValue;
-    const dataInicioVotacao = formulario.DataInicio.format('YYYY-MM-DD') + ' ' + formulario.HoraInicio;
-    const DataTerminoVotacao = formulario.DataTermino.format('YYYY-MM-DD') + ' ' + formulario.HoraTermino;
+    const dataInicioVotacao = formulario.DataInicio.format('YYYY-MM-DD') + 'T' + formulario.HoraInicio;
+    const DataTerminoVotacao = formulario.DataTermino.format('YYYY-MM-DD') + 'T' + formulario.HoraTermino;
+    const dataInicioVotacaoFinal = new Date(dataInicioVotacao).toISOString();
+    const dataTerminoVotacaoFinal = new Date(DataTerminoVotacao).toISOString();
     const nomeEleicao = formulario.Nome;
-    this.openDialog(dataInicioVotacao, DataTerminoVotacao, nomeEleicao, login.CPF);
+    this.openDialog(dataInicioVotacaoFinal, dataTerminoVotacaoFinal, nomeEleicao, login.CPF);
   }
 
   openDialog(dataInicioVotacao, DataTerminoVotacao, nomeEleicao, CPF) {

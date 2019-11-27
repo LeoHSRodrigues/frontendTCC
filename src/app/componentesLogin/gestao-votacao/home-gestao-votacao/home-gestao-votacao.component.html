@@ -1,8 +1,10 @@
 <title>Gestão de Votação</title>
 
 <div class="conteudoPagina">
-    <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/votacao/novo"
-            color="primary">Gerenciar Votação</button></span>
+    <ng-template [ngIf]="!statusVotacao">
+        <span class="botaoCadastrar"><button mat-raised-button class="botaoNovo" routerLink="/votacao/novo"
+                color="primary">Gerenciar Votação</button></span>
+    </ng-template>
     <h3 class="pl-3 pt-4" style="text-align: center;">Gestão de Votação</h3>
 
     <div class="listaOpcoes">
@@ -56,11 +58,15 @@
                     <hr>
                     <div class="botaoCadastrarCandidato">
                         <div *ngIf="listaPessoas.tipoPerfil;else candidato">
-                        <button  mat-stroked-button (click)="modalCadastro('Atualizar',listaPessoas.CPF, listaPessoas.Nome, listaPessoas.Numero)" style="display: block; margin-top: 35px;">Atualizar candidato</button>
-                            <button mat-stroked-button style="margin-top: 10px;" (click)="removerCandidatura(listaPessoas.CPF)">Remover candidatura</button>
+                            <button mat-stroked-button
+                                (click)="modalCadastro('Atualizar',listaPessoas.CPF, listaPessoas.Nome, listaPessoas.Numero)"
+                                style="display: block; margin-top: 35px;">Atualizar candidato</button>
+                            <button mat-stroked-button style="margin-top: 10px;"
+                                (click)="removerCandidatura(listaPessoas.CPF)">Remover candidatura</button>
                         </div>
                         <ng-template #candidato>
-                            <button mat-stroked-button (click)="modalCadastro('Novo',listaPessoas.CPF, listaPessoas.Nome)"
+                            <button mat-stroked-button
+                                (click)="modalCadastro('Novo',listaPessoas.CPF, listaPessoas.Nome)"
                                 style="display: block; margin-top: 35px;">Cadastrar como candidato</button>
                         </ng-template>
                     </div>

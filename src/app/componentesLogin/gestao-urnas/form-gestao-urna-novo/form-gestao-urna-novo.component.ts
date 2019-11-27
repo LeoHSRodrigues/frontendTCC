@@ -46,16 +46,15 @@ export class FormGestaoUrnaNovoComponent implements OnInit {
       return;
     }
     this.resultadoEncriptacao = CryptoJS.SHA256(formulario.senha).toString();
-    const campos = {
-      Apelido: formulario.Apelido,
-      Senha: this.resultadoEncriptacao,
-    };
-    this.authenticationService.cadastroUrna(campos)
+    const formData: FormData = new FormData();
+    formData.append('Apelido', formulario.Apelido);
+    formData.append('Senha', this.resultadoEncriptacao);
+    this.authenticationService.cadastroUrna(formData)
       .pipe(first())
       .subscribe(
         (data) => {
           if (data === 'cadastrado') {
-            localStorage.setItem('mensagem', campos.Apelido + ' cadastrado(a) com sucesso!');
+            localStorage.setItem('mensagem', formulario.Apelido + ' cadastrado(a) com sucesso!');
             this.router.navigate(['gestaoUrna']);
           }
         },
