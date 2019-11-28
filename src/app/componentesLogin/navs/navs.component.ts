@@ -20,10 +20,10 @@ export class ComponentesnavsComponent implements OnInit {
   Foto: any;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset, Breakpoints.Small])
-  .pipe(
-    map((result) => result.matches),
-    shareReplay(),
-  );
+    .pipe(
+      map((result) => result.matches),
+      shareReplay(),
+    );
   mobile: boolean;
 
   title: string;
@@ -37,7 +37,7 @@ export class ComponentesnavsComponent implements OnInit {
     private getterServices: GetterServices,
     private sanitizer: DomSanitizer,
     private http: HttpClient,
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -51,30 +51,26 @@ export class ComponentesnavsComponent implements OnInit {
     const values = JSON.parse(localStorage.getItem('usuario'));
     this.buscarPessoa(values.CPF);
   }
+
   ngAfterViewInit() {
-    const tree: UrlTree = this.router.parseUrl(this.router.url);
-    const g: UrlSegmentGroup = tree.root.children[PRIMARY_OUTLET];
-    const s: UrlSegment[] = g.segments;
-    if (s[0].path !== 'relatorio') {
-      setInterval(() => { this.votacaoAtiva(); }, 5000);
-    }
+      setInterval(() => { this.verificaVotacao(); }, 5000);
   }
 
   buscarPessoa(id) {
     this.getterServices.buscarPessoaNav(id)
-    .pipe(first())
-    .subscribe(
-      (data) => {
-        this.Nome = data.Nome;
-        if (data.Foto !== undefined) {
-          this.Foto = this.sanitizer.bypassSecurityTrustUrl('http://' + data.Foto);
-        } else {
-          this.Foto = undefined;
-        }
-        return ;
-      },
-      (error) => {
-      });
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.Nome = data.Nome;
+          if (data.Foto !== undefined) {
+            this.Foto = this.sanitizer.bypassSecurityTrustUrl('http://' + data.Foto);
+          } else {
+            this.Foto = undefined;
+          }
+          return;
+        },
+        (error) => {
+        });
   }
 
   verificaAdmin() {
@@ -82,14 +78,34 @@ export class ComponentesnavsComponent implements OnInit {
   }
 
   votacaoAtiva() {
-    this.getterServices.verificaVotacaoAtivada()
-    .pipe(first())
-    .subscribe(
-      (data) => {
-        this.votacaoAtivada = data;
-      },
-      (error) => {
-      });
+    this.getterServices.verificaAgendamentoVotacao()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+        },
+        (error) => {
+        });
+  }
+
+  verificaVotacao() {
+    this.getterServices.verificaStatusVotacao()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          if (data) {
+            if (data.Status === 'Iniciada') {
+              this.votacaoAtivada = true;
+            } else if (data.Status === 'Contagem') {
+              this.votacaoAtivada = true;
+            } else {
+              this.votacaoAtivada = false;
+            }
+          } else {
+            this.votacaoAtivada = false;
+          }
+        },
+        (error) => {
+        });
   }
 
   logout() {

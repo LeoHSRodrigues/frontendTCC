@@ -1,20 +1,42 @@
 <div class="divTexto" mat-dialog-content>
+  <div *ngIf="data;else loginPessoa">
     <h5>Urna</h5>
-    <!-- <p class="texto">
-      {{message}}
-    </p> -->
+    <form autocomplete="off" [formGroup]="loginFormUrna">
       <mat-form-field [color]="primary" appearance="outline">
         <mat-label>Apelido</mat-label>
-        <input matInput autocomplete="off" [(ngModel)]="data.Apelido" required>
-    </mat-form-field>
+        <input matInput formControlName="Apelido" autocomplete="off" required>
+      </mat-form-field>
 
       <mat-form-field [color]="primary" appearance="outline">
         <mat-label>Senha</mat-label>
-        <input matInput type="password" autocomplete="off" [(ngModel)]="data.Senha" required>
-    </mat-form-field>
+        <input matInput type="password" autocomplete="off" formControlName="SenhaUrna" required>
+      </mat-form-field>
 
-     </div>
-     <div class="dialogo" mat-dialog-actions>
-       <button mat-button  mat-flat-button color="warn" (click)="onNoClick()">Cancelar</button>
-       <button mat-button mat-flat-button color="primary" (click)="validarUrna()" cdkFocusInitial>Login</button>
-     </div>
+      <div class="dialogo" mat-dialog-actions>
+        <button mat-button mat-flat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button mat-flat-button color="primary" [disabled]="!loginFormUrna.valid"
+          (click)="validarUrna()">Login</button>
+      </div>
+    </form>
+  </div>
+  <ng-template #loginPessoa>
+    <h5>Pessoa</h5>
+    <form autocomplete="off" [formGroup]="loginForm">
+      <mat-form-field [color]="primary" appearance="outline">
+        <mat-label>CPF</mat-label>
+        <input matInput mask="000.000.000-00" maxlength="14" formControlName="CPF" autocomplete="off" required>
+      </mat-form-field>
+
+      <mat-form-field [color]="primary" appearance="outline">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" autocomplete="off" formControlName="Senha" required>
+      </mat-form-field>
+
+      <div class="dialogo" mat-dialog-actions>
+        <button mat-button mat-flat-button color="warn" (click)="onNoClick()">Cancelar</button>
+        <button mat-button mat-flat-button color="primary" [disabled]="!loginForm.valid"
+          (click)="validarPessoa()">Login</button>
+      </div>
+    </form>
+  </ng-template>
+</div>

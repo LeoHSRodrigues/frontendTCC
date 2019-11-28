@@ -21,27 +21,32 @@ let logData: DataLog[] = [];
 export class RelatorioComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  public dadosInicio: any;
-  public dadosFim: any;
-  public time: string;
-  timer;
-  public inicio: string;
   @ViewChild('cd', { static: true }) private countdown: CountdownComponent;
+
+  private dadosInicio: any;
+  private dadosFim: any;
+  private time: string;
+  private timer: any;
+  private inicio: string;
   private contagemCandidatos: string;
   private contagemCadastrados: string;
   private contagemVotos: string;
   private statusVotacao: string;
-
+  private intervalo: any;
   private displayedColumns: string[] = ['Nome', 'Numero', 'Contagem'];
   // tslint:disable-next-line: no-use-before-declare
   private dataSource = new MatTableDataSource(logData);
   private resultadoVotacao: boolean;
   private tempoContagem: { leftTime: number; format: string; prettyText: (text: any) => any; };
   private countdownAgendamento: boolean;
-  constructor(private snackBar: MatSnackBar, private getterServices: GetterServices,
-              private authenticationService: AuthenticationService, public dialog: MatDialog,
+
+  constructor(private snackBar: MatSnackBar,
+              private getterServices: GetterServices,
+              private authenticationService: AuthenticationService,
+              public dialog: MatDialog,
               private changeDetectorRef: ChangeDetectorRef) {
+
+                this.verificaVotacao();
   }
 
   ngOnInit() {
@@ -52,12 +57,7 @@ export class RelatorioComponent implements OnInit {
       localStorage.removeItem('mensagem');
     }
     this.dataSource.paginator = this.paginator;
-    this.verificaVotacao();
-    this.contaCandidato();
-    this.contaCadastrados();
-    this.contaVotos();
-    this.buscarLista();
-    this.datasVotacao();
+    // this.verificaVotacao();
   }
 
   contaCandidato() {
@@ -156,6 +156,8 @@ export class RelatorioComponent implements OnInit {
       this.openDialog(admin.CPF, 'Finalizar');
     }
   }
+
+
   verificaVotacao() {
     this.getterServices.verificaStatusVotacao()
       .pipe(first())
@@ -164,15 +166,23 @@ export class RelatorioComponent implements OnInit {
           if (data) {
             if (data.Status === 'Iniciada') {
               this.statusVotacao = '1';
-              setInterval(() => { this.contaVotos(); }, 2000);
+              this.contaCandidato();
+              this.contaCadastrados();
+              this.datasVotacao();
+              this.intervalo = setInterval(() => { this.contaVotos(); }, 3500);
             } else if (data.Status === 'Contagem') {
               this.statusVotacao = '2';
+              this.buscarLista();
+              clearInterval(this.intervalo);
             } else {
-              this.countdownInicio();
+              clearInterval(this.intervalo);
               this.statusVotacao = '3';
+              this.countdownInicio();
             }
           } else {
+            clearInterval(this.intervalo);
             this.statusVotacao = '3';
+            this.countdownInicio();
           }
         },
         (error) => {
@@ -184,14 +194,8 @@ export class RelatorioComponent implements OnInit {
 
   handleEvent(e: CountdownEvent) {
     if (e.action === 'done') {
-        this.getterServices.verificaAgendamentoVotacao()
-        .pipe(first())
-        .subscribe(
-          (data) => {
-            this.verificaVotacao();
-          },
-          (error) => {
-          });
+      // console.log(e.action);
+      // this.verificaVotacao();
     } else {
 
     }
@@ -233,7 +237,7 @@ export class RelatorioComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.verificaVotacao();
+          // this.verificaVotacao();
         },
         (error) => {
         });
@@ -397,10 +401,7 @@ export class RelatorioComponent implements OnInit {
             .pipe(first())
             .subscribe(
               (data) => {
-                this.verificaVotacao();
-                this.contaCandidato();
-                this.contaCadastrados();
-                this.contaVotos();
+                this.statusVotacao = '2';
               },
               (error) => {
                 this.snackBar.open('Erro', 'Fechar', {

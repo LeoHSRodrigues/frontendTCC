@@ -7,3 +7,8 @@
 .texto{
     text-align: justify;
 }
+.mat-dialog-content {
+margin: 0;
+overflow: initial;
+padding: 0;
+}

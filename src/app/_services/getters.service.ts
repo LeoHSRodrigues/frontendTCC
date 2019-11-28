@@ -110,8 +110,8 @@ export class GetterServices {
     }
     verificaAgendamentoVotacao() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/statusAgendamentoVotacao`)
-        .pipe(map(() => {
-                return null;
+        .pipe(map((data) => {
+                return data;
         }));
     }
     verificaStatusVotacao() {

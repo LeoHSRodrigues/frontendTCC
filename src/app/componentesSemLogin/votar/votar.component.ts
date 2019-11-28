@@ -43,17 +43,19 @@ export class VotarComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data) => {
-            // localStorage.setItem('Urna', JSON.stringify(data));
+            localStorage.setItem('Urna', JSON.stringify(data));
+            this.openDialog(false);
           },
           (error) => {
+            // console.log(error);
             localStorage.removeItem('Urna');
             this.snackBar.open('Dados da Urna não encontrados ou a mesma já está sendo usada', 'Fechar', {
               duration: 2000,
             });
-            this.openDialog();
+            this.openDialog(true);
           });
     } else {
-      this.openDialog();
+      this.openDialog(true);
     }
   }
 
@@ -126,17 +128,17 @@ export class VotarComponent implements OnInit {
     }
   }
 
-  openDialog(): void {
+  openDialog(tipo): void {
     const dialogRef = this.dialog.open(DialogoUrnaComponent, {
-      width: '280px',
-      height: '300px',
-      data: { Apelido: this.Apelido, Senha: this.Senha },
+      width: '330px',
+      height: '320px',
+      data: tipo,
       backdropClass: 'backdropBackground',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-
+        this.openDialog(false);
       } else {
         this.router.navigate(['/']);
       }
