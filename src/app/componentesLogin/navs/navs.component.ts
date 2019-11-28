@@ -53,7 +53,7 @@ export class ComponentesnavsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-      setInterval(() => { this.verificaVotacao(); }, 5000);
+      setInterval(() => { this.verificaVotacao(); }, 3000);
   }
 
   buscarPessoa(id) {

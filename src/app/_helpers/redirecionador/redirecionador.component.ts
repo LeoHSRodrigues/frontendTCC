@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { first } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-redirecionador',
@@ -8,12 +10,22 @@ import { Router } from '@angular/router';
 })
 export class RedirecionadorComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.router.navigate(['/votar']);
-    }, 5000);
+    const formData: FormData = new FormData();
+    formData.append('CPF', localStorage.getItem('VotoMomento'));
+    this.authenticationService.atualizarVotacaoPessoa(formData)
+    .pipe(first())
+    .subscribe(
+      () => {
+        localStorage.removeItem('VotoMomento');
+        setTimeout(() => {
+          this.router.navigate(['/votar']);
+        }, 5000);
+      },
+      (error) => {
+      });
   }
 
 }

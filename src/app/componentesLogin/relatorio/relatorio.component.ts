@@ -45,8 +45,6 @@ export class RelatorioComponent implements OnInit {
               private authenticationService: AuthenticationService,
               public dialog: MatDialog,
               private changeDetectorRef: ChangeDetectorRef) {
-
-                this.verificaVotacao();
   }
 
   ngOnInit() {
@@ -57,7 +55,7 @@ export class RelatorioComponent implements OnInit {
       localStorage.removeItem('mensagem');
     }
     this.dataSource.paginator = this.paginator;
-    // this.verificaVotacao();
+    this.verificaVotacao();
   }
 
   contaCandidato() {
@@ -191,11 +189,40 @@ export class RelatorioComponent implements OnInit {
           });
         });
   }
+  verificaVotacaoStatus() {
+    this.intervalo = setTimeout(() => {
+    this.getterServices.verificaStatusVotacao()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          console.log(data);
+          if (data) {
+            if (data.Status === 'Iniciada') {
+              this.contaCandidato();
+              this.contaCadastrados();
+              this.datasVotacao();
+              this.statusVotacao = '1';
+            } else if (data.Status === 'Contagem') {
+              this.statusVotacao = '2';
+            } else {
+              this.statusVotacao = '3';
+            }
+          } else {
+            this.statusVotacao = '3';
+          }
+        },
+        (error) => {
+          this.snackBar.open('Erro', 'Fechar', {
+            duration: 2000,
+          });
+        });
+      }, 5000);
+  }
 
   handleEvent(e: CountdownEvent) {
     if (e.action === 'done') {
-      // console.log(e.action);
-      // this.verificaVotacao();
+      console.log(e.action);
+      this.verificaVotacaoStatus();
     } else {
 
     }
@@ -233,14 +260,8 @@ export class RelatorioComponent implements OnInit {
 
   contagemRestante(e: CountdownEvent) {
     if (e.action === 'done') {
-      this.getterServices.verificaAgendamentoVotacao()
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          // this.verificaVotacao();
-        },
-        (error) => {
-        });
+      console.log(e);
+      this.verificaVotacaoStatus();
   } else {
   }
   }
@@ -389,6 +410,19 @@ export class RelatorioComponent implements OnInit {
         });
   }
 
+  atualizarVotacaoPessoas() {
+    this.getterServices.atualizarVotacaoPessoas()
+    .pipe(first())
+    .subscribe(
+      (data) => {
+      },
+      (error) => {
+        this.snackBar.open('Erro', 'Fechar', {
+          duration: 2000,
+        });
+      });
+  }
+
   openDialog(CPF, tipo) {
     if (tipo === 'Encerrar') {
       const dialogRef = this.dialog.open(DialogoConfirmacaoComponent, {
@@ -401,6 +435,7 @@ export class RelatorioComponent implements OnInit {
             .pipe(first())
             .subscribe(
               (data) => {
+                this.buscarLista();
                 this.statusVotacao = '2';
               },
               (error) => {
@@ -423,6 +458,7 @@ export class RelatorioComponent implements OnInit {
               (data) => {
                 this.verificaVotacao();
                 this.listaFinalVotacao();
+                this.atualizarVotacaoPessoas();
               },
               (error) => {
                 this.snackBar.open('Erro', 'Fechar', {

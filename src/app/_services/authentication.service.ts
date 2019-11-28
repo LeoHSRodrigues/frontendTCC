@@ -143,4 +143,25 @@ export class AuthenticationService {
                 }
             }));
     }
+    validaVotoPessoa(formulario) {
+        return this.http.post<any>(`http://127.0.0.1:8000/api/validaVotoPessoa/`, formulario)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+
+    atualizarVotacaoPessoa(CPF) {
+        return this.http.post<any>(`http://127.0.0.1:8000/api/atualizarVotoPessoa/`, CPF)
+            .pipe(map((user) => {
+                if (user != null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
 }

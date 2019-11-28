@@ -225,6 +225,16 @@ export class GetterServices {
                 }
             }));
     }
+    atualizarVotacaoPessoas() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/atualizarVotacaoPessoas/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
     contaUrnas() {
         return this.http.get<any>(`http://127.0.0.1:8000/api/contaUrnas/`)
             .pipe(map((user) => {
@@ -265,4 +275,18 @@ export class GetterServices {
                 }
             }));
     }
+
+    verificaPessoaRestante() {
+        return this.http.get<any>(`http://127.0.0.1:8000/api/votacaoPessoa/`)
+            .pipe(map((user) => {
+                if (user !== null) {
+                    return user;
+                } else {
+                    return error('Username or password is incorrect');
+                }
+            }));
+    }
+
+
+
 }

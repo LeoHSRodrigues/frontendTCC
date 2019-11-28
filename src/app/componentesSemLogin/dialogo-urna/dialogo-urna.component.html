@@ -1,7 +1,7 @@
 <div class="divTexto" mat-dialog-content>
   <div *ngIf="data;else loginPessoa">
     <h5>Urna</h5>
-    <form autocomplete="off" [formGroup]="loginFormUrna">
+    <form autocomplete="off" [formGroup]="loginFormUrna" (keydown.enter)="validarUrna($event)" (ngSubmit)="validarUrna($event)">
       <mat-form-field [color]="primary" appearance="outline">
         <mat-label>Apelido</mat-label>
         <input matInput formControlName="Apelido" autocomplete="off" required>
@@ -14,14 +14,13 @@
 
       <div class="dialogo" mat-dialog-actions>
         <button mat-button mat-flat-button color="warn" (click)="onNoClick()">Cancelar</button>
-        <button mat-button mat-flat-button color="primary" [disabled]="!loginFormUrna.valid"
-          (click)="validarUrna()">Login</button>
+        <button mat-button mat-flat-button color="primary" [disabled]="!loginFormUrna.valid" (click)="validarUrna($event)">Login</button>
       </div>
     </form>
   </div>
   <ng-template #loginPessoa>
     <h5>Pessoa</h5>
-    <form autocomplete="off" [formGroup]="loginForm">
+    <form autocomplete="off" [formGroup]="loginForm" (keydown.enter)="validarPessoa($event)" (ngSubmit)="validarPessoa($event)">
       <mat-form-field [color]="primary" appearance="outline">
         <mat-label>CPF</mat-label>
         <input matInput mask="000.000.000-00" maxlength="14" formControlName="CPF" autocomplete="off" required>
@@ -34,8 +33,7 @@
 
       <div class="dialogo" mat-dialog-actions>
         <button mat-button mat-flat-button color="warn" (click)="onNoClick()">Cancelar</button>
-        <button mat-button mat-flat-button color="primary" [disabled]="!loginForm.valid"
-          (click)="validarPessoa()">Login</button>
+        <button mat-button mat-flat-button color="primary" [disabled]="!loginForm.valid" (click)="validarPessoa($event)">Login</button>
       </div>
     </form>
   </ng-template>

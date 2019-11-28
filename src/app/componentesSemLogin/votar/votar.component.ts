@@ -129,20 +129,45 @@ export class VotarComponent implements OnInit {
   }
 
   openDialog(tipo): void {
-    const dialogRef = this.dialog.open(DialogoUrnaComponent, {
-      width: '330px',
-      height: '320px',
-      data: tipo,
-      backdropClass: 'backdropBackground',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.openDialog(false);
+    if (tipo === false) {
+      this.getterServices.verificaPessoaRestante()
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          const dialogRef = this.dialog.open(DialogoUrnaComponent, {
+            width: '330px',
+            height: '320px',
+            data: tipo,
+            backdropClass: 'backdropBackground',
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+              // this.openDialog(false);
+            } else {
+              this.router.navigate(['/relatorio']);
+            }
+          });
+        },
+        (error) => {
+          localStorage.setItem('mensagem', 'Todos cadastrados já votaram');
+          this.router.navigate(['/relatorio']);
+        });
       } else {
-        this.router.navigate(['/']);
+        const dialogRef = this.dialog.open(DialogoUrnaComponent, {
+          width: '330px',
+          height: '320px',
+          data: tipo,
+          backdropClass: 'backdropBackground',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.openDialog(false);
+          } else {
+            this.router.navigate(['/relatorio']);
+          }
+        });
       }
-    });
+
   }
 
   votacaoAtiva() {

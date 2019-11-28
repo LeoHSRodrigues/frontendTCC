@@ -40,12 +40,16 @@ export class DialogoUrnaComponent implements OnInit {
     });
   }
 
-  validarUrna() {
-      this.resultadoEncriptacao = CryptoJS.SHA256(this.formularioUrna.SenhaUrna.value).toString();
-      const formData: FormData = new FormData();
-      formData.append('Apelido', this.formularioUrna.Apelido.value);
-      formData.append('Senha', this.resultadoEncriptacao);
-      this.authenticationService.loginUrna(formData)
+  validarUrna(e) {
+    if (this.loginFormUrna.invalid) {
+      e.preventDefault();
+      return;
+    }
+    this.resultadoEncriptacao = CryptoJS.SHA256(this.formularioUrna.SenhaUrna.value).toString();
+    const formData: FormData = new FormData();
+    formData.append('Apelido', this.formularioUrna.Apelido.value);
+    formData.append('Senha', this.resultadoEncriptacao);
+    this.authenticationService.loginUrna(formData)
       .pipe(first())
       .subscribe(
         (data) => {
@@ -60,27 +64,31 @@ export class DialogoUrnaComponent implements OnInit {
         });
   }
 
-  validarPessoa() {
-      this.resultadoEncriptacao = CryptoJS.SHA256(this.formularioPessoa.Senha.value).toString();
-      const formData: FormData = new FormData();
-      formData.append('CPF', this.formularioPessoa.CPF.value);
-      formData.append('Senha', this.resultadoEncriptacao);
-      // console.log(this.formularioPessoa.CPF);
-      // this.authenticationService.loginUrna(formData)
-      // .pipe(first())
-      // .subscribe(
-      //   (data) => {
-      //     localStorage.setItem('Urna', JSON.stringify(data));
-      //     this.dialogRef.close('oi');
-      //   },
-      //   (error) => {
-      //     this.snackBar.open('Dados da Urna não encontrados ou a mesma já está sendo usada', 'Fechar', {
-      //       duration: 2000,
-      //     });
-      //   });
+  validarPessoa(e) {
+    if (this.loginForm.invalid) {
+      e.preventDefault();
+      return;
+    }
+    e.preventDefault();
+    this.resultadoEncriptacao = CryptoJS.SHA256(this.formularioPessoa.Senha.value).toString();
+    const formData: FormData = new FormData();
+    formData.append('CPF', this.formularioPessoa.CPF.value);
+    formData.append('Senha', this.resultadoEncriptacao);
+    this.authenticationService.validaVotoPessoa(formData)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          localStorage.setItem('VotoMomento', this.formularioPessoa.CPF.value);
+          this.dialogRef.close('oi');
+        },
+        (error) => {
+          this.snackBar.open('Usuário já votou!', 'Fechar', {
+            duration: 2000,
+          });
+        });
   }
-
 }
+
 
 export interface DadosUrna {
   Apelido: string;
